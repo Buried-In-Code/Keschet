@@ -6,7 +6,7 @@ import java.util.*
 /**
  * Created by Macro303 on 27/06/2017.
  */
-abstract class Piece internal constructor(val validDirections: ArrayList<Direction>, val movement: Int, val team: Team) {
+internal abstract class Piece constructor(val validDirections: ArrayList<Direction>, val movement: Int, val team: Team) {
 	var x: Int = 0
 		private set
 	var y: Int = 0
@@ -26,10 +26,4 @@ abstract class Piece internal constructor(val validDirections: ArrayList<Directi
 		HORIZONTAL,
 		DIAGONAL
 	}
-
-	enum class Team {
-		BLACK,
-		WHITE
-	}
-
 }

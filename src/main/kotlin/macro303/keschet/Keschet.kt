@@ -10,10 +10,12 @@ import java.util.*
  * Created by Macro303 on 27/06/2017.
  */
 object Keschet {
+	private val LOGGER: Logger = LoggerFactory.getLogger(Keschet::class.java)
 	private val reader: Reader = Reader()
 	private val blackPieces = arrayOf(Emperor(Piece.Team.BLACK), General(BLACK), Scholar(BLACK), Merchant(BLACK), Merchant(BLACK), Thief(BLACK), Thief(BLACK), Thief(BLACK), Lancer(BLACK), Lancer(BLACK), Lancer(BLACK), Lancer(BLACK), Archer(BLACK), Archer(BLACK), Archer(BLACK), Archer(BLACK), Archer(BLACK), Spearman(BLACK), Spearman(BLACK), Spearman(BLACK), Spearman(BLACK), Spearman(BLACK), Spearman(BLACK), Spearman(BLACK), Spearman(BLACK))
-	private var blackBoard: ArrayList<Piece> = ArrayList()
 	private val whitePieces = arrayOf(Emperor(WHITE), General(WHITE), Scholar(WHITE), Merchant(WHITE), Merchant(WHITE), Thief(WHITE), Thief(WHITE), Thief(WHITE), Lancer(WHITE), Lancer(WHITE), Lancer(WHITE), Lancer(WHITE), Archer(WHITE), Archer(WHITE), Archer(WHITE), Archer(WHITE), Archer(WHITE), Spearman(WHITE), Spearman(WHITE), Spearman(WHITE), Spearman(WHITE), Spearman(WHITE), Spearman(WHITE), Spearman(WHITE), Spearman(WHITE))
+	
+	private var blackBoard: ArrayList<Piece> = ArrayList()
 	private var whiteBoard: ArrayList<Piece> = ArrayList()
 	private var board: Board = Board()
 

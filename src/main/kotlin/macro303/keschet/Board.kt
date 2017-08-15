@@ -8,7 +8,10 @@ import java.util.*
  * Created by Macro303 on 27/06/2017.
  */
 class Board {
+	private val LOGGER: Logger = LoggerFactory.getLogger(Board::class.java)
+
 	private val board = ArrayList<ArrayList<Square>>()
+	private var black: Team = Team(Colour.BLACK)
 
 	init {
 		(0..9).mapTo(board) { i -> (0..9).mapTo(ArrayList<Square>()) { Square(i, it) } }

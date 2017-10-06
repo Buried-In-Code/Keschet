@@ -1,12 +1,19 @@
 package macro303.keschet.pieces
 
-import macro303.keschet.pieces.Piece.Direction.*
-import java.util.*
+import macro303.keschet.Team
 
-/**
- * Created by Macro303 on 27/06/2017.
- */
-class General(team: Piece.Team) : Piece(ArrayList(Arrays.asList<Direction>(HORIZONTAL, VERTICAL, DIAGONAL)), 10, team) {
+internal class General(team: Team) : Piece(teamColour = team.colour, distance = 10, symbol = "G") {
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (other !is General) return false
+		if (!super.equals(other)) return false
+		return true
+	}
+
+	override fun hashCode(): Int {
+		return super.hashCode()
+	}
+
 	override fun toString(): String {
 		return "General() ${super.toString()}"
 	}

@@ -1,12 +1,19 @@
 package macro303.keschet.pieces
 
-import macro303.keschet.pieces.Piece.Direction.DIAGONAL
-import java.util.*
+import macro303.keschet.Team
 
-/**
- * Created by Macro303 on 27/06/2017.
- */
-class Lancer(team: Piece.Team) : Piece(ArrayList(Arrays.asList<Direction>(DIAGONAL)), 10, team) {
+internal class Lancer(team: Team) : Piece(teamColour = team.colour, distance = 10, symbol = "L") {
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (other !is Lancer) return false
+		if (!super.equals(other)) return false
+		return true
+	}
+
+	override fun hashCode(): Int {
+		return super.hashCode()
+	}
+
 	override fun toString(): String {
 		return "Lancer() ${super.toString()}"
 	}

@@ -1,75 +1,55 @@
 package macro303.keschet
 
-import macro303.keschet.pieces.*
-import macro303.keschet.pieces.Piece.Team.BLACK
+import macro303.keschet.pieces.Piece
 import java.util.*
 
-/**
- * Created by Macro303 on 27/06/2017.
- */
-class Board {
-	private val LOGGER: Logger = LoggerFactory.getLogger(Board::class.java)
-
-	private val board = ArrayList<ArrayList<Square>>()
-	private var black: Team = Team(Colour.BLACK)
+internal class Board {
+	private var cells = ArrayList<ArrayList<Cell>>()
 
 	init {
-		(0..9).mapTo(board) { i -> (0..9).mapTo(ArrayList<Square>()) { Square(i, it) } }
+		(0..9).mapTo(cells) { i -> (0..9).mapTo(ArrayList()) { Cell(colour = if (it % 2 == 0) if (i % 2 == 0) Colour.GREEN else Colour.MAGENTA else if (i % 2 != 0) Colour.GREEN else Colour.MAGENTA) } }
 	}
 
-	internal fun getLocation(x: Int, y: Int): Square {
-		return board[x][y]
-	}
-
-	internal fun print() {
-		(0..board.size + 1 - 1).forEach { i ->
-			(0..board.size + 1 - 1).forEach { j ->
+	fun draw() {
+		Thread.sleep(10)
+		cells.forEachIndexed { rowIndex, columnCells ->
+			columnCells.forEachIndexed { columnIndex, _ ->
 				when {
-					i == 0 -> print((if (j == 0) "" else " ") + j + " ")
-					j == 0 -> print(i.toString() + if (i == 10) "" else " ")
-					else -> {
-						val piece = getLocation(j - 1, i - 1).piece
-						print(if (piece == null) " ~ " else (if (piece.team === BLACK) " B" else " W") + piece.javaClass.simpleName.substring(0, 1))
-					}
+					rowIndex == 0 -> Console.info(message = "${if (columnIndex == 0) "" else " "}$columnIndex${if (columnIndex == 9) "" else " "}")
+					columnIndex == 0 -> Console.info(message = "$rowIndex ")
+					else -> Console.cell(cell = getCell(coords = Pair(columnIndex, rowIndex)))
 				}
 			}
 			println()
 		}
 	}
 
-	internal fun movePiece(start: Square, finish: Square): Piece? {
-		val movingPiece = start.piece
-		val finishPiece = finish.piece
-		start.piece = null
-		finish.piece = movingPiece
-		return finishPiece
+	fun getCell(coords: Pair<Int, Int>): Cell {
+		return cells[coords.first - 1][coords.second - 1]
 	}
 
-	internal fun adjacentScholar(destination: Square, team: Piece.Team): Boolean {
-		when {
-			destination.x > 0 && getLocation(destination.x - 1, destination.y).piece is Scholar && getLocation(destination.x - 1, destination.y).piece?.team != team -> return true
-			destination.x < 9 && getLocation(destination.x + 1, destination.y).piece is Scholar && getLocation(destination.x + 1, destination.y).piece?.team != team -> return true
-			destination.y > 0 && getLocation(destination.x, destination.y - 1).piece is Scholar && getLocation(destination.x, destination.y - 1).piece?.team != team -> return true
-			destination.y < 9 && getLocation(destination.x, destination.y + 1).piece is Scholar && getLocation(destination.x, destination.y + 1).piece?.team != team -> return true
-			else -> return false
-		}
+	fun setPiece(coords: Pair<Int, Int>, piece: Piece) {
+		getCell(coords = coords).piece = piece
 	}
 
-	internal fun adjacentEmperor(destination: Square, team: Piece.Team): Boolean {
-		when {
-			destination.x > 0 && getLocation(destination.x - 1, destination.y).piece is Emperor && getLocation(destination.x - 1, destination.y).piece?.team == team -> return true
-			destination.x > 0 && destination.y > 0 && getLocation(destination.x - 1, destination.y - 1).piece is Emperor && getLocation(destination.x - 1, destination.y - 1).piece?.team == team -> return true
-			destination.y > 0 && getLocation(destination.x, destination.y - 1).piece is Emperor && getLocation(destination.x, destination.y - 1).piece?.team == team -> return true
-			destination.x < 9 && destination.y > 0 && getLocation(destination.x + 1, destination.y - 1).piece is Emperor && getLocation(destination.x + 1, destination.y - 1).piece?.team == team -> return true
-			destination.x < 9 && getLocation(destination.x + 1, destination.y).piece is Emperor && getLocation(destination.x + 1, destination.y).piece?.team == team -> return true
-			destination.x < 9 && destination.y < 9 && getLocation(destination.x + 1, destination.y + 1).piece is Emperor && getLocation(destination.x + 1, destination.y + 1).piece?.team == team -> return true
-			destination.y < 9 && getLocation(destination.x, destination.y + 1).piece is Emperor && getLocation(destination.x, destination.y + 1).piece?.team == team -> return true
-			destination.x > 0 && destination.y < 9 && getLocation(destination.x - 1, destination.y + 1).piece is Emperor && getLocation(destination.x - 1, destination.y + 1).piece?.team == team -> return true
-			else -> return false
-		}
+	fun removePiece(coords: Pair<Int, Int>) {
+		getCell(coords = coords).piece = null
+	}
+
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (other !is Board) return false
+
+		if (cells != other.cells) return false
+
+		return true
+	}
+
+	override fun hashCode(): Int {
+		return cells.hashCode()
 	}
 
 	override fun toString(): String {
-		return "Board(board=$board)"
+		return "Board(cells=$cells)"
 	}
 }

@@ -1,29 +1,28 @@
 package macro303.keschet.pieces
 
-import macro303.keschet.Square
-import java.util.*
+import macro303.keschet.Colour
 
-/**
- * Created by Macro303 on 27/06/2017.
- */
-internal abstract class Piece constructor(val validDirections: ArrayList<Direction>, val movement: Int, val team: Team) {
-	var x: Int = 0
-		private set
-	var y: Int = 0
-		private set
+internal abstract class Piece(val teamColour: Colour, val distance: Int, val symbol: String) {
 
-	fun setLocation(location: Square) {
-		x = location.x
-		y = location.y
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (other !is Piece) return false
+
+		if (teamColour != other.teamColour) return false
+		if (distance != other.distance) return false
+		if (symbol != other.symbol) return false
+
+		return true
+	}
+
+	override fun hashCode(): Int {
+		var result = teamColour.hashCode()
+		result = 31 * result + distance
+		result = 31 * result + symbol.hashCode()
+		return result
 	}
 
 	override fun toString(): String {
-		return "Piece(validDirections=$validDirections, movement=$movement, team=$team, x=$x, y=$y)"
-	}
-
-	enum class Direction {
-		VERTICAL,
-		HORIZONTAL,
-		DIAGONAL
+		return "Piece(teamColour=$teamColour, distance=$distance, symbol='$symbol')"
 	}
 }

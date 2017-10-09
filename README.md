@@ -1,4 +1,4 @@
-# Keschet _2.0.1_
+# Keschet _2.0.2_
 
 Simple chess based game from the Blood Song by Anthony Ryan
 

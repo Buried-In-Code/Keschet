@@ -2,7 +2,6 @@ package macro303.keschet
 
 import macro303.keschet.pieces.Emperor
 import macro303.keschet.pieces.IPiece
-import macro303.keschet.pieces.Scholar
 
 internal class Board {
 	private var cells = ArrayList<ArrayList<Cell>>()

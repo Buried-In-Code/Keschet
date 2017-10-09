@@ -58,8 +58,8 @@ internal class Board {
 				oldCoords.second == newCoords.second && oldCoords.first - newCoords.first < 0 -> Direction.WEST
 				oldCoords.second == newCoords.second && oldCoords.first - newCoords.first > 0 -> Direction.EAST
 				oldCoords.first - newCoords.first > 0 && oldCoords.second - newCoords.second > 0 -> Direction.NORTH_EAST
-				oldCoords.first - newCoords.first > 0 && oldCoords.second - newCoords.second < 0 -> Direction.SOUTH_EAST
 				oldCoords.first - newCoords.first < 0 && oldCoords.second - newCoords.second < 0 -> Direction.SOUTH_WEST
+				oldCoords.first - newCoords.first > 0 && oldCoords.second - newCoords.second < 0 -> Direction.SOUTH_EAST
 				oldCoords.first - newCoords.first < 0 && oldCoords.second - newCoords.second > 0 -> Direction.NORTH_WEST
 				else -> Direction.INVALID
 			}

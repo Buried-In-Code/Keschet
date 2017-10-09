@@ -98,49 +98,48 @@ internal object Keschet {
 		var successful = true
 		if (piece.validMovement(oldCoords = sourceCoords, newCoords = destinationCoords, board = board)) {
 			val direction = Board.calculateDirection(oldCoords = sourceCoords, newCoords = destinationCoords)
-			val distance = Board.calculateDistance(oldCoords = sourceCoords, newCoords = destinationCoords, direction = direction)
+			val distance = Math.abs(Board.calculateDistance(oldCoords = sourceCoords, newCoords = destinationCoords, direction = direction))
 			var x = sourceCoords.first
 			var y = sourceCoords.second
-			var count = 0
-			do {
+			for (i in 0 until distance) {
 				when (direction) {
-					Direction.NORTH -> y++
+					Direction.NORTH -> y--
 					Direction.NORTH_EAST -> {
 						x++
-						y++
+						y--
 					}
 					Direction.EAST -> x++
 					Direction.SOUTH_EAST -> {
 						x++
-						y--
+						y++
 					}
-					Direction.SOUTH -> y--
+					Direction.SOUTH -> y++
 					Direction.SOUTH_WEST -> {
 						x--
-						y--
+						y++
 					}
 					Direction.WEST -> x--
 					Direction.NORTH_WEST -> {
 						x--
-						y++
+						y--
 					}
 					else -> successful = false
 				}
 				val tempCell = board.getCell(coords = Pair(x, y))
-				if (tempCell.piece != null) {
+				if (tempCell.piece != null && i != distance - 1) {
 					Console.error(message = "There is a piece in your way preventing you from moving to your destination")
 					successful = false
 				}
-				count++
 				if (!successful)
 					break
-			} while (count < distance)
+			}
 			if (successful) {
 				board.removePiece(coords = sourceCoords)
 				board.removePiece(coords = destinationCoords)
 				board.setPiece(coords = destinationCoords, piece = piece)
 			}
 		} else {
+			Console.error(message = "Invalid movement")
 			return false
 		}
 		return successful

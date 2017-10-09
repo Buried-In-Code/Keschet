@@ -1,21 +1,14 @@
 package macro303.keschet.pieces
 
-import macro303.keschet.Team
+import macro303.keschet.Colour
+import macro303.keschet.Direction
 
-internal class Archer(team: Team) : Piece(teamColour = team.colour, distance = 6, symbol = "A") {
-
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (other !is Archer) return false
-		if (!super.equals(other)) return false
-		return true
-	}
-
-	override fun hashCode(): Int {
-		return super.hashCode()
-	}
+internal data class Archer(override val teamColour: Colour) : IPiece {
+	override val maxDistance = 6
+	override val symbol = "A"
+	override val validDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
 
 	override fun toString(): String {
-		return "Archer() ${super.toString()}"
+		return "Archer(teamColour=$teamColour, distance=$maxDistance, symbol='$symbol')"
 	}
 }

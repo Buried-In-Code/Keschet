@@ -7,5 +7,6 @@ internal enum class Colour(val colourCode: String) {
 	YELLOW(colourCode = "\u001B[33m"),
 	BLUE(colourCode = "\u001B[34m"),
 	MAGENTA(colourCode = "\u001B[35m"),
+	CYAN(colourCode = "\u001B[36m"),
 	WHITE(colourCode = "\u001B[37m");
 }

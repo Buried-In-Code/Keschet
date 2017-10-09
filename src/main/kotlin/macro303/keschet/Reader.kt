@@ -9,6 +9,7 @@ internal object Reader {
 	private val reader: Scanner = Scanner(System.`in`)
 
 	fun readConsole(prompt: String): String {
+		Thread.sleep(10)
 		println(prompt)
 		print("> ")
 		return reader.nextLine().trim()

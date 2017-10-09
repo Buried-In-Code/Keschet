@@ -1,20 +1,15 @@
 package macro303.keschet.pieces
 
-import macro303.keschet.Team
+import macro303.keschet.Colour
+import macro303.keschet.Direction
+import java.util.*
 
-internal class Spearman(team: Team) : Piece(teamColour = team.colour, distance = 2, symbol = "P") {
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (other !is Spearman) return false
-		if (!super.equals(other)) return false
-		return true
-	}
-
-	override fun hashCode(): Int {
-		return super.hashCode()
-	}
+internal data class Spearman(override val teamColour: Colour) : IPiece {
+	override val maxDistance = 2
+	override val symbol = "P"
+	override val validDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
 
 	override fun toString(): String {
-		return "Spearman() ${super.toString()}"
+		return "Spearman(teamColour=$teamColour, maxDistance=$maxDistance, symbol='$symbol', validDirections=${Arrays.toString(validDirections)})"
 	}
 }

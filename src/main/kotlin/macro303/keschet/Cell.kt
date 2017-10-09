@@ -1,9 +1,9 @@
 package macro303.keschet
 
-import macro303.keschet.pieces.Piece
+import macro303.keschet.pieces.IPiece
 
 internal class Cell(val colour: Colour) {
-	var piece: Piece? = null
+	var piece: IPiece? = null
 
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true

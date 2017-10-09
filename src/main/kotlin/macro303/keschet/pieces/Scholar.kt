@@ -1,20 +1,15 @@
 package macro303.keschet.pieces
 
-import macro303.keschet.Team
+import macro303.keschet.Colour
+import macro303.keschet.Direction
+import java.util.*
 
-internal class Scholar(team: Team) : Piece(teamColour = team.colour, distance = 2, symbol = "C") {
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (other !is Scholar) return false
-		if (!super.equals(other)) return false
-		return true
-	}
-
-	override fun hashCode(): Int {
-		return super.hashCode()
-	}
+internal data class Scholar(override val teamColour: Colour) : IPiece {
+	override val maxDistance = 2
+	override val symbol = "C"
+	override val validDirections = arrayOf(Direction.NORTH, Direction.NORTH_EAST, Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH, Direction.SOUTH_WEST, Direction.WEST, Direction.NORTH_WEST)
 
 	override fun toString(): String {
-		return "Scholar() ${super.toString()}"
+		return "Scholar(teamColour=$teamColour, maxDistance=$maxDistance, symbol='$symbol', validDirections=${Arrays.toString(validDirections)})"
 	}
 }

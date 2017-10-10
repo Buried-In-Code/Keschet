@@ -7,16 +7,16 @@ internal class Board {
 	private var cells = ArrayList<ArrayList<Cell>>()
 
 	init {
-		(0..9).mapTo(cells) { i -> (0..9).mapTo(ArrayList()) { Cell(colour = if (it % 2 == 0) if (i % 2 == 0) Colour.GREEN else Colour.MAGENTA else if (i % 2 != 0) Colour.GREEN else Colour.MAGENTA) } }
+		(0..10).mapTo(cells) { i -> (0..10).mapTo(ArrayList()) { Cell(colour = if (it % 2 == 0) if (i % 2 == 0) Colour.GREEN else Colour.MAGENTA else if (i % 2 != 0) Colour.GREEN else Colour.MAGENTA) } }
 	}
 
 	fun draw() {
-		Console.showTitle(title = "Board", colour = Colour.CYAN)
+		Console.showTitle(title = "Board", colour = Colour.YELLOW)
 		cells.forEachIndexed { rowIndex, columnCells ->
 			columnCells.forEachIndexed { columnIndex, _ ->
 				when {
-					rowIndex == 0 -> print("${if (columnIndex == 0) "" else " "}$columnIndex${if (columnIndex == 9) "" else " "}")
-					columnIndex == 0 -> print("$rowIndex ")
+					rowIndex == 0 -> print("${if (columnIndex == 0) "" else " "}$columnIndex${if (columnIndex == 10) "" else " "}")
+					columnIndex == 0 -> print("$rowIndex${if (rowIndex == 10) "" else " "}")
 					else -> Console.cell(cell = getCell(coords = Pair(columnIndex, rowIndex)))
 				}
 			}
@@ -72,20 +72,7 @@ internal class Board {
 		}
 	}
 
-	fun getAllAdjacent(coords: Pair<Int, Int>): ArrayList<IPiece> {
-		val pieces = ArrayList<IPiece>()
-		if (coords.first != 1 && getCell(coords = Pair(coords.first - 1, coords.second)).piece != null)
-			pieces.add(getCell(coords = Pair(coords.first - 1, coords.second)).piece!!)
-		if (coords.second != 1 && getCell(coords = Pair(coords.first, coords.second - 1)).piece != null)
-			pieces.add(getCell(coords = Pair(coords.first, coords.second - 1)).piece!!)
-		if (coords.first != 9 && getCell(coords = Pair(coords.first + 1, coords.second)).piece != null)
-			pieces.add(getCell(coords = Pair(coords.first + 1, coords.second)).piece!!)
-		if (coords.second != 9 && getCell(coords = Pair(coords.first, coords.second + 1)).piece != null)
-			pieces.add(getCell(coords = Pair(coords.first, coords.second + 1)).piece!!)
-		return pieces
-	}
-
-	fun getAllSurrounding(coords: Pair<Int, Int>): ArrayList<IPiece> {
+	fun getAllAdjoiningPieces(coords: Pair<Int, Int>): ArrayList<IPiece> {
 		val pieces = ArrayList<IPiece>()
 		if (coords.first in 2..8 && coords.second in 2..8) {
 			if (getCell(coords = Pair(coords.first - 1, coords.second)).piece != null)

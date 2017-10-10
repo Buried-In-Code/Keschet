@@ -1,8 +1,8 @@
 package macro303.keschet
 
-import macro303.keschet.pieces.*
+import macro303.keschet.pieces.IPiece
+import macro303.keschet.pieces.Scholar
 import org.slf4j.LoggerFactory
-import java.util.*
 
 internal object Keschet {
 	private val LOGGER = LoggerFactory.getLogger(Keschet.javaClass)
@@ -12,6 +12,7 @@ internal object Keschet {
 
 	@JvmStatic
 	fun main(args: Array<String>) {
+		Console.showRules()
 		placePieces()
 		var finished: Boolean
 		do {
@@ -37,7 +38,7 @@ internal object Keschet {
 		var placed = false
 		do {
 			val coords = selectCoords(prompt = "Place your ${piece.javaClass.simpleName}\n")
-			if ((piece.teamColour == team1.colour && coords.second <= 3) || (piece.teamColour == team2.colour && coords.second >= 7)) {
+			if ((piece.teamColour == team1.colour && coords.second <= 3) || (piece.teamColour == team2.colour && coords.second >= 8)) {
 				val cell = board.getCell(coords = coords)
 				if (cell.piece == null) {
 					board.setPiece(coords = coords, piece = piece)
@@ -80,7 +81,7 @@ internal object Keschet {
 						if (destinationPiece.teamColour == team.colour) {
 							Console.error(message = "You can't take your own Pieces")
 						} else {
-							if (board.getAllAdjacent(coords = destination).any { it.teamColour != team.colour && it is Scholar }) {
+							if (board.getAllAdjoiningPieces(coords = destination).any { it.teamColour != team.colour && it is Scholar }) {
 								Console.error(message = "That Piece is protected by an adjacent Scholar")
 							} else {
 								successful = movePiece(sourceCoords = source, destinationCoords = destination, piece = sourcePiece)
@@ -153,13 +154,13 @@ internal object Keschet {
 				Console.info(message = prompt)
 				val input = Reader.readConsole(prompt = "Coordinates (x:y)")
 				if (input.contains("Help", ignoreCase = true)) {
-					helpMenu(input = input)
+					Console.helpMenu(input = input)
 					return selectCoords(prompt = prompt)
 				}
 				val coords = input.split(":")
 				x = coords[0].toInt()
 				y = coords[1].toInt()
-				if (x in 1..9 && y in 1..9)
+				if (x in 1..10 && y in 1..10)
 					return Pair(x, y)
 				else
 					Console.error(message = "Coordinates aren't on the board")
@@ -168,7 +169,7 @@ internal object Keschet {
 			} catch (_: IndexOutOfBoundsException) {
 				Console.error(message = "Invalid Coordinates")
 			}
-		} while (x !in 1..9 || y !in 1..9)
+		} while (x !in 1..10 || y !in 1..10)
 		return Pair(1, 1)
 	}
 
@@ -178,32 +179,5 @@ internal object Keschet {
 		if (board.teamCount(team = team2) == 0)
 			Console.showTitle(title = "${team1.colour.name} Team Wins", colour = team1.colour)
 		return board.teamCount(team = team1) == 0 || board.teamCount(team = team2) == 0
-	}
-
-	private fun helpMenu(input: String) {
-		val temp: IPiece? = when {
-			input.equals("Help", ignoreCase = true) -> {
-				Console.info(message = "'Help <Symbol>' OR 'Help <Piece>' for information about piece")
-				println()
-				Console.info(title = "Example", value = "Help <A>")
-				Console.info(title = "Example", value = "Help <Archer>")
-				null
-			}
-			input.contains("<A>", ignoreCase = true) || input.contains("<Archer>", ignoreCase = true) -> Archer(teamColour = Colour.RESET)
-			input.contains("<E>", ignoreCase = true) || input.contains("<Emperor>", ignoreCase = true) -> Emperor(teamColour = Colour.RESET)
-			input.contains("<G>", ignoreCase = true) || input.contains("<General>", ignoreCase = true) -> General(teamColour = Colour.RESET)
-			input.contains("<L>", ignoreCase = true) || input.contains("<Lancer>", ignoreCase = true) -> Lancer(teamColour = Colour.RESET)
-			input.contains("<M>", ignoreCase = true) || input.contains("<Merchant>", ignoreCase = true) -> Merchant(teamColour = Colour.RESET)
-			input.contains("<C>", ignoreCase = true) || input.contains("<Scholar>", ignoreCase = true) -> Scholar(teamColour = Colour.RESET)
-			input.contains("<P>", ignoreCase = true) || input.contains("<Spearman>", ignoreCase = true) -> Spearman(teamColour = Colour.RESET)
-			input.contains("<T>", ignoreCase = true) || input.contains("<Thief>", ignoreCase = true) -> Thief(teamColour = Colour.RESET)
-			else -> null
-		}
-		if (temp != null) {
-			Console.info(title = "Piece", value = temp.javaClass.simpleName)
-			Console.info(title = "Symbol", value = temp.symbol)
-			Console.info(title = "Max Distance", value = temp.maxDistance.toString())
-			Console.info(title = "Valid Directions", value = Arrays.toString(temp.validDirections))
-		}
 	}
 }

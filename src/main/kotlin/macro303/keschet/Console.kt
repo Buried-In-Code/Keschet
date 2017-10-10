@@ -30,7 +30,7 @@ internal object Console {
 		println()
 	}
 
-	fun cell(cell: Cell) {
+	fun cell(cell: Square) {
 		colourOutput(message = " ${cell.piece?.symbol ?: "~"} ", colour = cell.piece?.teamColour ?: cell.colour)
 	}
 
@@ -92,9 +92,9 @@ internal object Console {
 			Console.info(title = "Valid Directions", value = Arrays.toString(temp.validDirections))
 			when (temp) {
 				is Emperor -> Console.info(title = "Ability", value = "The game is won if the Emperor is taken or if the Emperor is the only piece remaining to the losing player")
-				is Merchant -> Console.info(title = "Ability [WIP]", value = "The Merchant can move to any vacant square adjoining the square occupied by the Emperor, if the route is unobstructed by another piece.")
-				is Scholar -> Console.info(title = "Ability", value = "Any piece in an adjoining square to the Scholar is protected and cannot be taken.")
-				is Thief -> Console.info(title = "Ability [WIP]", value = "Any piece taken by the Thief is then placed back on the board under the player's control in one of the adjoining squares.")
+				is Merchant -> Console.info(title = "Ability [WIP]", value = "The Merchant can move to any vacant square surrounding the square occupied by the Emperor, if the route is unobstructed by another piece.")
+				is Scholar -> Console.info(title = "Ability", value = "Any piece in an surrounding square to the Scholar is protected and cannot be taken.")
+				is Thief -> Console.info(title = "Ability", value = "Any piece taken by the Thief is then placed back on the board under the player's control in one of the surrounding squares.")
 			}
 		}
 	}

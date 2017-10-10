@@ -4,7 +4,7 @@ import macro303.keschet.Colour
 import macro303.keschet.Direction
 import java.util.*
 
-internal data class Spearman(override val teamColour: Colour) : IPiece {
+internal data class Spearman(override var teamColour: Colour) : IPiece {
 	override val maxDistance = 2
 	override val symbol = "P"
 	override val validDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)

@@ -4,7 +4,7 @@ import macro303.keschet.Colour
 import macro303.keschet.Direction
 import java.util.*
 
-internal data class Lancer(override val teamColour: Colour) : IPiece {
+internal data class Lancer(override var teamColour: Colour) : IPiece {
 	override val maxDistance = 10
 	override val symbol = "L"
 	override val validDirections = arrayOf(Direction.NORTH_EAST, Direction.SOUTH_EAST, Direction.SOUTH_WEST, Direction.NORTH_WEST)

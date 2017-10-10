@@ -2,6 +2,7 @@ package macro303.keschet
 
 import macro303.keschet.pieces.IPiece
 import macro303.keschet.pieces.Scholar
+import macro303.keschet.pieces.Thief
 import org.slf4j.LoggerFactory
 
 internal object Keschet {
@@ -44,7 +45,7 @@ internal object Keschet {
 					board.setPiece(coords = coords, piece = piece)
 					placed = true
 				} else
-					Console.error(message = "Cell is Occupied")
+					Console.error(message = "Must be placed on empty square")
 			} else
 				Console.error(message = "Invalid placement. Place within 3 rows on your side")
 		} while (!placed)
@@ -56,7 +57,7 @@ internal object Keschet {
 	// +Select Destination
 	//  Check if Destination is filled by a Piece
 	//  +Check if Destination is filled by enemy Piece
-	//   +Check if Destination is adjacent to enemy Scholar
+	//   +Check if Destination is nearby to enemy Scholar
 	//    -Check if Each Movement is possible
 	//     +Move Piece
 	//  -Check if Each Movement is possible
@@ -69,81 +70,99 @@ internal object Keschet {
 			Console.showTitle(title = "${team.colour.name}'s Turn", colour = team.colour)
 			val source = selectCoords(prompt = "Select Piece\n")
 			val sourcePiece = board.getCell(coords = source).piece
-			if (sourcePiece == null) {
-				Console.error(message = "No Piece at those coordinates")
-			} else {
+			if (sourcePiece == null)
+				Console.error(message = "No Piece at those square")
+			else {
 				if (sourcePiece.teamColour == team.colour) {
 					val destination = selectCoords(prompt = "Select Destination\n")
 					val destinationPiece = board.getCell(coords = destination).piece
-					if (destinationPiece == null) {
-						successful = movePiece(sourceCoords = source, destinationCoords = destination, piece = sourcePiece)
-					} else {
-						if (destinationPiece.teamColour == team.colour) {
-							Console.error(message = "You can't take your own Pieces")
-						} else {
-							if (board.getAllAdjoiningPieces(coords = destination).any { it.teamColour != team.colour && it is Scholar }) {
-								Console.error(message = "That Piece is protected by an adjacent Scholar")
-							} else {
-								successful = movePiece(sourceCoords = source, destinationCoords = destination, piece = sourcePiece)
-							}
-						}
-					}
-				} else {
+					if (sourcePiece.validMovement(source = source, destination = destination, board = board)) {
+						successful = if (destinationPiece == null)
+							movePiece(source = source, destination = destination, piece = sourcePiece)
+						else
+							takePiece(source = source, destination = destination)
+					} else
+						Console.error(message = "Invalid movement")
+				} else
 					Console.error(message = "That Piece isn't yours")
-				}
 			}
 		} while (!successful)
 	}
 
-	private fun movePiece(sourceCoords: Pair<Int, Int>, destinationCoords: Pair<Int, Int>, piece: IPiece): Boolean {
-		var successful = true
-		if (piece.validMovement(oldCoords = sourceCoords, newCoords = destinationCoords, board = board)) {
-			val direction = Board.calculateDirection(oldCoords = sourceCoords, newCoords = destinationCoords)
-			val distance = Math.abs(Board.calculateDistance(oldCoords = sourceCoords, newCoords = destinationCoords, direction = direction))
-			var x = sourceCoords.first
-			var y = sourceCoords.second
-			for (i in 0 until distance) {
-				when (direction) {
-					Direction.NORTH -> y--
-					Direction.NORTH_EAST -> {
-						x++
-						y--
+	private fun takePiece(source: Pair<Int, Int>, destination: Pair<Int, Int>): Boolean {
+		val sourceSquare = board.getCell(coords = source)
+		val sourcePiece = sourceSquare.piece!!
+		val destinationSquare = board.getCell(coords = destination)
+		val destinationPiece = destinationSquare.piece!!
+		when {
+			destinationPiece.teamColour == sourcePiece.teamColour -> Console.error(message = "You can't take your own Pieces")
+			board.getAllSurroundingPieces(coords = destination).any { it.teamColour != sourcePiece.teamColour && it is Scholar } -> Console.error(message = "That Piece is protected by an nearby Scholar")
+			movePiece(source = source, destination = destination, piece = sourcePiece) && sourcePiece is Thief -> {
+				do {
+					var nearby = false
+					val newPieceLocation = selectCoords(prompt = "Place Stolen piece\n")
+					val newPieceCell = board.getCell(coords = newPieceLocation)
+					if (newPieceCell.piece == null) {
+						val surrounding = board.getAllSurroundingPieces(coords = newPieceLocation)
+						if (surrounding.contains(sourceSquare.piece!!)) {
+							destinationPiece.teamColour = sourcePiece.teamColour
+							board.setPiece(newPieceLocation, piece = destinationPiece)
+							nearby = true
+						}
+					} else {
+						Console.error(message = "Must be placed on empty square")
 					}
-					Direction.EAST -> x++
-					Direction.SOUTH_EAST -> {
-						x++
-						y++
-					}
-					Direction.SOUTH -> y++
-					Direction.SOUTH_WEST -> {
-						x--
-						y++
-					}
-					Direction.WEST -> x--
-					Direction.NORTH_WEST -> {
-						x--
-						y--
-					}
-					else -> successful = false
-				}
-				val tempCell = board.getCell(coords = Pair(x, y))
-				if (tempCell.piece != null && i != distance - 1) {
-					Console.error(message = "There is a piece in your way preventing you from moving to your destination")
-					successful = false
-				}
-				if (!successful)
-					break
+				} while (!nearby)
+				return true
 			}
-			if (successful) {
-				board.removePiece(coords = sourceCoords)
-				board.removePiece(coords = destinationCoords)
-				board.setPiece(coords = destinationCoords, piece = piece)
-			}
-		} else {
-			Console.error(message = "Invalid movement")
-			return false
 		}
-		return successful
+		return false
+	}
+
+	private fun movePiece(source: Pair<Int, Int>, destination: Pair<Int, Int>, piece: IPiece): Boolean {
+		val direction = Board.calculateDirection(source = source, destination = destination)
+		val distance = Math.abs(Board.calculateDistance(source = source, destination = destination, direction = direction))
+		var x = source.first
+		var y = source.second
+		var invalid = false
+		loop@ for (i in 0 until distance) {
+			when (direction) {
+				Direction.NORTH -> y--
+				Direction.NORTH_EAST -> {
+					x++
+					y--
+				}
+				Direction.EAST -> x++
+				Direction.SOUTH_EAST -> {
+					x++
+					y++
+				}
+				Direction.SOUTH -> y++
+				Direction.SOUTH_WEST -> {
+					x--
+					y++
+				}
+				Direction.WEST -> x--
+				Direction.NORTH_WEST -> {
+					x--
+					y--
+				}
+				else -> invalid = true
+			}
+			val tempCell = board.getCell(coords = Pair(x, y))
+			if ((tempCell.piece != null && i != distance - 1) || invalid) {
+				invalid = true
+				break
+			}
+		}
+		if (invalid) {
+			board.removePiece(coords = source)
+			board.removePiece(coords = destination)
+			board.setPiece(coords = destination, piece = piece)
+			return true
+		}
+		Console.error(message = "Invalid movement")
+		return false
 	}
 
 	private fun selectCoords(prompt: String): Pair<Int, Int> {
@@ -152,7 +171,7 @@ internal object Keschet {
 			var y = -1
 			try {
 				Console.info(message = prompt)
-				val input = Reader.readConsole(prompt = "Coordinates (x:y)")
+				val input = Reader.readConsole(prompt = "Square (x:y)")
 				if (input.contains("Help", ignoreCase = true)) {
 					Console.helpMenu(input = input)
 					return selectCoords(prompt = prompt)
@@ -162,12 +181,11 @@ internal object Keschet {
 				y = coords[1].toInt()
 				if (x in 1..10 && y in 1..10)
 					return Pair(x, y)
-				else
-					Console.error(message = "Coordinates aren't on the board")
+				Console.error(message = "That square isn't the board")
 			} catch (_: NumberFormatException) {
-				Console.error(message = "Invalid Coordinates")
+				Console.error(message = "Invalid selection")
 			} catch (_: IndexOutOfBoundsException) {
-				Console.error(message = "Invalid Coordinates")
+				Console.error(message = "Invalid selection")
 			}
 		} while (x !in 1..10 || y !in 1..10)
 		return Pair(1, 1)

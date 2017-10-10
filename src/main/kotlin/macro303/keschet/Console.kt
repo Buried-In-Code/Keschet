@@ -58,8 +58,9 @@ internal object Console {
 	fun helpMenu(input: String) {
 		val temp: IPiece? = when {
 			input.equals("Help", ignoreCase = true) -> {
-				Console.info(message = "'Help <Symbol>' OR 'Help <Piece>' for information about piece")
-				println()
+				Console.info(message = "'Help Rules' to show the rules")
+				Console.info(message = "'Help All' OR 'Help Pieces' to give you the list of all the pieces")
+				Console.info(message = "'Help <Symbol>' OR 'Help <Piece>' for information about piece\n")
 				Console.info(title = "Example", value = "Help <A>")
 				Console.info(title = "Example", value = "Help <Archer>")
 				null

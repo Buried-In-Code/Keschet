@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Team {
-	private ConsoleColour colour;
+	private Console.Colour colour;
 	private ArrayList<Piece> pieces;
 
-	public Team(ConsoleColour colour) {
+	public Team(Console.Colour colour) {
 		this.colour = colour;
 		pieces = new ArrayList<>();
 		pieces.add(new Emperor(this.colour));
@@ -27,7 +27,7 @@ public class Team {
 			pieces.add(new Spearman(this.colour));
 	}
 
-	public ConsoleColour getColour() {
+	public Console.Colour getColour() {
 		return colour;
 	}
 

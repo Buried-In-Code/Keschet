@@ -1,11 +1,11 @@
 package macro303.keschet.pieces;
 
-import macro303.keschet.ConsoleColour;
+import macro303.keschet.Console;
 import macro303.keschet.Direction;
 
 public class Spearman extends Piece {
 
-	public Spearman(ConsoleColour teamColour) {
+	public Spearman(Console.Colour teamColour) {
 		super(teamColour, 2, "P", new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST});
 	}
 

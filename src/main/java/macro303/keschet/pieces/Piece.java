@@ -1,7 +1,7 @@
 package macro303.keschet.pieces;
 
 import macro303.keschet.Board;
-import macro303.keschet.ConsoleColour;
+import macro303.keschet.Console;
 import macro303.keschet.Direction;
 import macro303.keschet.Pair;
 
@@ -10,23 +10,23 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public abstract class Piece {
-	protected ConsoleColour teamColour;
+	protected Console.Colour teamColour;
 	private int maxDistance;
 	private String symbol;
 	private Direction[] validDirections;
 
-	Piece(ConsoleColour teamColour, int maxDistance, String symbol, Direction[] validDirections) {
+	Piece(Console.Colour teamColour, int maxDistance, String symbol, Direction[] validDirections) {
 		this.teamColour = teamColour;
 		this.maxDistance = maxDistance;
 		this.symbol = symbol;
 		this.validDirections = validDirections;
 	}
 
-	public ConsoleColour getTeamColour() {
+	public Console.Colour getTeamColour() {
 		return teamColour;
 	}
 
-	public void setTeamColour(ConsoleColour teamColour) {
+	public void setTeamColour(Console.Colour teamColour) {
 		this.teamColour = teamColour;
 	}
 

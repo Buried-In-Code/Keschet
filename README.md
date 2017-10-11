@@ -1,4 +1,4 @@
-# Keschet _1.0.1_
+# Keschet _1.0.2_
 
 A chess-style game from the Blood Song by Anthony Ryan.  
 _Merchant ability not yet implemented._

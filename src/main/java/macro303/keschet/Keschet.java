@@ -1,13 +1,13 @@
 package macro303.keschet;
 
+import macro303.keschet.pieces.Emperor;
 import macro303.keschet.pieces.Piece;
+import macro303.keschet.pieces.Scholar;
 import macro303.keschet.pieces.Thief;
 
-import java.util.ArrayList;
-
 public class Keschet {
-	private static Team team1 = new Team(ConsoleColour.BLUE);
-	private static Team team2 = new Team(ConsoleColour.RED);
+	private static Team team1 = new Team(Console.Colour.BLUE);
+	private static Team team2 = new Team(Console.Colour.RED);
 	private static Board board = new Board();
 	private static Reader reader = new Reader();
 
@@ -32,27 +32,15 @@ public class Keschet {
 		}
 	}
 
-	//Select Piece
-	//Check if Piece exists
-	//+Check if Piece is yours
-	// +Select Destination
-	//  Check if Destination is filled by a Piece
-	//  +Check if Destination is filled by enemy Piece
-	//   +Check if Destination is nearby to enemy Scholar
-	//    -Check if Each Movement is possible
-	//     +Move Piece
-	//  -Check if Each Movement is possible
-	//   +Move Piece
-
-	private static void placePiece(Piece piece) {
+	private static void placePiece(Piece selectedPiece) {
 		board.draw();
-		Console.showTeamTitle(piece.getTeamColour().name() + "'s Turn", piece.getTeamColour());
+		Console.showTeamTitle(selectedPiece.getTeamColour().name() + "'s Turn", selectedPiece.getTeamColour());
 		boolean placed = false;
 		do {
-			Pair<Integer, Integer> square = selectCoords("Place your " + piece.getClass().getSimpleName());
-			if ((piece.getTeamColour() == team1.getColour() && square.getRight() <= 3) || (piece.getTeamColour() == team2.getColour() && square.getRight() >= 8)) {
-				if (board.getSquare(square).getPiece() == null) {
-					board.getSquare(square).setPiece(piece);
+			Pair<Integer, Integer> selectedLocation = selectLocation("Place your " + selectedPiece.getClass().getSimpleName());
+			if (selectedLocation != null && (selectedPiece.getTeamColour() == team1.getColour() && selectedLocation.getRight() <= 3) || (selectedPiece.getTeamColour() == team2.getColour() && selectedLocation.getRight() >= 8)) {
+				if (board.getSquare(selectedLocation).getPiece() == null) {
+					board.getSquare(selectedLocation).setPiece(selectedPiece);
 					placed = true;
 				} else
 					Console.showError("Must be placed on empty square");
@@ -66,17 +54,17 @@ public class Keschet {
 		do {
 			board.draw();
 			Console.showTeamTitle(team.getColour().name() + "'s Turn", team.getColour());
-			Pair<Integer, Integer> start = selectCoords("Select Piece");
-			if (board.getSquare(start).getPiece() == null)
+			Pair<Integer, Integer> startLocation = selectLocation("Select Piece");
+			if (startLocation != null && board.getSquare(startLocation).getPiece() == null)
 				Console.showError("No Piece at those square");
 			else {
-				if (board.getSquare(start).getPiece().getTeamColour() == team.getColour()) {
-					Pair<Integer, Integer> end = selectCoords("Select Destination");
-					if (board.getSquare(start).getPiece().validMovement(start, end)) {
-						if (board.getSquare(end).getPiece() == null)
-							success = movePiece(start, end);
+				if (board.getSquare(startLocation).getPiece().getTeamColour() == team.getColour()) {
+					Pair<Integer, Integer> endLocation = selectLocation("Select Destination");
+					if (endLocation != null && board.getSquare(startLocation).getPiece().validMovement(startLocation, endLocation)) {
+						if (board.getSquare(endLocation).getPiece() == null)
+							success = movePiece(startLocation, endLocation);
 						else
-							success = takePiece(start, end);
+							success = takePiece(startLocation, endLocation);
 					} else
 						Console.showError("Invalid movement");
 				} else
@@ -85,33 +73,28 @@ public class Keschet {
 		} while (!success);
 	}
 
-	private static boolean takePiece(Pair<Integer, Integer> start, Pair<Integer, Integer> end) {
-		Piece selected = board.getSquare(start).getPiece();
-		Piece taken = board.getSquare(end).getPiece();
-		if (taken.getTeamColour() == selected.getTeamColour()) {
+	private static boolean takePiece(Pair<Integer, Integer> startLocation, Pair<Integer, Integer> endLocation) {
+		Piece selectedPiece = board.getSquare(startLocation).getPiece();
+		Piece takenPiece = board.getSquare(endLocation).getPiece();
+		if (takenPiece.getTeamColour() == selectedPiece.getTeamColour()) {
 			Console.showError("You can't take your own Pieces");
-		} else if (containsScholar(board.getAllSurroundingPieces(end))) {
+		} else if (board.getAllSurroundingPieces(endLocation).stream().anyMatch(piece -> piece instanceof Scholar && piece.getTeamColour() == selectedPiece.getTeamColour())) {
 			Console.showError("That piece is protected by a nearby Scholar");
-		} else if (movePiece(start, end) && selected instanceof Thief) {
+		} else if (movePiece(startLocation, endLocation) && selectedPiece instanceof Thief) {
 			boolean nearby = false;
 			do {
-				Pair<Integer, Integer> newPieceLocation = selectCoords("Place Stolen piece");
-				if (board.getSquare(newPieceLocation).getPiece() == null) {
-					if (board.getAllSurroundingPieces(newPieceLocation).contains(selected)) {
-						taken.setTeamColour(selected.getTeamColour());
-						board.getSquare(newPieceLocation).setPiece(taken);
+				Pair<Integer, Integer> takenLocation = selectLocation("Place Stolen piece");
+				if (takenLocation != null && board.getSquare(takenLocation).getPiece() == null) {
+					if (board.getAllSurroundingPieces(takenLocation).contains(selectedPiece)) {
+						takenPiece.setTeamColour(selectedPiece.getTeamColour());
+						board.getSquare(takenLocation).setPiece(takenPiece);
 						nearby = true;
 					}
-				} else {
-					Console.showError("Must be placed on empty square");
-				}
+				} else
+					Console.showError("Must be placed on empty square surrounding your Thief");
 			} while (!nearby);
 			return true;
 		}
-		return false;
-	}
-
-	private static boolean containsScholar(ArrayList<Piece> pieces) {
 		return false;
 	}
 
@@ -151,45 +134,49 @@ public class Keschet {
 			}
 		}
 		if (invalid) {
-			Piece temp = board.getSquare(start).getPiece();
+			Piece tempPiece = board.getSquare(start).getPiece();
 			board.getSquare(start).setPiece(null);
 			board.getSquare(end).setPiece(null);
-			board.getSquare(start).setPiece(temp);
+			board.getSquare(start).setPiece(tempPiece);
 			return true;
 		}
 		Console.showError("Invalid movement");
 		return false;
 	}
 
-	private static Pair<Integer, Integer> selectCoords(String prompt) {
+	private static Pair<Integer, Integer> selectLocation(String prompt) {
 		int row = -1;
 		int column = -1;
 		do {
 			try {
 				Console.showMessage(prompt);
-				String input = reader.readConsole(prompt = "Square (x:y)");
+				String input = reader.readConsole("Square (x:y)");
 				if (input.toLowerCase().contains("help")) {
 					Console.helpMenu(input);
-					return selectCoords(prompt);
+					return selectLocation(prompt);
 				}
-				String[] coords = input.split(":");
-				row = Integer.valueOf(coords[0]);
-				column = Integer.valueOf(coords[1]);
+				String[] location = input.split(":");
+				row = Integer.valueOf(location[0]);
+				column = Integer.valueOf(location[1]);
 				if (row >= 1 && row <= 10 && column >= 1 && column <= 10)
 					return new Pair<>(row, column);
 				Console.showError("That square isn't the board");
 			} catch (NumberFormatException | IndexOutOfBoundsException ignored) {
 				Console.showError("Invalid selection");
 			}
-		} while (row >= 1 && row <= 10 && column >= 1 && column <= 10);
-		return new Pair<>(1, 1);
+		} while (row < 1 || row > 10 || column < 1 || column > 10);
+		return null;
 	}
 
 	private static boolean checkWinCondition() {
-		if (board.countPieces(team1) == 0)
+		int team1Count = board.countPieces(team1);
+		boolean team1EmperorAlive = board.pieceStillOnBoard(Emperor.class, team1.getColour());
+		int team2Count = board.countPieces(team2);
+		boolean team2EmperorAlive = board.pieceStillOnBoard(Emperor.class, team2.getColour());
+		if (team1Count <= 0 || !team1EmperorAlive)
 			Console.showTeamTitle(team2.getColour().name() + " Team Wins", team2.getColour());
-		if (board.countPieces(team2) == 0)
+		if (team2Count <= 0 || !team2EmperorAlive)
 			Console.showTeamTitle(team1.getColour().name() + " Team Wins", team1.getColour());
-		return board.countPieces(team1) == 0 || board.countPieces(team2) == 0;
+		return team1Count == 0 || !team1EmperorAlive || team2Count == 0 || !team2EmperorAlive;
 	}
 }

@@ -2,19 +2,21 @@ package macro303.keschet;
 
 import macro303.keschet.pieces.*;
 
-public abstract class Console {
-	private static ConsoleColour titleColour = ConsoleColour.MAGENTA;
-	private static ConsoleColour importantColour = ConsoleColour.YELLOW;
-	private static ConsoleColour messageColour = ConsoleColour.WHITE;
-	private static ConsoleColour squareColour = ConsoleColour.GREEN;
+import java.util.Collections;
 
-	private static void colourConsole(String message, ConsoleColour colour) {
+public abstract class Console {
+	private static Colour titleColour = Colour.MAGENTA;
+	private static Colour importantColour = Colour.YELLOW;
+	private static Colour messageColour = Colour.WHITE;
+	private static Colour squareColour = Colour.GREEN;
+
+	private static void colourConsole(String message, Colour colour) {
 		System.out.print(colour.colourCode);
 		System.out.print(message);
-		System.out.println(ConsoleColour.RESET.colourCode);
+		System.out.println(Colour.RESET.colourCode);
 	}
 
-	private static void colourConsole(String title, ConsoleColour titleColour, String message, ConsoleColour messageColour) {
+	private static void colourConsole(String title, Colour titleColour, String message, Colour messageColour) {
 		System.out.print(titleColour.colourCode);
 		System.out.print(title);
 		colourConsole(message, messageColour);
@@ -24,8 +26,13 @@ public abstract class Console {
 		showTeamTitle(title, titleColour);
 	}
 
-	public static void showTeamTitle(String title, ConsoleColour teamColour) {
-		colourConsole(title, teamColour);
+	public static void showTeamTitle(String title, Colour teamColour) {
+		System.out.print(teamColour.colourCode);
+		System.out.println(String.join("", Collections.nCopies(title.length() + 4, "=")));
+		colourConsole("  " + title + "  ", teamColour);
+		System.out.print(teamColour.colourCode);
+		System.out.println(String.join("", Collections.nCopies(title.length() + 4, "=")));
+		System.out.print(Colour.RESET.colourCode);
 	}
 
 	public static void showMessage(String message) {
@@ -37,57 +44,56 @@ public abstract class Console {
 	}
 
 	public static void showValue(String title, String message) {
-		colourConsole(title, importantColour, message, messageColour);
+		colourConsole(title + ": ", importantColour, message, messageColour);
 	}
 
 	public static void showSquare(Piece piece) {
 		System.out.print((piece == null ? squareColour : piece.getTeamColour()).colourCode);
 		System.out.print(" " + (piece == null ? "~" : piece.getSymbol()) + " ");
-		System.out.print(ConsoleColour.RESET.colourCode);
+		System.out.print(Colour.RESET.colourCode);
 	}
 
 	public static void showRules() {
 		showTitle("Rules");
 		showMessage("At the start of the game a player may place any piece in any square in the first 3 rows at the player's end of the board.");
 		showMessage("A piece is taken if the square it occupies is occupied by an opposing piece.");
-		helpMenu("Help <Archer>");
-		helpMenu("Help <Emperor>");
-		helpMenu("Help <General>");
-		helpMenu("Help <Lancer>");
-		helpMenu("Help <Merchant>");
-		helpMenu("Help <Scholar>");
-		helpMenu("Help <Spearman>");
-		helpMenu("Help <Thief>");
+		helpMenu("Help pieces");
 	}
 
 	public static void helpMenu(String input) {
 		if (input.equalsIgnoreCase("Help")) {
-			showMessage("'Help Rules' to show the rules");
-			showMessage("'Help All' OR 'Help Pieces' to give you the list of all the pieces");
-			showMessage("'Help <Symbol>' OR 'Help <Piece>' for information about piece");
-			showValue("Example", "Help <A>");
-			showValue("Example", "Help <Archer>");
-		} else if (input.toLowerCase().contains("all") || input.toLowerCase().contains("pieces")) {
-			showValue("All Pieces", "<A>Archer\n<E>Emperor\n<G>General\n<L>Lancer\n<M>Merchant\n<C>Scholar\n<P>Spearman\n<T>Thief");
+			showTitle("Help");
+			showValue("Help Rules", "Shows the rules.");
+			showValue("Help Pieces", "Shows you all the pieces.");
+			showValue("Help <Symbol> OR Help Name", "Shows you all the information about the piece with that symbol or name (Symbol must be inside <>).");
+		} else if (input.toLowerCase().contains("pieces")) {
+			helpMenu("Help <Archer>");
+			helpMenu("Help <Emperor>");
+			helpMenu("Help <General>");
+			helpMenu("Help <Lancer>");
+			helpMenu("Help <Merchant>");
+			helpMenu("Help <Scholar>");
+			helpMenu("Help <Spearman>");
+			helpMenu("Help <Thief>");
 		} else if (input.toLowerCase().contains("rules")) {
 			showRules();
 		} else {
 			Piece temp = null;
-			if (input.toLowerCase().contains("<a>") || input.contains("<archer>"))
+			if (input.toLowerCase().contains("<a>") || input.toLowerCase().contains("archer"))
 				temp = new Archer(null);
-			else if (input.toLowerCase().contains("<e>") || input.contains("<emperor>"))
+			else if (input.toLowerCase().contains("<e>") || input.toLowerCase().contains("emperor"))
 				temp = new Emperor(null);
-			else if (input.toLowerCase().contains("<g>") || input.contains("<general>"))
+			else if (input.toLowerCase().contains("<g>") || input.toLowerCase().contains("general"))
 				temp = new General(null);
-			else if (input.toLowerCase().contains("<l>") || input.contains("<lancer>"))
+			else if (input.toLowerCase().contains("<l>") || input.toLowerCase().contains("lancer"))
 				temp = new Lancer(null);
-			else if (input.toLowerCase().contains("<m>") || input.contains("<merchant>"))
+			else if (input.toLowerCase().contains("<m>") || input.toLowerCase().contains("merchant"))
 				temp = new Merchant(null);
-			else if (input.toLowerCase().contains("<c>") || input.contains("<scholar>"))
+			else if (input.toLowerCase().contains("<c>") || input.toLowerCase().contains("scholar"))
 				temp = new Scholar(null);
-			else if (input.toLowerCase().contains("<p>") || input.contains("<spearman>"))
+			else if (input.toLowerCase().contains("<p>") || input.toLowerCase().contains("spearman"))
 				temp = new Spearman(null);
-			else if (input.toLowerCase().contains("<t>") || input.contains("<thief>"))
+			else if (input.toLowerCase().contains("<t>") || input.toLowerCase().contains("thief"))
 				temp = new Thief(null);
 			if (temp != null) {
 				showTitle(temp.getClass().getSimpleName() + " Help");
@@ -104,6 +110,23 @@ public abstract class Console {
 				else if (temp instanceof Thief)
 					showValue("Ability", "Any piece taken by the Thief is then placed back on the board under the player's control in one of the surrounding squares.");
 			}
+		}
+	}
+
+	public enum Colour {
+		RESET("\u001B[0m"),
+		RED("\u001B[31m"),
+		GREEN("\u001B[32m"),
+		YELLOW("\u001B[33m"),
+		BLUE("\u001B[34m"),
+		MAGENTA("\u001B[35m"),
+		CYAN("\u001B[36m"),
+		WHITE("\u001B[37m");
+
+		String colourCode;
+
+		Colour(String colourCode) {
+			this.colourCode = colourCode;
 		}
 	}
 }

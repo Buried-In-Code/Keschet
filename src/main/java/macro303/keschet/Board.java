@@ -10,9 +10,9 @@ public class Board {
 	private Square[][] board = new Square[11][11];
 
 	Board() {
-		for (int row = 0; row < board.length; row++) {
-			for (int column = 0; column < board[row].length; column++) {
-				board[row][column] = new Square();
+		for (int column = 0; column < board.length; column++) {
+			for (int row = 0; row < board[column].length; row++) {
+				board[column][row] = new Square();
 			}
 		}
 	}
@@ -49,12 +49,12 @@ public class Board {
 
 	public void draw() {
 		Console.showTitle("Board");
-		for (int row = 0; row < board.length; row++) {
-			for (int column = 0; column < board[row].length; column++) {
-				if (row == 0)
-					System.out.print((column == 0 ? "" : " ") + column + (column == 10 ? "" : " "));
-				else if (column == 0)
-					System.out.print(row + (row == 10 ? "" : " "));
+		for (int column = 0; column < board.length; column++) {
+			for (int row = 0; row < board[column].length; row++) {
+				if (column == 0)
+					System.out.print((row == 0 ? "" : " ") + row + (row == 10 ? "" : " "));
+				else if (row == 0)
+					System.out.print(column + (column == 10 ? "" : " "));
 				else
 					Console.showSquare(getSquare(new Pair<>(row, column)).getPiece());
 			}
@@ -64,36 +64,48 @@ public class Board {
 
 	public int countPieces(Team team) {
 		int counter = 0;
-		for (int row = 0; row < board.length; row++)
-			for (int column = 0; column < board[row].length; column++)
-				if (row != 0 && column != 0 && board[row][column].getPiece() != null && board[row][column].getPiece().getTeamColour() == team.getColour() && !(board[row][column].getPiece() instanceof Emperor))
+		for (int column = 0; column < board.length; column++)
+			for (int row = 0; row < board[column].length; row++) {
+				Square square = getSquare(new Pair<>(row, column));
+				if (row != 0 && column != 0 && square.getPiece() != null && square.getPiece().getTeamColour() == team.getColour() && !(square.getPiece() instanceof Emperor))
 					counter++;
+			}
 		return counter;
 	}
 
+	public boolean pieceStillOnBoard(Class clazz, Console.Colour teamColour) {
+		for (int column = 0; column < board.length; column++)
+			for (int row = 0; row < board[column].length; row++) {
+				Square square = getSquare(new Pair<>(row, column));
+				if (row != 0 && column != 0 && square.getPiece() != null && square.getPiece().getTeamColour() == teamColour && square.getPiece().getClass() == clazz)
+					return true;
+			}
+		return false;
+	}
+
 	public Square getSquare(Pair<Integer, Integer> square) {
-		return board[square.getLeft()][square.getRight()];
+		return board[square.getRight()][square.getLeft()];
 	}
 
 	public ArrayList<Piece> getAllSurroundingPieces(Pair<Integer, Integer> square) {
 		ArrayList<Piece> pieces = new ArrayList<>();
 		if (square.getLeft() >= 1 && square.getLeft() <= 10 && square.getRight() >= 1 && square.getRight() <= 10) {
-			if (board[square.getLeft() - 1][square.getRight()].getPiece() != null)
-				pieces.add(board[square.getLeft() - 1][square.getRight()].getPiece());
-			if (board[square.getLeft() - 1][square.getRight() - 1].getPiece() != null)
-				pieces.add(board[square.getLeft() - 1][square.getRight() - 1].getPiece());
-			if (board[square.getLeft()][square.getRight() - 1].getPiece() != null)
-				pieces.add(board[square.getLeft()][square.getRight() - 1].getPiece());
-			if (board[square.getLeft() + 1][square.getRight() - 1].getPiece() != null)
-				pieces.add(board[square.getLeft() + 1][square.getRight() - 1].getPiece());
-			if (board[square.getLeft() + 1][square.getRight()].getPiece() != null)
-				pieces.add(board[square.getLeft() + 1][square.getRight()].getPiece());
-			if (board[square.getLeft() + 1][square.getRight() + 1].getPiece() != null)
-				pieces.add(board[square.getLeft() + 1][square.getRight() + 1].getPiece());
-			if (board[square.getLeft()][square.getRight() + 1].getPiece() != null)
-				pieces.add(board[square.getLeft()][square.getRight() + 1].getPiece());
-			if (board[square.getLeft() - 1][square.getRight() + 1].getPiece() != null)
-				pieces.add(board[square.getLeft() - 1][square.getRight() + 1].getPiece());
+			if (getSquare(new Pair<>(square.getLeft() - 1, square.getRight())).getPiece() != null)
+				pieces.add(getSquare(new Pair<>(square.getLeft() - 1, square.getRight())).getPiece());
+			if (getSquare(new Pair<>(square.getLeft() - 1, square.getRight() - 1)).getPiece() != null)
+				pieces.add(getSquare(new Pair<>(square.getLeft() - 1, square.getRight() - 1)).getPiece());
+			if (getSquare(new Pair<>(square.getLeft(), square.getRight() - 1)).getPiece() != null)
+				pieces.add(getSquare(new Pair<>(square.getLeft(), square.getRight() - 1)).getPiece());
+			if (getSquare(new Pair<>(square.getLeft() + 1, square.getRight() - 1)).getPiece() != null)
+				pieces.add(getSquare(new Pair<>(square.getLeft() + 1, square.getRight() - 1)).getPiece());
+			if (getSquare(new Pair<>(square.getLeft() + 1, square.getRight())).getPiece() != null)
+				pieces.add(getSquare(new Pair<>(square.getLeft() + 1, square.getRight())).getPiece());
+			if (getSquare(new Pair<>(square.getLeft() + 1, square.getRight() + 1)).getPiece() != null)
+				pieces.add(getSquare(new Pair<>(square.getLeft() + 1, square.getRight() + 1)).getPiece());
+			if (getSquare(new Pair<>(square.getLeft(), square.getRight() + 1)).getPiece() != null)
+				pieces.add(getSquare(new Pair<>(square.getLeft(), square.getRight() + 1)).getPiece());
+			if (getSquare(new Pair<>(square.getLeft() - 1, square.getRight() + 1)).getPiece() != null)
+				pieces.add(getSquare(new Pair<>(square.getLeft() - 1, square.getRight() + 1)).getPiece());
 		}
 		return pieces;
 	}

@@ -1,4 +1,4 @@
-# Keschet _2.0.4_
+# Keschet _1.0.1_
 
 A chess-style game from the Blood Song by Anthony Ryan.  
 _Merchant ability not yet implemented._
@@ -6,7 +6,6 @@ _Merchant ability not yet implemented._
 ## Dependencies
 
 - jdk-1.8.0_144
-- [kotlin-stdlib-jre8: 1.1.51](https://kotlinlang.org/)
 - [slf4j-simple: RELEASE {1.8.0-alpha2}](https://www.slf4j.org/)
 
 ## Rules

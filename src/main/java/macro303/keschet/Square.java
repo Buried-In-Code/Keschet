@@ -2,8 +2,6 @@ package macro303.keschet;
 
 import macro303.keschet.pieces.Piece;
 
-import java.util.Objects;
-
 public class Square {
 	private Piece piece;
 
@@ -16,16 +14,18 @@ public class Square {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Square)) return false;
-		Square square = (Square) o;
-		return Objects.equals(getPiece(), square.getPiece());
+	public int hashCode() {
+		return piece != null ? piece.hashCode() : 0;
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(getPiece());
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Square)) return false;
+
+		Square square = (Square) o;
+
+		return piece != null ? piece.equals(square.piece) : square.piece == null;
 	}
 
 	@Override

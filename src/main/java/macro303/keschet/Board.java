@@ -2,111 +2,124 @@ package macro303.keschet;
 
 import macro303.keschet.pieces.Emperor;
 import macro303.keschet.pieces.Piece;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Board {
-	private Square[][] board = new Square[11][11];
+	private static final Logger LOGGER = LogManager.getLogger(Board.class);
+	private static final int SIZE = 10;
+
+	private Square[][] board = new Square[SIZE][SIZE];
 
 	Board() {
-		for (int column = 0; column < board.length; column++) {
-			for (int row = 0; row < board[column].length; row++) {
-				board[column][row] = new Square();
-			}
-		}
-	}
-
-	public static Direction calculateDirection(Pair<Integer, Integer> start, Pair<Integer, Integer> end) {
-		if (Objects.equals(start.getLeft(), end.getLeft()) && start.getRight() - end.getRight() > 0)
-			return Direction.NORTH;
-		if (start.getLeft() - end.getLeft() > 0 && start.getRight() - end.getRight() > 0)
-			return Direction.NORTH_EAST;
-		if (start.getLeft() - end.getLeft() > 0 && Objects.equals(start.getRight(), end.getRight()))
-			return Direction.EAST;
-		if (start.getLeft() - end.getLeft() > 0 && start.getRight() - end.getRight() < 0)
-			return Direction.SOUTH_EAST;
-		if (Objects.equals(start.getLeft(), end.getLeft()) && start.getRight() - end.getRight() < 0)
-			return Direction.SOUTH;
-		if (start.getLeft() - end.getLeft() < 0 && start.getRight() - end.getRight() < 0)
-			return Direction.SOUTH_WEST;
-		if (start.getLeft() - end.getLeft() < 0 && Objects.equals(start.getRight(), end.getRight()))
-			return Direction.WEST;
-		if (start.getLeft() - end.getLeft() < 0 && start.getRight() - end.getRight() > 0)
-			return Direction.NORTH_WEST;
-		return Direction.INVALID;
+		Arrays.stream(board).forEach(column -> Arrays.setAll(column, row -> new Square()));
 	}
 
 	public static int calculateDistance(Pair<Integer, Integer> start, Pair<Integer, Integer> end) {
 		Direction direction = calculateDirection(start, end);
-		if (direction == Direction.INVALID)
-			return 0;
+		int distance = 0;
 		if (direction == Direction.NORTH || direction == Direction.SOUTH)
-			return start.getRight() - end.getRight();
-		else
-			return start.getLeft() - end.getLeft();
+			distance = start.getY() - end.getY();
+		else if (direction == Direction.NORTH_EAST || direction == Direction.EAST || direction == Direction.SOUTH_EAST || direction == Direction.SOUTH_WEST || direction == Direction.WEST || direction == Direction.NORTH_WEST)
+			distance = start.getX() - end.getX();
+		LOGGER.trace("int calculateDistance(Pair<Integer, Integer>, Pair<Integer, Integer>) = " + distance);
+		return distance;
+	}
+
+	public static Direction calculateDirection(Pair<Integer, Integer> start, Pair<Integer, Integer> end) {
+		Direction direction = Direction.INVALID;
+		if (Objects.equals(end.getX(), start.getX()) && end.getY() - start.getY() < 0)
+			direction = Direction.NORTH;
+		else if (end.getX() - start.getX() > 0 && end.getY() - start.getY() < 0 && Math.abs((end.getX() - start.getX())) - Math.abs((end.getY() - start.getY())) == 0)
+			direction = Direction.NORTH_EAST;
+		else if (end.getX() - start.getX() > 0 && Objects.equals(end.getY(), start.getY()))
+			direction = Direction.EAST;
+		else if (end.getX() - start.getX() > 0 && end.getY() - start.getY() > 0 && Math.abs((end.getX() - start.getX())) - Math.abs((end.getY() - start.getY())) == 0)
+			direction = Direction.SOUTH_EAST;
+		else if (Objects.equals(end.getX(), start.getX()) && end.getY() - start.getY() > 0)
+			direction = Direction.SOUTH;
+		else if (end.getX() - start.getX() < 0 && end.getY() - start.getY() > 0 && Math.abs((end.getX() - start.getX())) - Math.abs((end.getY() - start.getY())) == 0)
+			direction = Direction.SOUTH_WEST;
+		else if (end.getX() - start.getX() < 0 && Objects.equals(end.getY(), start.getY()))
+			direction = Direction.WEST;
+		else if (end.getX() - start.getX() < 0 && end.getY() - start.getY() < 0 && Math.abs((end.getX() - start.getX())) - Math.abs((end.getY() - start.getY())) == 0)
+			direction = Direction.NORTH_WEST;
+		LOGGER.trace("Direction calculateDirection(Pair<Integer, Integer>, Pair<Integer, Integer>) = " + direction);
+		return direction;
 	}
 
 	public void draw() {
-		Console.showTitle("Board");
-		for (int column = 0; column < board.length; column++) {
-			for (int row = 0; row < board[column].length; row++) {
+		for (int column = 0; column <= SIZE; column++) {
+			for (int row = 0; row <= SIZE; row++)
 				if (column == 0)
-					System.out.print((row == 0 ? "" : " ") + row + (row == 10 ? "" : " "));
+					System.out.print((row == 0 ? "" : " ") + row + (row == SIZE ? "" : " "));
 				else if (row == 0)
-					System.out.print(column + (column == 10 ? "" : " "));
+					System.out.print(column + (column == SIZE ? "" : " "));
 				else
 					Console.showSquare(getSquare(new Pair<>(row, column)).getPiece());
-			}
 			System.out.println();
 		}
 	}
 
+	public Square getSquare(Pair<Integer, Integer> square) {
+		return square.getX() - 1 < 0 || square.getX() > SIZE || square.getY() - 1 < 0 || square.getY() > SIZE ? null : board[square.getY() - 1][square.getX() - 1];
+	}
+
 	public int countPieces(Team team) {
 		int counter = 0;
-		for (int column = 0; column < board.length; column++)
-			for (int row = 0; row < board[column].length; row++) {
+		for (int column = 1; column <= SIZE; column++)
+			for (int row = 1; row <= SIZE; row++) {
 				Square square = getSquare(new Pair<>(row, column));
-				if (row != 0 && column != 0 && square.getPiece() != null && square.getPiece().getTeamColour() == team.getColour() && !(square.getPiece() instanceof Emperor))
+				if (square.getPiece() != null && square.getPiece().getTeamColour() == team.getColour() && !(square.getPiece() instanceof Emperor))
 					counter++;
 			}
+		LOGGER.trace("int countPieces(Team) = " + counter);
 		return counter;
 	}
 
 	public boolean pieceStillOnBoard(Class clazz, Console.Colour teamColour) {
-		for (int column = 0; column < board.length; column++)
-			for (int row = 0; row < board[column].length; row++) {
+		boolean stillAvailable = false;
+		for (int column = 1; column <= SIZE; column++)
+			for (int row = 1; row <= SIZE; row++) {
 				Square square = getSquare(new Pair<>(row, column));
-				if (row != 0 && column != 0 && square.getPiece() != null && square.getPiece().getTeamColour() == teamColour && square.getPiece().getClass() == clazz)
-					return true;
+				if (square.getPiece() != null && square.getPiece().getTeamColour() == teamColour && square.getPiece().getClass() == clazz)
+					stillAvailable = true;
 			}
-		return false;
+		LOGGER.trace("boolean pieceStillOnBoard(Class, Colour) = " + stillAvailable);
+		return stillAvailable;
 	}
 
-	public Square getSquare(Pair<Integer, Integer> square) {
-		return board[square.getRight()][square.getLeft()];
-	}
-
-	public ArrayList<Piece> getAllSurroundingPieces(Pair<Integer, Integer> square) {
+	public ArrayList<Piece> getAllSurroundingPieces(Pair<Integer, Integer> squareLocation) {
 		ArrayList<Piece> pieces = new ArrayList<>();
-		if (square.getLeft() >= 1 && square.getLeft() <= 10 && square.getRight() >= 1 && square.getRight() <= 10) {
-			if (getSquare(new Pair<>(square.getLeft() - 1, square.getRight())).getPiece() != null)
-				pieces.add(getSquare(new Pair<>(square.getLeft() - 1, square.getRight())).getPiece());
-			if (getSquare(new Pair<>(square.getLeft() - 1, square.getRight() - 1)).getPiece() != null)
-				pieces.add(getSquare(new Pair<>(square.getLeft() - 1, square.getRight() - 1)).getPiece());
-			if (getSquare(new Pair<>(square.getLeft(), square.getRight() - 1)).getPiece() != null)
-				pieces.add(getSquare(new Pair<>(square.getLeft(), square.getRight() - 1)).getPiece());
-			if (getSquare(new Pair<>(square.getLeft() + 1, square.getRight() - 1)).getPiece() != null)
-				pieces.add(getSquare(new Pair<>(square.getLeft() + 1, square.getRight() - 1)).getPiece());
-			if (getSquare(new Pair<>(square.getLeft() + 1, square.getRight())).getPiece() != null)
-				pieces.add(getSquare(new Pair<>(square.getLeft() + 1, square.getRight())).getPiece());
-			if (getSquare(new Pair<>(square.getLeft() + 1, square.getRight() + 1)).getPiece() != null)
-				pieces.add(getSquare(new Pair<>(square.getLeft() + 1, square.getRight() + 1)).getPiece());
-			if (getSquare(new Pair<>(square.getLeft(), square.getRight() + 1)).getPiece() != null)
-				pieces.add(getSquare(new Pair<>(square.getLeft(), square.getRight() + 1)).getPiece());
-			if (getSquare(new Pair<>(square.getLeft() - 1, square.getRight() + 1)).getPiece() != null)
-				pieces.add(getSquare(new Pair<>(square.getLeft() - 1, square.getRight() + 1)).getPiece());
-		}
+		Square square = getSquare(new Pair<>(squareLocation.getX(), squareLocation.getY() + 1));
+		if (square != null && square.getPiece() != null)
+			pieces.add(square.getPiece());
+		square = getSquare(new Pair<>(squareLocation.getX() + 1, squareLocation.getY() + 1));
+		if (square != null && square.getPiece() != null)
+			pieces.add(square.getPiece());
+		square = getSquare(new Pair<>(squareLocation.getX() + 1, squareLocation.getY()));
+		if (square != null && square.getPiece() != null)
+			pieces.add(square.getPiece());
+		square = getSquare(new Pair<>(squareLocation.getX() + 1, squareLocation.getY() - 1));
+		if (square != null && square.getPiece() != null)
+			pieces.add(square.getPiece());
+		square = getSquare(new Pair<>(squareLocation.getX(), squareLocation.getY() - 1));
+		if (square != null && square.getPiece() != null)
+			pieces.add(square.getPiece());
+		square = getSquare(new Pair<>(squareLocation.getX() - 1, squareLocation.getY() - 1));
+		if (square != null && square.getPiece() != null)
+			pieces.add(square.getPiece());
+		square = getSquare(new Pair<>(squareLocation.getX() - 1, squareLocation.getY()));
+		if (square != null && square.getPiece() != null)
+			pieces.add(square.getPiece());
+		square = getSquare(new Pair<>(squareLocation.getX() - 1, squareLocation.getY() + 1));
+		if (square != null && square.getPiece() != null)
+			pieces.add(square.getPiece());
+		LOGGER.trace("ArrayList<Piece> getAllSurroundingPieces(Pair<Integer, Integer>) = " + pieces);
 		return pieces;
 	}
 }

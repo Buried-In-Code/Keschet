@@ -1,20 +1,18 @@
 package macro303.keschet;
 
 import macro303.keschet.pieces.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 
 public abstract class Console {
+	private static final Logger LOGGER = LogManager.getLogger(Console.class);
+
 	private static Colour titleColour = Colour.MAGENTA;
 	private static Colour importantColour = Colour.YELLOW;
 	private static Colour messageColour = Colour.WHITE;
 	private static Colour squareColour = Colour.GREEN;
-
-	private static void colourConsole(String message, Colour colour) {
-		System.out.print(colour.colourCode);
-		System.out.print(message);
-		System.out.println(Colour.RESET.colourCode);
-	}
 
 	private static void colourConsole(String title, Colour titleColour, String message, Colour messageColour) {
 		System.out.print(titleColour.colourCode);
@@ -43,6 +41,12 @@ public abstract class Console {
 		colourConsole(message, importantColour);
 	}
 
+	private static void colourConsole(String message, Colour colour) {
+		System.out.print(colour.colourCode);
+		System.out.print(message);
+		System.out.println(Colour.RESET.colourCode);
+	}
+
 	public static void showValue(String title, String message) {
 		colourConsole(title + ": ", importantColour, message, messageColour);
 	}
@@ -57,24 +61,14 @@ public abstract class Console {
 		showTitle("Rules");
 		showMessage("At the start of the game a player may place any piece in any square in the first 3 rows at the player's end of the board.");
 		showMessage("A piece is taken if the square it occupies is occupied by an opposing piece.");
-		helpMenu("Help pieces");
+		showPieces();
 	}
 
 	public static void helpMenu(String input) {
 		if (input.equalsIgnoreCase("Help")) {
-			showTitle("Help");
-			showValue("Help Rules", "Shows the rules.");
-			showValue("Help Pieces", "Shows you all the pieces.");
-			showValue("Help <Symbol> OR Help Name", "Shows you all the information about the piece with that symbol or name (Symbol must be inside <>).");
+			showHelp();
 		} else if (input.toLowerCase().contains("pieces")) {
-			helpMenu("Help <Archer>");
-			helpMenu("Help <Emperor>");
-			helpMenu("Help <General>");
-			helpMenu("Help <Lancer>");
-			helpMenu("Help <Merchant>");
-			helpMenu("Help <Scholar>");
-			helpMenu("Help <Spearman>");
-			helpMenu("Help <Thief>");
+			showPieces();
 		} else if (input.toLowerCase().contains("rules")) {
 			showRules();
 		} else {
@@ -95,22 +89,43 @@ public abstract class Console {
 				temp = new Spearman(null);
 			else if (input.toLowerCase().contains("<t>") || input.toLowerCase().contains("thief"))
 				temp = new Thief(null);
-			if (temp != null) {
-				showTitle(temp.getClass().getSimpleName() + " Help");
-				showValue("Piece", temp.getClass().getSimpleName());
-				showValue("Symbol", temp.getSymbol());
-				showValue("Max Distance", String.valueOf(temp.getMaxDistance()));
-				showValue("Valid Directions", temp.getValidDirections().toString());
-				if (temp instanceof Emperor)
-					showValue("Ability", "The game is won if the Emperor is taken or if the Emperor is the only piece remaining to the losing player");
-				else if (temp instanceof Merchant)
-					showValue("Ability [WIP]", "The Merchant can move to any vacant square surrounding the square occupied by the Emperor, if the route is unobstructed by another piece.");
-				else if (temp instanceof Scholar)
-					showValue("Ability", "Any piece in an surrounding square to the Scholar is protected and cannot be taken.");
-				else if (temp instanceof Thief)
-					showValue("Ability", "Any piece taken by the Thief is then placed back on the board under the player's control in one of the surrounding squares.");
-			}
+			if (temp != null)
+				showPiece(temp);
 		}
+	}
+
+	private static void showHelp() {
+		showTitle("Help");
+		showValue("Help Rules", "Shows the rules.");
+		showValue("Help Pieces", "Shows you all the pieces.");
+		showValue("Help <Symbol> OR Help Name", "Shows you all the information about the piece with that symbol or name (Symbol must be inside <>).");
+	}
+
+	private static void showPieces() {
+		showPiece(new Archer(null));
+		showPiece(new Emperor(null));
+		showPiece(new General(null));
+		showPiece(new Lancer(null));
+		showPiece(new Merchant(null));
+		showPiece(new Scholar(null));
+		showPiece(new Spearman(null));
+		showPiece(new Thief(null));
+	}
+
+	private static void showPiece(Piece piece) {
+		showTitle(piece.getClass().getSimpleName() + " Help");
+		showValue("Piece", piece.getClass().getSimpleName());
+		showValue("Symbol", piece.getSymbol());
+		showValue("Max Distance", String.valueOf(piece.getMaxDistance()));
+		showValue("Valid Directions", piece.getValidDirections().toString());
+		if (piece instanceof Emperor)
+			showValue("Ability", "The game is won if the Emperor is taken or if the Emperor is the only piece remaining to the losing player");
+		else if (piece instanceof Merchant)
+			showValue("Ability [WIP]", "The Merchant can move to any vacant square surrounding the square occupied by the Emperor, if the route is unobstructed by another piece.");
+		else if (piece instanceof Scholar)
+			showValue("Ability", "Any piece in an surrounding square to the Scholar is protected and cannot be taken.");
+		else if (piece instanceof Thief)
+			showValue("Ability", "Any piece taken by the Thief is then placed back on the board under the player's control in one of the surrounding squares.");
 	}
 
 	public enum Colour {
@@ -123,7 +138,7 @@ public abstract class Console {
 		CYAN("\u001B[36m"),
 		WHITE("\u001B[37m");
 
-		String colourCode;
+		final String colourCode;
 
 		Colour(String colourCode) {
 			this.colourCode = colourCode;

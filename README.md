@@ -6,7 +6,9 @@ _Merchant ability not yet implemented._
 ## Dependencies
 
 - jdk-1.8.0_144
-- [slf4j-simple: RELEASE {1.8.0-alpha2}](https://www.slf4j.org/)
+- [log4j-api:RELEASE {2.9.1}](https://logging.apache.org/log4j/2.x/)
+- [log4j-core:RELEASE {2.9.1}](https://logging.apache.org/log4j/2.x/)
+- [junit:RELEASE {4.12}]()
 
 ## Rules
 

@@ -1,6 +1,6 @@
-package macro303.keschet;
+package macro303.keschet
 
-public enum Direction {
+enum class Direction {
 	NORTH,
 	NORTH_EAST,
 	EAST,

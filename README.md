@@ -1,4 +1,4 @@
-# Keschet _1.0.3_
+# Keschet _1.1_
 
 A chess-style game from the Blood Song by Anthony Ryan.
 
@@ -7,7 +7,7 @@ A chess-style game from the Blood Song by Anthony Ryan.
 - jdk-1.8.0_144
 - [log4j-api:RELEASE {2.9.1}](https://logging.apache.org/log4j/2.x/)
 - [log4j-core:RELEASE {2.9.1}](https://logging.apache.org/log4j/2.x/)
-- [junit:RELEASE {4.12}]()
+- [junit:RELEASE {4.12}](http://junit.org/junit4/)
 
 ## Rules
 

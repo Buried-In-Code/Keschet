@@ -3,7 +3,6 @@ package macro303.keschet;
 import macro303.keschet.pieces.*;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Team {
 	private Console.Colour colour;
@@ -15,15 +14,15 @@ public class Team {
 		pieces.add(new Emperor(this.colour));
 		pieces.add(new General(this.colour));
 		pieces.add(new Scholar(this.colour));
-		for (int i = 0; i < 1; i++)
-			pieces.add(new Merchant(this.colour));
 		for (int i = 0; i < 2; i++)
-			pieces.add(new Thief(this.colour));
+			pieces.add(new Merchant(this.colour));
 		for (int i = 0; i < 3; i++)
-			pieces.add(new Lancer(this.colour));
+			pieces.add(new Thief(this.colour));
 		for (int i = 0; i < 4; i++)
-			pieces.add(new Archer(this.colour));
+			pieces.add(new Lancer(this.colour));
 		for (int i = 0; i < 5; i++)
+			pieces.add(new Archer(this.colour));
+		for (int i = 0; i < 8; i++)
 			pieces.add(new Spearman(this.colour));
 	}
 
@@ -36,17 +35,21 @@ public class Team {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Team)) return false;
-		Team team = (Team) o;
-		return getColour() == team.getColour() &&
-				Objects.equals(getPieces(), team.getPieces());
+	public int hashCode() {
+		int result = colour.hashCode();
+		result = 31 * result + pieces.hashCode();
+		return result;
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(getColour(), getPieces());
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Team)) return false;
+
+		Team team = (Team) o;
+
+		if (colour != team.colour) return false;
+		return pieces.equals(team.pieces);
 	}
 
 	@Override
@@ -56,4 +59,5 @@ public class Team {
 				", pieces=" + pieces +
 				'}';
 	}
+
 }

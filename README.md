@@ -1,3 +1,16 @@
-# Keschet
+# Keschet _1.0.3_
 
-Simple chess based game from the Blood Song by Anthony Ryan
+A chess-style game from the Blood Song by Anthony Ryan.
+
+## Dependencies
+
+- jdk-1.8.0_144
+- [log4j-api:RELEASE {2.9.1}](https://logging.apache.org/log4j/2.x/)
+- [log4j-core:RELEASE {2.9.1}](https://logging.apache.org/log4j/2.x/)
+- [junit:RELEASE {4.12}]()
+
+## Rules
+
+- At the start of the game a player may place any piece in any square in the first 3 rows at the player's end of the board.
+- A piece is taken if the square it occupies is occupied by an opposing piece.
+- Type `Help` at any point for further information

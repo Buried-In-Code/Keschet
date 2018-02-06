@@ -58,7 +58,17 @@ object Keschet {
 			else if (startLocation != null) {
 				if (board.getSquare(square = startLocation)!!.piece!!.teamColour == team.colour) {
 					val endLocation = selectLocation(prompt = "Select Destination")
-					if (endLocation != null && ((board.getSquare(square = startLocation)!!.piece is Merchant && (board.getSquare(square = startLocation)!!.piece as Merchant).validMovement(start = startLocation, end = endLocation, board = board)) || board.getSquare(square = startLocation)!!.piece!!.validMovement(start = startLocation, end = endLocation))) {
+					if (endLocation != null && ((board.getSquare(square = startLocation)!!.piece is Merchant && (board.getSquare(
+							square = startLocation
+						)!!.piece as Merchant).validMovement(
+							start = startLocation,
+							end = endLocation,
+							board = board
+						)) || board.getSquare(square = startLocation)!!.piece!!.validMovement(
+							start = startLocation,
+							end = endLocation
+						))
+					) {
 						success = if (board.getSquare(square = endLocation)!!.piece == null)
 							movePiece(start = startLocation, end = endLocation)
 						else
@@ -77,7 +87,9 @@ object Keschet {
 		var complete = false
 		when {
 			takenPiece!!.teamColour == selectedPiece!!.teamColour -> Console.showError(message = "You can't take your own Pieces")
-			board.getAllSurroundingPieces(endLocation).any { piece -> piece is Scholar && piece.teamColour == selectedPiece.teamColour } -> Console.showError(message = "That piece is protected by a nearby Scholar")
+			board.getAllSurroundingPieces(endLocation).any { piece -> piece is Scholar && piece.teamColour == selectedPiece.teamColour } -> Console.showError(
+				message = "That piece is protected by a nearby Scholar"
+			)
 			movePiece(start = startLocation, end = endLocation) && selectedPiece is Thief -> {
 				var nearby = false
 				do {

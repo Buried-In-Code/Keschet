@@ -12,7 +12,12 @@ object Console {
 	private val messageColour = Colour.WHITE
 	private val squareColour = Colour.GREEN
 
-	private fun colourConsole(title: String? = null, titleColour: Colour = headingColour, message: String?, messageColour: Colour) {
+	private fun colourConsole(
+		title: String? = null,
+		titleColour: Colour = headingColour,
+		message: String?,
+		messageColour: Colour
+	) {
 		if (title != null) {
 			print(titleColour.colourCode)
 			print(title)
@@ -32,7 +37,12 @@ object Console {
 
 	fun showError(message: String?) = colourConsole(message = message, messageColour = importantColour)
 
-	fun showValue(title: String?, message: String) = colourConsole(title = "$title: ", titleColour = importantColour, message = message, messageColour = messageColour)
+	fun showValue(title: String?, message: String) = colourConsole(
+		title = "$title: ",
+		titleColour = importantColour,
+		message = message,
+		messageColour = messageColour
+	)
 
 	fun showSquare(piece: Piece?) {
 		print((piece?.teamColour ?: squareColour).colourCode)
@@ -55,14 +65,22 @@ object Console {
 			else -> {
 				var temp: Piece? = null
 				when {
-					input.contains("<a>", ignoreCase = true) || input.contains("archer", ignoreCase = true) -> temp = Archer(teamColour = Colour.RESET)
-					input.contains("<e>", ignoreCase = true) || input.contains("emperor", ignoreCase = true) -> temp = Emperor(teamColour = Colour.RESET)
-					input.contains("<g>", ignoreCase = true) || input.contains("general", ignoreCase = true) -> temp = General(teamColour = Colour.RESET)
-					input.contains("<l>", ignoreCase = true) || input.contains("lancer", ignoreCase = true) -> temp = Lancer(teamColour = Colour.RESET)
-					input.contains("<m>", ignoreCase = true) || input.contains("merchant", ignoreCase = true) -> temp = Merchant(teamColour = Colour.RESET)
-					input.contains("<c>", ignoreCase = true) || input.contains("scholar", ignoreCase = true) -> temp = Scholar(teamColour = Colour.RESET)
-					input.contains("<p>", ignoreCase = true) || input.contains("spearman", ignoreCase = true) -> temp = Spearman(teamColour = Colour.RESET)
-					input.contains("<t>", ignoreCase = true) || input.contains("thief", ignoreCase = true) -> temp = Thief(teamColour = Colour.RESET)
+					input.contains("<a>", ignoreCase = true) || input.contains("archer", ignoreCase = true) -> temp =
+							Archer(teamColour = Colour.RESET)
+					input.contains("<e>", ignoreCase = true) || input.contains("emperor", ignoreCase = true) -> temp =
+							Emperor(teamColour = Colour.RESET)
+					input.contains("<g>", ignoreCase = true) || input.contains("general", ignoreCase = true) -> temp =
+							General(teamColour = Colour.RESET)
+					input.contains("<l>", ignoreCase = true) || input.contains("lancer", ignoreCase = true) -> temp =
+							Lancer(teamColour = Colour.RESET)
+					input.contains("<m>", ignoreCase = true) || input.contains("merchant", ignoreCase = true) -> temp =
+							Merchant(teamColour = Colour.RESET)
+					input.contains("<c>", ignoreCase = true) || input.contains("scholar", ignoreCase = true) -> temp =
+							Scholar(teamColour = Colour.RESET)
+					input.contains("<p>", ignoreCase = true) || input.contains("spearman", ignoreCase = true) -> temp =
+							Spearman(teamColour = Colour.RESET)
+					input.contains("<t>", ignoreCase = true) || input.contains("thief", ignoreCase = true) -> temp =
+							Thief(teamColour = Colour.RESET)
 				}
 				if (temp != null)
 					showPiece(temp)
@@ -74,7 +92,10 @@ object Console {
 		showTitle(title = "Help")
 		showValue(title = "Help Rules", message = "Shows the rules.")
 		showValue(title = "Help Pieces", message = "Shows you all the pieces.")
-		showValue(title = "Help <Symbol> OR Help Name", message = "Shows you all the information about the piece with that symbol or name (Symbol must be inside <>).")
+		showValue(
+			title = "Help <Symbol> OR Help Name",
+			message = "Shows you all the information about the piece with that symbol or name (Symbol must be inside <>)."
+		)
 	}
 
 	private fun showPieces() {
@@ -95,10 +116,22 @@ object Console {
 		showValue(title = "Max Distance", message = piece.maxDistance.toString())
 		showValue(title = "Valid Directions", message = Arrays.toString(piece.validDirections))
 		when (piece) {
-			is Emperor -> showValue(title = "Ability", message = "The game is won if the Emperor is taken or if the Emperor is the only piece remaining to the losing player")
-			is Merchant -> showValue(title = "Ability", message = "The Merchant can move to any vacant square surrounding the square occupied by the Emperor, if the route is unobstructed by another piece.")
-			is Scholar -> showValue(title = "Ability", message = "Any piece in an surrounding square to the Scholar is protected and cannot be taken.")
-			is Thief -> showValue(title = "Ability", message = "Any piece taken by the Thief is then placed back on the board under the player's control in one of the surrounding squares.")
+			is Emperor -> showValue(
+				title = "Ability",
+				message = "The game is won if the Emperor is taken or if the Emperor is the only piece remaining to the losing player"
+			)
+			is Merchant -> showValue(
+				title = "Ability",
+				message = "The Merchant can move to any vacant square surrounding the square occupied by the Emperor, if the route is unobstructed by another piece."
+			)
+			is Scholar -> showValue(
+				title = "Ability",
+				message = "Any piece in an surrounding square to the Scholar is protected and cannot be taken."
+			)
+			is Thief -> showValue(
+				title = "Ability",
+				message = "Any piece taken by the Thief is then placed back on the board under the player's control in one of the surrounding squares."
+			)
 		}
 	}
 }

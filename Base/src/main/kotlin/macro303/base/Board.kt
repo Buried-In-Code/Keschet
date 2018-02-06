@@ -5,7 +5,7 @@ import macro303.base.pieces.Piece
 import org.apache.logging.log4j.LogManager
 import java.util.*
 
-class Board: IBoard {
+class Board : IBoard {
 	private var board = Array(SIZE, { Array(SIZE, { Square() }) })
 
 	fun draw() {
@@ -33,7 +33,8 @@ class Board: IBoard {
 	}
 
 	override fun pieceStillOnBoard(clazz: Class<*>, teamColour: Colour): Boolean {
-		val stillAvailable = board.any { it.any { it.piece != null && it.piece?.teamColour == teamColour && it.piece?.javaClass == clazz } }
+		val stillAvailable =
+			board.any { it.any { it.piece != null && it.piece?.teamColour == teamColour && it.piece?.javaClass == clazz } }
 		LOGGER.trace("boolean pieceStillOnBoard(Class, Colour) = $stillAvailable")
 		return stillAvailable
 	}

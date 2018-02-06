@@ -27,13 +27,21 @@ interface IBoard {
 			var direction = Direction.INVALID
 			when {
 				end.first == start.first && end.second - start.second < 0 -> direction = Direction.NORTH
-				end.first - start.first > 0 && end.second - start.second < 0 && Math.abs(end.second - start.second) - Math.abs(end.first - start.first) == 0 -> direction = Direction.NORTH_EAST
+				end.first - start.first > 0 && end.second - start.second < 0 && Math.abs(end.second - start.second) - Math.abs(
+					end.first - start.first
+				) == 0 -> direction = Direction.NORTH_EAST
 				end.first - start.first > 0 && end.second == start.second -> direction = Direction.EAST
-				end.first - start.first > 0 && end.second - start.second > 0 && Math.abs(end.first - start.first) - Math.abs(end.second - start.second) == 0 -> direction = Direction.SOUTH_EAST
+				end.first - start.first > 0 && end.second - start.second > 0 && Math.abs(end.first - start.first) - Math.abs(
+					end.second - start.second
+				) == 0 -> direction = Direction.SOUTH_EAST
 				end.first == start.first && end.second - start.second > 0 -> direction = Direction.SOUTH
-				end.first - start.first < 0 && end.second - start.second > 0 && Math.abs(end.first - start.first) - Math.abs(end.second - start.second) == 0 -> direction = Direction.SOUTH_WEST
+				end.first - start.first < 0 && end.second - start.second > 0 && Math.abs(end.first - start.first) - Math.abs(
+					end.second - start.second
+				) == 0 -> direction = Direction.SOUTH_WEST
 				end.first - start.first < 0 && end.second == start.second -> direction = Direction.WEST
-				end.first - start.first < 0 && end.second - start.second < 0 && Math.abs(end.first - start.first) - Math.abs(end.second - start.second) == 0 -> direction = Direction.NORTH_WEST
+				end.first - start.first < 0 && end.second - start.second < 0 && Math.abs(end.first - start.first) - Math.abs(
+					end.second - start.second
+				) == 0 -> direction = Direction.NORTH_WEST
 			}
 			LOGGER.trace("Direction calculateDirection(Pair<Int, Int>, Pair<Int, Int>) = " + direction)
 			return direction

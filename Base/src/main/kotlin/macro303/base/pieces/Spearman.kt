@@ -3,7 +3,12 @@ package macro303.base.pieces
 import macro303.base.Colour
 import macro303.base.Direction
 
-class Spearman(teamColour: Colour) : Piece(teamColour = teamColour, maxDistance = 2, symbol = "P", validDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)) {
+class Spearman(teamColour: Colour) : Piece(
+	teamColour = teamColour,
+	maxDistance = 2,
+	symbol = "P",
+	validDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
+) {
 
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true

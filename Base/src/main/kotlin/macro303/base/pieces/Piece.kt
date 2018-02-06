@@ -6,10 +6,20 @@ import macro303.base.IBoard
 import org.apache.logging.log4j.LogManager
 import java.util.*
 
-abstract class Piece(var teamColour: Colour, val maxDistance: Int, val symbol: String, val validDirections: Array<Direction>) {
+abstract class Piece(
+	var teamColour: Colour,
+	val maxDistance: Int,
+	val symbol: String,
+	val validDirections: Array<Direction>
+) {
 
 	open fun validMovement(start: Pair<Int, Int>, end: Pair<Int, Int>): Boolean {
-		val valid = validDirections.contains(IBoard.calculateDirection(start = start, end = end)) && maxDistance >= IBoard.calculateDistance(start = start, end = end)
+		val valid = validDirections.contains(
+			IBoard.calculateDirection(
+				start = start,
+				end = end
+			)
+		) && maxDistance >= IBoard.calculateDistance(start = start, end = end)
 		LOGGER.trace("boolean validMovement(Pair<Int, Int>, Pair<Int, Int>) = $valid")
 		return valid
 	}
@@ -35,7 +45,9 @@ abstract class Piece(var teamColour: Colour, val maxDistance: Int, val symbol: S
 	}
 
 	override fun toString(): String {
-		return "Piece(teamColour=$teamColour, maxDistance=$maxDistance, symbol='$symbol', validDirections=${Arrays.toString(validDirections)})"
+		return "Piece(teamColour=$teamColour, maxDistance=$maxDistance, symbol='$symbol', validDirections=${Arrays.toString(
+			validDirections
+		)})"
 	}
 
 	companion object {

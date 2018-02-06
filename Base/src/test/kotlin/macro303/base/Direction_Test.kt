@@ -2,7 +2,7 @@ package macro303.base
 
 import org.junit.Test
 
-class Test_CalculateDirection {
+class Direction_Test {
 
 	@Test
 	fun test_northDirection() {
@@ -12,8 +12,8 @@ class Test_CalculateDirection {
 
 	@Test
 	fun test_northEastDirection() {
-		val north_east = IBoard.calculateDirection(Pair(2, 2), Pair(3, 1))
-		assert(north_east == Direction.NORTH_EAST)
+		val northEast = IBoard.calculateDirection(Pair(2, 2), Pair(3, 1))
+		assert(northEast == Direction.NORTH_EAST)
 	}
 
 	@Test
@@ -24,8 +24,8 @@ class Test_CalculateDirection {
 
 	@Test
 	fun test_southEastDirection() {
-		val south_east = IBoard.calculateDirection(Pair(2, 2), Pair(3, 3))
-		assert(south_east == Direction.SOUTH_EAST)
+		val southEast = IBoard.calculateDirection(Pair(2, 2), Pair(3, 3))
+		assert(southEast == Direction.SOUTH_EAST)
 	}
 
 	@Test
@@ -36,8 +36,8 @@ class Test_CalculateDirection {
 
 	@Test
 	fun test_southWestDirection() {
-		val south_west = IBoard.calculateDirection(Pair(2, 2), Pair(1, 3))
-		assert(south_west == Direction.SOUTH_WEST)
+		val southWest = IBoard.calculateDirection(Pair(2, 2), Pair(1, 3))
+		assert(southWest == Direction.SOUTH_WEST)
 	}
 
 	@Test
@@ -48,8 +48,8 @@ class Test_CalculateDirection {
 
 	@Test
 	fun test_northWestDirection() {
-		val north_west = IBoard.calculateDirection(Pair(2, 2), Pair(1, 1))
-		assert(north_west == Direction.NORTH_WEST)
+		val northWest = IBoard.calculateDirection(Pair(2, 2), Pair(1, 1))
+		assert(northWest == Direction.NORTH_WEST)
 	}
 
 	@Test

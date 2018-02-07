@@ -6,10 +6,12 @@ import macro303.base.Direction
 import macro303.base.IBoard
 import org.apache.logging.log4j.LogManager
 
+/**
+ * Created by Macro303 on 2017-10-20.
+ */
 class Merchant(teamColour: Colour) : Piece(
 	teamColour = teamColour,
 	maxDistance = 1,
-	symbol = "M",
 	validDirections = arrayOf(
 		Direction.NORTH,
 		Direction.NORTH_EAST,
@@ -21,13 +23,12 @@ class Merchant(teamColour: Colour) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
-
-	fun validMovement(start: Pair<Int, Int>, end: Pair<Int, Int>, board: Board): Boolean {
+	override fun validMovement(start: Pair<Int, Int>, end: Pair<Int, Int>, board: Board): Boolean {
 		val valid =
 			board.getAllSurroundingPieces(end).any { it is Emperor && it.teamColour === teamColour } && validDirections.contains(
 				IBoard.calculateDirection(start = start, end = end)
-			) || super.validMovement(start = start, end = end)
-		LOGGER.trace("boolean validMovement(Pair<Int, Int>, Pair<Int, Int>) = $valid")
+			) || super.validMovement(start = start, end = end, board = board)
+		LOGGER.trace("boolean validMovement(Pair<Int, Int>, Pair<Int, Int>, Board) = $valid")
 		return valid
 	}
 

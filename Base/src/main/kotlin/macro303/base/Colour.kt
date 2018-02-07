@@ -2,6 +2,9 @@ package macro303.base
 
 import java.awt.Color
 
+/**
+ * Created by Macro303 on 2017-10-20.
+ */
 enum class Colour(val colourCode: String, private val colour: Color) {
 	RESET("\u001B[0m", Color.BLACK),
 	RED("\u001B[31m", Color.RED),

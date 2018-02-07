@@ -1,5 +1,8 @@
 package macro303.base
 
+/**
+ * Created by Macro303 on 2017-10-20.
+ */
 enum class Direction {
 	NORTH,
 	NORTH_EAST,

@@ -2,6 +2,9 @@ package macro303.base
 
 import macro303.base.pieces.Piece
 
+/**
+ * Created by Macro303 on 2017-10-20.
+ */
 class Square {
 	var piece: Piece? = null
 

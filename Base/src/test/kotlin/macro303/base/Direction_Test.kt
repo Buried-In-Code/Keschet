@@ -2,6 +2,9 @@ package macro303.base
 
 import org.junit.Test
 
+/**
+ * Created by Macro303 on 2018-02-07.
+ */
 class Direction_Test {
 
 	@Test

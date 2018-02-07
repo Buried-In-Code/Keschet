@@ -1,21 +1,33 @@
 package macro303.base
 
 import macro303.base.pieces.*
-import org.apache.logging.log4j.LogManager
 import java.util.*
 
+/**
+ * Created by Macro303 on 2017-10-20.
+ */
 class Team(val colour: Colour) {
-	val pieces: ArrayList<Piece> = ArrayList()
+	/**
+	 * 1 Emperor
+	 * 1 General
+	 * 1 Scholar
+	 * 2 Merchants
+	 * 3 Thieves
+	 * 4 Lancers
+	 * 5 Archers
+	 * 8 Spearman
+	 */
+	val pieces = ArrayList<Piece>()
 
 	init {
 		pieces.add(Emperor(teamColour = colour))
 		pieces.add(General(teamColour = colour))
 		pieces.add(Scholar(teamColour = colour))
-		(0..1).forEach { pieces.add(Merchant(teamColour = colour)) }
-		(0..2).forEach { pieces.add(Thief(teamColour = colour)) }
-		(0..3).forEach { pieces.add(Lancer(teamColour = colour)) }
-		(0..4).forEach { pieces.add(Archer(teamColour = colour)) }
-		(0..7).forEach { pieces.add(Spearman(teamColour = colour)) }
+		(0 until 2).forEach { pieces.add(Merchant(teamColour = colour)) }
+		(0 until 3).forEach { pieces.add(Thief(teamColour = colour)) }
+		(0 until 4).forEach { pieces.add(Lancer(teamColour = colour)) }
+		(0 until 5).forEach { pieces.add(Archer(teamColour = colour)) }
+		(0 until 8).forEach { pieces.add(Spearman(teamColour = colour)) }
 	}
 
 	override fun equals(other: Any?): Boolean {
@@ -36,9 +48,5 @@ class Team(val colour: Colour) {
 
 	override fun toString(): String {
 		return "Team(colour=$colour, pieces=$pieces)"
-	}
-
-	companion object {
-		private val LOGGER = LogManager.getLogger(Team::class.java)
 	}
 }

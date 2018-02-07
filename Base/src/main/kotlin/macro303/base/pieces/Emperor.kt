@@ -3,10 +3,12 @@ package macro303.base.pieces
 import macro303.base.Colour
 import macro303.base.Direction
 
+/**
+ * Created by Macro303 on 2017-10-20.
+ */
 class Emperor(teamColour: Colour) : Piece(
 	teamColour = teamColour,
 	maxDistance = 4,
-	symbol = "E",
 	validDirections = arrayOf(
 		Direction.NORTH,
 		Direction.NORTH_EAST,
@@ -18,7 +20,6 @@ class Emperor(teamColour: Colour) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
-
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
 		if (other !is Emperor) return false

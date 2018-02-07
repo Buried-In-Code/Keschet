@@ -1,8 +1,14 @@
 package macro303.base
 
-import macro303.base.pieces.*
+import macro303.base.pieces.Emperor
+import macro303.base.pieces.Piece
+import macro303.base.pieces.Scholar
+import macro303.base.pieces.Thief
 import org.apache.logging.log4j.LogManager
 
+/**
+ * Created by Macro303 on 2017-10-20.
+ */
 object Keschet {
 	private val LOGGER = LogManager.getLogger(Keschet::class.java)
 	private val team1 = Team(Colour.BLUE)
@@ -38,8 +44,8 @@ object Keschet {
 		do {
 			val selectedLocation = selectLocation(prompt = "Place your ${selectedPiece.javaClass.simpleName}")
 			if (selectedLocation != null && selectedPiece.teamColour == team1.colour && selectedLocation.second <= 3 || selectedPiece.teamColour == team2.colour && selectedLocation!!.second >= 8) {
-				if (board.getSquare(square = selectedLocation)!!.piece == null) {
-					board.getSquare(square = selectedLocation)!!.piece = selectedPiece
+				if (getPiece(location = selectedLocation) == null) {
+					getSquare(location = selectedLocation)!!.piece = selectedPiece
 					placed = true
 				} else
 					Console.showError(message = "Must be placed on empty square")
@@ -53,23 +59,18 @@ object Keschet {
 		do {
 			Console.showTitle(title = "${team.colour.name}'s Turn", colour = team.colour)
 			val startLocation = selectLocation(prompt = "Select Piece")
-			if (startLocation != null && board.getSquare(square = startLocation)!!.piece == null)
+			if (startLocation != null && getPiece(location = startLocation) == null)
 				Console.showError("No Piece at that square")
 			else if (startLocation != null) {
-				if (board.getSquare(square = startLocation)!!.piece!!.teamColour == team.colour) {
+				if (getPiece(location = startLocation)!!.teamColour == team.colour) {
 					val endLocation = selectLocation(prompt = "Select Destination")
-					if (endLocation != null && ((board.getSquare(square = startLocation)!!.piece is Merchant && (board.getSquare(
-							square = startLocation
-						)!!.piece as Merchant).validMovement(
+					if (endLocation != null && getPiece(location = startLocation)!!.validMovement(
 							start = startLocation,
 							end = endLocation,
 							board = board
-						)) || board.getSquare(square = startLocation)!!.piece!!.validMovement(
-							start = startLocation,
-							end = endLocation
-						))
+						)
 					) {
-						success = if (board.getSquare(square = endLocation)!!.piece == null)
+						success = if (getPiece(location = endLocation) == null)
 							movePiece(start = startLocation, end = endLocation)
 						else
 							takePiece(startLocation = startLocation, endLocation = endLocation)
@@ -82,22 +83,24 @@ object Keschet {
 	}
 
 	private fun takePiece(startLocation: Pair<Int, Int>, endLocation: Pair<Int, Int>): Boolean {
-		val selectedPiece = board.getSquare(square = startLocation)!!.piece
-		val takenPiece = board.getSquare(square = endLocation)!!.piece
+		val selectedPiece = getPiece(location = startLocation)!!
+		val takenPiece = getPiece(location = endLocation)!!
 		var complete = false
 		when {
-			takenPiece!!.teamColour == selectedPiece!!.teamColour -> Console.showError(message = "You can't take your own Pieces")
-			board.getAllSurroundingPieces(endLocation).any { piece -> piece is Scholar && piece.teamColour == selectedPiece.teamColour } -> Console.showError(
-				message = "That piece is protected by a nearby Scholar"
-			)
+			takenPiece.teamColour == selectedPiece.teamColour -> {
+				Console.showError(message = "You can't take your own Pieces")
+			}
+			board.getAllSurroundingPieces(endLocation).any { piece -> piece is Scholar && piece.teamColour == selectedPiece.teamColour } -> {
+				Console.showError(message = "That piece is protected by a nearby Scholar")
+			}
 			movePiece(start = startLocation, end = endLocation) && selectedPiece is Thief -> {
 				var nearby = false
 				do {
 					val takenLocation = selectLocation(prompt = "Place Stolen piece")
-					if (takenLocation != null && board.getSquare(square = takenLocation)!!.piece == null) {
+					if (takenLocation != null && getSquare(location = takenLocation)!!.piece == null) {
 						if (board.getAllSurroundingPieces(squareLocation = takenLocation).contains(selectedPiece)) {
 							takenPiece.teamColour = selectedPiece.teamColour
-							board.getSquare(square = takenLocation)!!.piece = takenPiece
+							getSquare(location = takenLocation)!!.piece = takenPiece
 							nearby = true
 						}
 					} else
@@ -118,34 +121,44 @@ object Keschet {
 		var notBlocked = true
 		for (i in 0 until distance) {
 			when (direction) {
-				Direction.NORTH -> tempColumn--
+				Direction.NORTH -> {
+					tempColumn--
+				}
 				Direction.NORTH_EAST -> {
 					tempRow++
 					tempColumn--
 				}
-				Direction.EAST -> tempRow++
+				Direction.EAST -> {
+					tempRow++
+				}
 				Direction.SOUTH_EAST -> {
 					tempRow++
 					tempColumn++
 				}
-				Direction.SOUTH -> tempColumn++
+				Direction.SOUTH -> {
+					tempColumn++
+				}
 				Direction.SOUTH_WEST -> {
 					tempRow--
 					tempColumn++
 				}
-				Direction.WEST -> tempRow--
+				Direction.WEST -> {
+					tempRow--
+				}
 				Direction.NORTH_WEST -> {
 					tempRow--
 					tempColumn--
 				}
-				Direction.INVALID -> notBlocked = false
+				Direction.INVALID -> {
+					notBlocked = false
+				}
 			}
-			if (board.getSquare(square = Pair(tempRow, tempColumn))!!.piece != null && i != distance - 1)
+			if (getPiece(location = Pair(tempRow, tempColumn)) != null && i != distance - 1)
 				notBlocked = false
 		}
 		if (notBlocked) {
-			board.getSquare(square = end)!!.piece = board.getSquare(square = start)!!.piece
-			board.getSquare(square = start)!!.piece = null
+			getSquare(location = end)!!.piece = getSquare(location = start)!!.piece
+			getSquare(location = start)!!.piece = null
 		} else
 			Console.showError("Invalid movement")
 		LOGGER.trace("boolean movePiece(Pair<Int, Int>, Pair<Int, Int>) = $notBlocked")
@@ -167,7 +180,7 @@ object Keschet {
 				val row = location[0].toInt()
 				val column = location[1].toInt()
 				locationPair = Pair(row, column)
-				if (board.getSquare(square = Pair(row, column)) == null) {
+				if (getSquare(location = Pair(row, column)) == null) {
 					Console.showError("That square isn't the board")
 					locationPair = null
 				}
@@ -176,7 +189,6 @@ object Keschet {
 			} catch (ignored: ArrayIndexOutOfBoundsException) {
 				Console.showError("Invalid selection")
 			}
-
 		} while (locationPair == null)
 		LOGGER.trace("Pair<Int, Int> selectLocation(String) = $locationPair")
 		return locationPair
@@ -194,5 +206,13 @@ object Keschet {
 		val endGame = team1Count == 0 || !team1EmperorAlive || team2Count == 0 || !team2EmperorAlive
 		LOGGER.trace("boolean checkWinCondition() = $endGame")
 		return endGame
+	}
+
+	private fun getSquare(location: Pair<Int, Int>): Square? {
+		return board.getSquare(square = location)
+	}
+
+	private fun getPiece(location: Pair<Int, Int>): Piece? {
+		return getSquare(location = location)?.piece
 	}
 }

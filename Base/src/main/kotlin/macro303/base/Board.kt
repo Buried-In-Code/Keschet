@@ -5,6 +5,9 @@ import macro303.base.pieces.Piece
 import org.apache.logging.log4j.LogManager
 import java.util.*
 
+/**
+ * Created by Macro303 on 2017-10-20.
+ */
 class Board : IBoard {
 	private var board = Array(SIZE, { Array(SIZE, { Square() }) })
 
@@ -71,6 +74,6 @@ class Board : IBoard {
 
 	companion object {
 		private val LOGGER = LogManager.getLogger(Board::class.java)
-		private val SIZE = 10
+		private const val SIZE = 10
 	}
 }

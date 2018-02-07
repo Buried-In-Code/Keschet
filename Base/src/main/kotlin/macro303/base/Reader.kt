@@ -3,6 +3,9 @@ package macro303.base
 import org.apache.logging.log4j.LogManager
 import java.util.*
 
+/**
+ * Created by Macro303 on 2017-10-20.
+ */
 class Reader {
 	private val reader = Scanner(System.`in`)
 

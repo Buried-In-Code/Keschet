@@ -4,6 +4,9 @@ import macro303.base.pieces.*
 import org.apache.logging.log4j.LogManager
 import java.util.*
 
+/**
+ * Created by Macro303 on 2017-10-20.
+ */
 object Console {
 	private val LOGGER = LogManager.getLogger(Console::class.java)
 
@@ -46,7 +49,10 @@ object Console {
 
 	fun showSquare(piece: Piece?) {
 		print((piece?.teamColour ?: squareColour).colourCode)
-		print(" ${piece?.symbol ?: "~"} ")
+		if (piece != null)
+			print(" ${getSymbol(piece = piece)} ")
+		else
+			print(" ~ ")
 		print(Colour.RESET.colourCode)
 	}
 
@@ -63,24 +69,56 @@ object Console {
 			input.contains("pieces", ignoreCase = true) -> showPieces()
 			input.contains("rules", ignoreCase = true) -> showRules()
 			else -> {
-				var temp: Piece? = null
-				when {
-					input.contains("<a>", ignoreCase = true) || input.contains("archer", ignoreCase = true) -> temp =
-							Archer(teamColour = Colour.RESET)
-					input.contains("<e>", ignoreCase = true) || input.contains("emperor", ignoreCase = true) -> temp =
-							Emperor(teamColour = Colour.RESET)
-					input.contains("<g>", ignoreCase = true) || input.contains("general", ignoreCase = true) -> temp =
-							General(teamColour = Colour.RESET)
-					input.contains("<l>", ignoreCase = true) || input.contains("lancer", ignoreCase = true) -> temp =
-							Lancer(teamColour = Colour.RESET)
-					input.contains("<m>", ignoreCase = true) || input.contains("merchant", ignoreCase = true) -> temp =
-							Merchant(teamColour = Colour.RESET)
-					input.contains("<c>", ignoreCase = true) || input.contains("scholar", ignoreCase = true) -> temp =
-							Scholar(teamColour = Colour.RESET)
-					input.contains("<p>", ignoreCase = true) || input.contains("spearman", ignoreCase = true) -> temp =
-							Spearman(teamColour = Colour.RESET)
-					input.contains("<t>", ignoreCase = true) || input.contains("thief", ignoreCase = true) -> temp =
-							Thief(teamColour = Colour.RESET)
+				val temp: Piece? = when {
+					input.contains(
+						"<${getSymbol(Archer::class.java)}>",
+						ignoreCase = true
+					) || input.contains(Archer::class.java.simpleName, ignoreCase = true) -> {
+						Archer(teamColour = Colour.RESET)
+					}
+					input.contains(
+						"<${getSymbol(Emperor::class.java)}>",
+						ignoreCase = true
+					) || input.contains(Emperor::class.java.simpleName, ignoreCase = true) -> {
+						Emperor(teamColour = Colour.RESET)
+					}
+					input.contains(
+						"<${getSymbol(General::class.java)}>",
+						ignoreCase = true
+					) || input.contains(General::class.java.simpleName, ignoreCase = true) -> {
+						General(teamColour = Colour.RESET)
+					}
+					input.contains(
+						"<${getSymbol(Lancer::class.java)}>",
+						ignoreCase = true
+					) || input.contains(Lancer::class.java.simpleName, ignoreCase = true) -> {
+						Lancer(teamColour = Colour.RESET)
+					}
+					input.contains(
+						"<${getSymbol(Merchant::class.java)}>",
+						ignoreCase = true
+					) || input.contains(Merchant::class.java.simpleName, ignoreCase = true) -> {
+						Merchant(teamColour = Colour.RESET)
+					}
+					input.contains(
+						"<${getSymbol(Scholar::class.java)}>",
+						ignoreCase = true
+					) || input.contains(Scholar::class.java.simpleName, ignoreCase = true) -> {
+						Scholar(teamColour = Colour.RESET)
+					}
+					input.contains(
+						"<${getSymbol(Spearman::class.java)}>",
+						ignoreCase = true
+					) || input.contains(Spearman::class.java.simpleName, ignoreCase = true) -> {
+						Spearman(teamColour = Colour.RESET)
+					}
+					input.contains(
+						"<${getSymbol(Thief::class.java)}>",
+						ignoreCase = true
+					) || input.contains(Thief::class.java.simpleName, ignoreCase = true) -> {
+						Thief(teamColour = Colour.RESET)
+					}
+					else -> null
 				}
 				if (temp != null)
 					showPiece(temp)
@@ -93,9 +131,10 @@ object Console {
 		showValue(title = "Help Rules", message = "Shows the rules.")
 		showValue(title = "Help Pieces", message = "Shows you all the pieces.")
 		showValue(
-			title = "Help <Symbol> OR Help Name",
-			message = "Shows you all the information about the piece with that symbol or name (Symbol must be inside <>)."
+			title = "Help <Symbol>",
+			message = "Shows you all the information about the piece with that symbol (Symbol must be inside <>)."
 		)
+		showValue(title = "Help Name", message = "Shows you all the information about the piece with that name.")
 	}
 
 	private fun showPieces() {
@@ -110,9 +149,9 @@ object Console {
 	}
 
 	private fun showPiece(piece: Piece) {
-		showTitle(title = "${piece.javaClass.simpleName} Help")
-		showValue(title = "Piece", message = piece.javaClass.simpleName)
-		showValue(title = "Symbol", message = piece.symbol)
+		showTitle(title = "${piece::class.java.simpleName} Help")
+		showValue(title = "Piece", message = piece::class.java.simpleName)
+		showValue(title = "Symbol", message = getSymbol(piece = piece))
 		showValue(title = "Max Distance", message = piece.maxDistance.toString())
 		showValue(title = "Valid Directions", message = Arrays.toString(piece.validDirections))
 		when (piece) {
@@ -133,5 +172,13 @@ object Console {
 				message = "Any piece taken by the Thief is then placed back on the board under the player's control in one of the surrounding squares."
 			)
 		}
+	}
+
+	private fun getSymbol(piece: Piece): String {
+		return getSymbol(clazz = piece::class.java)
+	}
+
+	private fun getSymbol(clazz: Class<*>): String {
+		return clazz.simpleName.subSequence(startIndex = 0, endIndex = 2).toString()
 	}
 }

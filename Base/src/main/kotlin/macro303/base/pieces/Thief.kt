@@ -20,6 +20,8 @@ class Thief(teamColour: Colour) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
+	override val symbol: String = Thief.symbol
+
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
 		if (other !is Thief) return false
@@ -33,5 +35,9 @@ class Thief(teamColour: Colour) : Piece(
 
 	override fun toString(): String {
 		return "Thief() ${super.toString()}"
+	}
+
+	companion object {
+		const val symbol = "\uD83D\uDDE1"
 	}
 }

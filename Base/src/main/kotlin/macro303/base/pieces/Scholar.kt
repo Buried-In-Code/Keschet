@@ -20,6 +20,8 @@ class Scholar(teamColour: Colour) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
+	override val symbol: String = Scholar.symbol
+
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
 		if (other !is Scholar) return false
@@ -33,5 +35,9 @@ class Scholar(teamColour: Colour) : Piece(
 
 	override fun toString(): String {
 		return "Scholar() ${super.toString()}"
+	}
+
+	companion object {
+		const val symbol = "\uD83D\uDCDA"
 	}
 }

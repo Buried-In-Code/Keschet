@@ -11,6 +11,8 @@ class Spearman(teamColour: Colour) : Piece(
 	maxDistance = 2,
 	validDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
 ) {
+	override val symbol: String = Spearman.symbol
+
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
 		if (other !is Spearman) return false
@@ -24,5 +26,9 @@ class Spearman(teamColour: Colour) : Piece(
 
 	override fun toString(): String {
 		return "Spearman() ${super.toString()}"
+	}
+
+	companion object {
+		const val symbol = "\u2694"
 	}
 }

@@ -20,6 +20,8 @@ class Lancer(teamColour: Colour) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
+	override val symbol: String = Lancer.symbol
+
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
 		if (other !is Lancer) return false
@@ -33,5 +35,9 @@ class Lancer(teamColour: Colour) : Piece(
 
 	override fun toString(): String {
 		return "Lancer() ${super.toString()}"
+	}
+
+	companion object {
+		const val symbol = "\uD83C\uDFC7"
 	}
 }

@@ -20,6 +20,8 @@ class Emperor(teamColour: Colour) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
+	override val symbol: String = Emperor.symbol
+
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
 		if (other !is Emperor) return false
@@ -33,5 +35,9 @@ class Emperor(teamColour: Colour) : Piece(
 
 	override fun toString(): String {
 		return "Emperor() ${super.toString()}"
+	}
+
+	companion object {
+		const val symbol = "\u265A"
 	}
 }

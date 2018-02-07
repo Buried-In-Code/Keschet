@@ -11,6 +11,8 @@ class Archer(teamColour: Colour) : Piece(
 	maxDistance = 6,
 	validDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
 ) {
+	override val symbol: String = Archer.symbol
+
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
 		if (other !is Archer) return false
@@ -24,5 +26,9 @@ class Archer(teamColour: Colour) : Piece(
 
 	override fun toString(): String {
 		return "Archer() ${super.toString()}"
+	}
+
+	companion object {
+		const val symbol = "\uD83C\uDFF9"
 	}
 }

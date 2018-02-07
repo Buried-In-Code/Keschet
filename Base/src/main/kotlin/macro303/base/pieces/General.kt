@@ -20,6 +20,8 @@ class General(teamColour: Colour) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
+	override val symbol: String = General.symbol
+
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
 		if (other !is General) return false
@@ -33,5 +35,9 @@ class General(teamColour: Colour) : Piece(
 
 	override fun toString(): String {
 		return "General() ${super.toString()}"
+	}
+
+	companion object {
+		const val symbol = "\uD83C\uDF96"
 	}
 }

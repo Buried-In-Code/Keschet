@@ -23,11 +23,14 @@ class Merchant(teamColour: Colour) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
+	override val symbol: String = Merchant.symbol
+
 	override fun validMovement(start: Pair<Int, Int>, end: Pair<Int, Int>, board: Board): Boolean {
 		val valid =
-			board.getAllSurroundingPieces(end).any { it is Emperor && it.teamColour === teamColour } && validDirections.contains(
-				IBoard.calculateDirection(start = start, end = end)
-			) || super.validMovement(start = start, end = end, board = board)
+			board.getAllSurroundingPieces(end)
+				.any { it is Emperor && it.teamColour === teamColour } &&
+					validDirections.contains(IBoard.calculateDirection(start = start, end = end)) ||
+					super.validMovement(start = start, end = end, board = board)
 		LOGGER.trace("boolean validMovement(Pair<Int, Int>, Pair<Int, Int>, Board) = $valid")
 		return valid
 	}
@@ -49,5 +52,6 @@ class Merchant(teamColour: Colour) : Piece(
 
 	companion object {
 		private val LOGGER = LogManager.getLogger(Merchant::class.java)
+		const val symbol = "\uD83D\uDCB0"
 	}
 }

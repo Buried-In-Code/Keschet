@@ -47,12 +47,9 @@ object Console {
 		messageColour = messageColour
 	)
 
-	fun showSquare(piece: Piece?) {
-		print((piece?.teamColour ?: squareColour).colourCode)
-		if (piece != null)
-			print(" ${getSymbol(piece = piece)} ")
-		else
-			print(" ~ ")
+	fun showSquare(piece: Piece?, colour: Colour = squareColour) {
+		print((piece?.teamColour ?: colour).colourCode)
+		print(" ${piece?.symbol ?: "~"} ")
 		print(Colour.RESET.colourCode)
 	}
 
@@ -71,7 +68,7 @@ object Console {
 			else -> {
 				val temp: Piece? = when {
 					input.contains(
-						"<${getSymbol(Archer::class.java)}>",
+						"<${Archer.symbol}>",
 						ignoreCase = true
 					) || input.contains(Archer::class.java.simpleName, ignoreCase = true) -> {
 						Archer(teamColour = Colour.RESET)
@@ -151,7 +148,7 @@ object Console {
 	private fun showPiece(piece: Piece) {
 		showTitle(title = "${piece::class.java.simpleName} Help")
 		showValue(title = "Piece", message = piece::class.java.simpleName)
-		showValue(title = "Symbol", message = getSymbol(piece = piece))
+		showValue(title = "Symbol", message = piece.symbol)
 		showValue(title = "Max Distance", message = piece.maxDistance.toString())
 		showValue(title = "Valid Directions", message = Arrays.toString(piece.validDirections))
 		when (piece) {
@@ -172,10 +169,6 @@ object Console {
 				message = "Any piece taken by the Thief is then placed back on the board under the player's control in one of the surrounding squares."
 			)
 		}
-	}
-
-	private fun getSymbol(piece: Piece): String {
-		return getSymbol(clazz = piece::class.java)
 	}
 
 	private fun getSymbol(clazz: Class<*>): String {

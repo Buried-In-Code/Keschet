@@ -15,6 +15,8 @@ abstract class Piece(
 	val maxDistance: Int,
 	val validDirections: Array<Direction>
 ) {
+	abstract val symbol: String
+
 	open fun validMovement(start: Pair<Int, Int>, end: Pair<Int, Int>, board: Board): Boolean {
 		val valid = validDirections.contains(
 			IBoard.calculateDirection(

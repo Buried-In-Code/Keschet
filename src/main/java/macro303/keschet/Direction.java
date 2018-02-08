@@ -1,9 +1,9 @@
-package macro303.base
+package macro303.keschet;
 
 /**
- * Created by Macro303 on 2017-10-20.
+ * Created by Macro303 on 2018-02-08.
  */
-enum class Direction {
+public enum Direction {
 	NORTH,
 	NORTH_EAST,
 	EAST,

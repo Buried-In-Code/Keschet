@@ -4,7 +4,6 @@ import macro303.keschet.Colour;
 import macro303.keschet.Direction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -17,13 +16,17 @@ public abstract class Piece {
 	@NotNull
 	private final String symbol;
 	@NotNull
-	private final ArrayList<Direction> validDirections;
+	private final Direction[] validDirections;
 
-	protected Piece(@NotNull Colour teamColour, int maxDistance, @NotNull String symbol, @NotNull Direction... validDirections) {
+	protected Piece(@NotNull Colour teamColour, int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
 		this.teamColour = teamColour;
 		this.maxDistance = maxDistance;
 		this.symbol = symbol;
-		this.validDirections = new ArrayList<>(Arrays.asList(validDirections));
+		this.validDirections = validDirections;
+	}
+
+	protected Piece(int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
+		this(Colour.RESET, maxDistance, symbol, validDirections);
 	}
 
 	@NotNull
@@ -41,7 +44,7 @@ public abstract class Piece {
 	}
 
 	@NotNull
-	public ArrayList<Direction> getValidDirections() {
+	public Direction[] getValidDirections() {
 		return validDirections;
 	}
 
@@ -55,7 +58,8 @@ public abstract class Piece {
 		if (maxDistance != piece.maxDistance) return false;
 		if (teamColour != piece.teamColour) return false;
 		if (!symbol.equals(piece.symbol)) return false;
-		return validDirections.equals(piece.validDirections);
+		// Probably incorrect - comparing Object[] arrays with Arrays.equals
+		return Arrays.equals(validDirections, piece.validDirections);
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public abstract class Piece {
 		int result = teamColour.hashCode();
 		result = 31 * result + maxDistance;
 		result = 31 * result + symbol.hashCode();
-		result = 31 * result + validDirections.hashCode();
+		result = 31 * result + Arrays.hashCode(validDirections);
 		return result;
 	}
 
@@ -73,7 +77,7 @@ public abstract class Piece {
 				"teamColour=" + teamColour +
 				", maxDistance=" + maxDistance +
 				", symbol='" + symbol + '\'' +
-				", validDirections=" + validDirections +
+				", validDirections=" + Arrays.toString(validDirections) +
 				'}';
 	}
 }

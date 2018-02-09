@@ -1,9 +1,11 @@
 package macro303.keschet;
 
-import macro303.keschet.pieces.Piece;
+import macro303.keschet.pieces.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 import static macro303.keschet.Direction.*;
 
@@ -66,6 +68,37 @@ public abstract class Util {
 	}
 
 	static boolean validMovement(Piece piece, Direction direction, int distance) {
-		return piece.getMaxDistance() >= distance && piece.getValidDirections().contains(direction);
+		boolean contains = false;
+		for (Direction validDirection : piece.getValidDirections())
+			if (validDirection == direction)
+				contains = true;
+		return piece.getMaxDistance() >= distance && contains;
+	}
+
+	/**
+	 * 1 Emperor
+	 * 1 General
+	 * 1 Scholar
+	 * 2 Merchants
+	 * 3 Thieves
+	 * 4 Lancers
+	 * 5 Archers
+	 * 8 Spearman
+	 */
+	static ArrayList<Piece> getPiecesList() {
+		ArrayList<Piece> pieceList = new ArrayList<>();
+		pieceList.add(new Emperor());
+		pieceList.add(new General());
+		pieceList.add(new Scholar());
+		pieceList.add(new Merchant());
+		pieceList.add(new Merchant());
+		pieceList.add(new Thief());
+		pieceList.add(new Thief());
+		pieceList.add(new Thief());
+		pieceList.add(new Lancer());
+		pieceList.add(new Lancer());
+		pieceList.add(new Lancer());
+		pieceList.add(new Lancer());
+		return pieceList;
 	}
 }

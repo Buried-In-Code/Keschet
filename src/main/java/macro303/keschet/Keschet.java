@@ -18,16 +18,16 @@ public abstract class Keschet {
 
 	public static void main(String... args) {
 		board = new Board();
-		team1 = new Team(Colour.BLUE);
-		team2 = new Team(Colour.RED);
+		/*team1 = new Team(Colour.BLUE);
+		team2 = new Team(Colour.RED);*/
 		placePieces();
 	}
 
 	private static void placePieces() {
-		for (int i = 0; i < team1.getPieces().size(); i++) {
+		/*for (int i = 0; i < team1.getPieces().size(); i++) {
 			placePiece(team1.getPieces().get(i));
 			placePiece(team2.getPieces().get(i));
-		}
+		}*/
 	}
 
 	private static void placePiece(@NotNull Piece piece) {

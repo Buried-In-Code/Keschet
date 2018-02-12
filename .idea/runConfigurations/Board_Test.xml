@@ -1,12 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Board_Test" type="JUnit" factoryName="JUnit" singleton="true" nameIsGenerated="true">
     <module name="keschet" />
-    <extension name="coverage">
-      <pattern>
-        <option name="PATTERN" value="macro303.keschet.board.*" />
-        <option name="ENABLED" value="true" />
-      </pattern>
-    </extension>
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <option name="PACKAGE_NAME" value="macro303.keschet.board" />

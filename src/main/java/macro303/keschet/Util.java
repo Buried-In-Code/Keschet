@@ -17,7 +17,7 @@ public abstract class Util {
 	private static final Logger LOGGER = LogManager.getLogger(Util.class);
 
 	@NotNull
-	static Direction calculateDirection(Coordinates start, Coordinates end) {
+	public static Direction calculateDirection(Coordinates start, Coordinates end) {
 		int horizontal = end.getRow() - start.getRow();
 		int vertical = end.getCol() - start.getCol();
 		boolean diagonal = Math.abs(horizontal) == Math.abs(vertical);
@@ -45,11 +45,11 @@ public abstract class Util {
 		return INVALID;
 	}
 
-	static int calculateDistance(Coordinates start, Coordinates end) {
+	public static int calculateDistance(Coordinates start, Coordinates end) {
 		return calculateDistance(start, end, calculateDirection(start, end));
 	}
 
-	static int calculateDistance(Coordinates start, Coordinates end, Direction direction) {
+	public static int calculateDistance(Coordinates start, Coordinates end, Direction direction) {
 		switch (direction) {
 			case EAST:
 			case WEST:
@@ -67,38 +67,11 @@ public abstract class Util {
 		}
 	}
 
-	static boolean validMovement(Piece piece, Direction direction, int distance) {
+	public static boolean validMovement(Piece piece, Direction direction, int distance) {
 		boolean contains = false;
 		for (Direction validDirection : piece.getValidDirections())
 			if (validDirection == direction)
 				contains = true;
 		return piece.getMaxDistance() >= distance && contains;
-	}
-
-	/**
-	 * 1 Emperor
-	 * 1 General
-	 * 1 Scholar
-	 * 2 Merchants
-	 * 3 Thieves
-	 * 4 Lancers
-	 * 5 Archers
-	 * 8 Spearman
-	 */
-	static ArrayList<Piece> getPiecesList() {
-		ArrayList<Piece> pieceList = new ArrayList<>();
-		pieceList.add(new Emperor());
-		pieceList.add(new General());
-		pieceList.add(new Scholar());
-		pieceList.add(new Merchant());
-		pieceList.add(new Merchant());
-		pieceList.add(new Thief());
-		pieceList.add(new Thief());
-		pieceList.add(new Thief());
-		pieceList.add(new Lancer());
-		pieceList.add(new Lancer());
-		pieceList.add(new Lancer());
-		pieceList.add(new Lancer());
-		return pieceList;
 	}
 }

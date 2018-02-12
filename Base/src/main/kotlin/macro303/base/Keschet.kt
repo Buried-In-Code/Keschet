@@ -200,9 +200,9 @@ object Keschet {
 		val team2Count = board.countPieces(team = team2)
 		val team2EmperorAlive = board.pieceStillOnBoard(clazz = Emperor::class.java, teamColour = team2.colour)
 		if (team1Count <= 0 || !team1EmperorAlive)
-			Console.showTitle(title = "${team2.colour.name} Team Wins", colour = team2.colour)
+			Console.showTitle(title = "${team2.colour.name} Player Wins", colour = team2.colour)
 		if (team2Count <= 0 || !team2EmperorAlive)
-			Console.showTitle(title = "${team1.colour.name} Team Wins", colour = team1.colour)
+			Console.showTitle(title = "${team1.colour.name} Player Wins", colour = team1.colour)
 		val endGame = team1Count == 0 || !team1EmperorAlive || team2Count == 0 || !team2EmperorAlive
 		LOGGER.trace("boolean checkWinCondition() = $endGame")
 		return endGame

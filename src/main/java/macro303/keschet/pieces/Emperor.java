@@ -11,7 +11,8 @@ import static macro303.keschet.Direction.*;
  */
 public class Emperor extends Piece {
 	@NotNull
-	private static final String symbol = "\u265A";
+//	private static final String symbol = "\u265A";
+	private static final String symbol = "E";
 	private static final int maxDistance = 4;
 	@NotNull
 	private static final Direction[] validDirections = new Direction[]{NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST};

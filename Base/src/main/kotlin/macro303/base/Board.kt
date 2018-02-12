@@ -31,7 +31,7 @@ class Board : IBoard {
 	override fun countPieces(team: Team): Int {
 		var counter = 0
 		board.forEach { it -> counter += it.count { it.piece != null && it.piece?.teamColour == team.colour && it.piece !is Emperor } }
-		LOGGER.trace("int countPieces(Team) = $counter")
+		LOGGER.trace("int countPieces(Player) = $counter")
 		return counter
 	}
 

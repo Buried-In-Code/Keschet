@@ -11,7 +11,8 @@ import static macro303.keschet.Direction.*;
  */
 public class General extends Piece {
 	@NotNull
-	private static final String symbol = "\uD83C\uDF96";
+//	private static final String symbol = "\uD83C\uDF96";
+	private static final String symbol = "G";
 	private static final int maxDistance = 10;
 	@NotNull
 	private static final Direction[] validDirections = new Direction[]{NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST};

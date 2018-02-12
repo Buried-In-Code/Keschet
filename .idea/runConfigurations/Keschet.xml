@@ -2,12 +2,6 @@
   <configuration default="false" name="Keschet" type="Application" factoryName="Application" singleton="true" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="macro303.keschet.Keschet" />
     <module name="keschet" />
-    <extension name="coverage">
-      <pattern>
-        <option name="PATTERN" value="macro303.keschet.*" />
-        <option name="ENABLED" value="true" />
-      </pattern>
-    </extension>
     <method />
   </configuration>
 </component>

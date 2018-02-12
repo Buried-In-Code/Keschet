@@ -6,6 +6,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Scanner;
 
+/**
+ * Created by Macro303 on 2018-02-08.
+ */
 public abstract class Reader {
 	private static final Logger LOGGER = LogManager.getLogger(Reader.class);
 	private static final Scanner reader = new Scanner(System.in);

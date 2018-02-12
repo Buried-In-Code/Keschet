@@ -7,26 +7,26 @@ import org.jetbrains.annotations.NotNull;
 import static macro303.keschet.Direction.*;
 
 /**
- * Created by Macro303 on 2018-02-09.
+ * Created by Macro303 on 2018-02-12.
  */
-public class Scholar extends Piece {
+public class Spearman extends Piece {
 	@NotNull
-//	private static final String symbol = "\uD83D\uDCDA";
-	private static final String symbol = "C";
+//	private static final String symbol = "\u2694";
+	private static final String symbol = "P";
 	private static final int maxDistance = 2;
 	@NotNull
-	private static final Direction[] validDirections = new Direction[]{NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST};
+	private static final Direction[] validDirections = new Direction[]{NORTH, EAST, SOUTH, WEST};
 
-	public Scholar(@NotNull Colour teamColour) {
+	public Spearman(@NotNull Colour teamColour) {
 		super(teamColour, maxDistance, symbol, validDirections);
 	}
 
-	public Scholar() {
+	public Spearman() {
 		super(maxDistance, symbol, validDirections);
 	}
 
 	@Override
 	public String toString() {
-		return "Scholar{}";
+		return "Spearman{}";
 	}
 }

@@ -103,20 +103,29 @@ public abstract class Keschet {
 		boolean selected = false;
 		do {
 			Coordinates moveFrom = player.selectPiece(board);
-			Square location = board.getSquare(moveFrom);
-			if (location != null && location.getPiece() != null && location.getPiece().getTeamColour() == player.getColour()) {
-				Coordinates moveTo = player.movePieceTo(board, location.getPiece());
-				boolean validMovement = Util.validMovement(location.getPiece(), Util.calculateDirection(moveFrom, moveTo), Util.calculateDistance(moveFrom, moveTo));
-				if (validMovement) {
-					selected = true;
+			Square fromLocation = board.getSquare(moveFrom);
+			if (fromLocation != null && fromLocation.getPiece() != null && fromLocation.getPiece().getTeamColour() == player.getColour()) {
+				Coordinates moveTo = player.movePieceTo(board, fromLocation.getPiece());
+				Square toLocation = board.getSquare(moveTo);
+				if (toLocation != null && (toLocation.getPiece() == null || toLocation.getPiece().getTeamColour() != player.getColour())) {
+					boolean validMovement = Util.validMovement(fromLocation.getPiece(), Util.calculateDirection(moveFrom, moveTo), Util.calculateDistance(moveFrom, moveTo));
+					if (validMovement) {
+						selected = true;
+					} else {
+						player.showInfo("That is an invalid move try again");
+					}
+				} else if (toLocation == null) {
+					player.showInfo("Must be placed on the board (0-9)");
+				} else if (toLocation.getPiece() != null && toLocation.getPiece().getTeamColour() == player.getColour()) {
+					player.showInfo("That's your piece, you can't take your own piece");
 				} else {
-					player.showInfo("That is an invalid move try again");
+					player.showWarning("You did something wrong. Call the Wizard!");
 				}
-			} else if (location == null) {
+			} else if (fromLocation == null) {
 				player.showInfo("Must be placed on the board (0-9)");
-			} else if (location.getPiece() == null) {
+			} else if (fromLocation.getPiece() == null) {
 				player.showInfo("No Piece at that location");
-			} else if (location.getPiece().getTeamColour() != player.getColour()) {
+			} else if (fromLocation.getPiece().getTeamColour() != player.getColour()) {
 				player.showInfo("That's not your piece, put it back");
 			} else {
 				player.showWarning("You did something wrong. Call the Wizard!");

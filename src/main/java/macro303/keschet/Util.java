@@ -1,11 +1,9 @@
 package macro303.keschet;
 
-import macro303.keschet.pieces.*;
+import macro303.keschet.pieces.Piece;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 
 import static macro303.keschet.Direction.*;
 

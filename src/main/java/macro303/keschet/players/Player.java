@@ -31,6 +31,10 @@ public abstract class Player {
 	@NotNull
 	public abstract Coordinates movePieceTo(@NotNull Board board, @NotNull Piece piece);
 
+	public abstract void showInfo(@NotNull String message);
+
+	public abstract void showWarning(@NotNull String message);
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

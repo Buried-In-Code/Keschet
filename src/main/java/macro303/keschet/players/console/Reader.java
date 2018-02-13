@@ -1,5 +1,6 @@
-package macro303.keschet;
+package macro303.keschet.players.console;
 
+import macro303.keschet.Colour;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -15,8 +16,10 @@ public abstract class Reader {
 
 	@NotNull
 	public static String readConsole(String prompt) {
+		System.out.print(Colour.CYAN.getColourCode());
 		System.out.println(prompt);
 		System.out.print("> ");
+		System.out.print(Colour.RESET.getColourCode());
 		return reader.nextLine().trim();
 	}
 }

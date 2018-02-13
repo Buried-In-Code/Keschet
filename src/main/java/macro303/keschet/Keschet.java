@@ -23,7 +23,15 @@ public abstract class Keschet {
 		player1 = new ConsolePlayer(Colour.BLUE);
 		player2 = new ConsolePlayer(Colour.RED);
 		placePieces();
-		board.draw();
+		boolean finished;
+		do {
+			executeTurn(player1);
+			finished = checkWinCondition();
+			if (!finished) {
+				executeTurn(player2);
+				finished = checkWinCondition();
+			}
+		} while (!finished);
 	}
 
 	private static void placePieces() {
@@ -79,12 +87,52 @@ public abstract class Keschet {
 				location.setPiece(piece);
 				placed = true;
 			} else if (location == null) {
-				LOGGER.info("Must be placed on the board (0-9)");
+				player.showInfo("Must be placed on the board (0-9)");
 			} else if (location.getPiece() != null) {
-				LOGGER.info("Must be placed on an empty square");
+				player.showInfo("Must be placed on an empty square");
+			} else if ((player != player1 || selected.getRow() >= 3) && (player != player2 || selected.getRow() <= 6)) {
+				player.showInfo("Must be placed within 3 rows on your side");
 			} else {
-				LOGGER.info("Invalid Placement. Place within 3 rows on your side");
+				player.showWarning("You did something wrong. Call the Wizard!");
 			}
 		} while (!placed);
+	}
+
+	private static void executeTurn(@NotNull Player player) {
+		board.draw();
+		boolean selected = false;
+		do {
+			Coordinates moveFrom = player.selectPiece(board);
+			Square location = board.getSquare(moveFrom);
+			if (location != null && location.getPiece() != null && location.getPiece().getTeamColour() == player.getColour()) {
+				Coordinates moveTo = player.movePieceTo(board, location.getPiece());
+				boolean validMovement = Util.validMovement(location.getPiece(), Util.calculateDirection(moveFrom, moveTo), Util.calculateDistance(moveFrom, moveTo));
+				if (validMovement) {
+					selected = true;
+				} else {
+					player.showInfo("That is an invalid move try again");
+				}
+			} else if (location == null) {
+				player.showInfo("Must be placed on the board (0-9)");
+			} else if (location.getPiece() == null) {
+				player.showInfo("No Piece at that location");
+			} else if (location.getPiece().getTeamColour() != player.getColour()) {
+				player.showInfo("That's not your piece, put it back");
+			} else {
+				player.showWarning("You did something wrong. Call the Wizard!");
+			}
+		} while (!selected);
+	}
+
+	private static boolean checkWinCondition() {
+		int player1Count = board.countPieces(player1);
+		boolean player1Emperor = board.findPiece(Emperor.class, player1) != null;
+		int player2Count = board.countPieces(player2);
+		boolean player2Emperor = board.findPiece(Emperor.class, player2) != null;
+		if (player1Count <= 1 || !player1Emperor)
+			player2.showInfo("Player 2 Wins");
+		if (player2Count <= 1 || !player2Emperor)
+			player2.showInfo("Player 1 Wins");
+		return player1Count <= 1 || !player1Emperor || player2Count <= 1 || !player2Emperor;
 	}
 }

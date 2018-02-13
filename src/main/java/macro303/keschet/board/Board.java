@@ -3,6 +3,7 @@ package macro303.keschet.board;
 import macro303.keschet.Colour;
 import macro303.keschet.Coordinates;
 import macro303.keschet.Util;
+import macro303.keschet.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +30,7 @@ public class Board {
 	public void draw(boolean teamSides) {
 		for (int row = -1; row < Util.SIZE; row++) {
 			for (int col = -1; col < Util.SIZE; col++) {
-				System.out.print(Colour.CYAN.getColourCode());
+				System.out.print(Colour.GREEN.getColourCode());
 				if (row == -1 && col == -1)
 					System.out.print("  ");
 				else if (col == -1)
@@ -58,9 +59,36 @@ public class Board {
 	}
 
 	@Nullable
-	public Square getSquare(Coordinates location) {
+	public Square getSquare(@NotNull Coordinates location) {
 		if (location.getRow() < 0 || location.getRow() >= Util.SIZE || location.getCol() < 0 || location.getCol() >= Util.SIZE)
 			return null;
 		return board[location.getCol()][location.getRow()];
+	}
+
+	public int countPieces(@NotNull Player player) {
+		int counter = 0;
+		for (int row = 0; row < Util.SIZE; row++) {
+			for (int col = 0; col < Util.SIZE; col++) {
+				Square location = getSquare(new Coordinates(row, col));
+				assert location != null;
+				if (location.getPiece() != null && location.getPiece().getTeamColour() == player.getColour())
+					counter++;
+			}
+		}
+		return counter;
+	}
+
+	@Nullable
+	public Square findPiece(@NotNull Class clazz, @NotNull Player player) {
+		Square temp = null;
+		for (int row = 0; row < Util.SIZE; row++) {
+			for (int col = 0; col < Util.SIZE; col++) {
+				Square location = getSquare(new Coordinates(row, col));
+				assert location != null;
+				if (location.getPiece() != null && location.getPiece().getClass().equals(clazz) && location.getPiece().getTeamColour() == player.getColour())
+					temp = location;
+			}
+		}
+		return temp;
 	}
 }

@@ -35,6 +35,8 @@ public abstract class Player {
 
 	public abstract void showWarning(@NotNull String message);
 
+	public abstract void drawBoard(@NotNull Board board, boolean colourSides);
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

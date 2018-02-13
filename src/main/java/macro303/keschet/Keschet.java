@@ -78,7 +78,7 @@ public abstract class Keschet {
 	}
 
 	private static void placePiece(@NotNull Player player, @NotNull Piece piece) {
-		board.draw(true);
+		player.drawBoard(board, true);
 		boolean placed = false;
 		do {
 			Coordinates selected = player.placePiece(board, piece);
@@ -99,7 +99,7 @@ public abstract class Keschet {
 	}
 
 	private static void executeTurn(@NotNull Player player) {
-		board.draw();
+		player.drawBoard(board, false);
 		boolean selected = false;
 		do {
 			Coordinates moveFrom = player.selectPiece(board);

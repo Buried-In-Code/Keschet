@@ -3,6 +3,7 @@ package macro303.keschet.players;
 import macro303.keschet.Colour;
 import macro303.keschet.Coordinates;
 import macro303.keschet.board.Board;
+import macro303.keschet.display.Display;
 import macro303.keschet.pieces.Piece;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,15 +12,23 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class Player {
 	@NotNull
-	private final Colour colour;
+	protected final Display display;
+	@NotNull
+	protected final Colour colour;
 
-	protected Player(@NotNull Colour colour) {
+	protected Player(@NotNull Display display, @NotNull Colour colour) {
+		this.display = display;
 		this.colour = colour;
 	}
 
 	@NotNull
 	public Colour getColour() {
 		return colour;
+	}
+
+	@NotNull
+	public Display getDisplay() {
+		return display;
 	}
 
 	@NotNull
@@ -31,12 +40,6 @@ public abstract class Player {
 	@NotNull
 	public abstract Coordinates movePieceTo(@NotNull Board board, @NotNull Piece piece);
 
-	public abstract void showInfo(@NotNull String message);
-
-	public abstract void showWarning(@NotNull String message);
-
-	public abstract void drawBoard(@NotNull Board board, boolean colourSides);
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -44,18 +47,22 @@ public abstract class Player {
 
 		Player player = (Player) o;
 
+		if (!display.equals(player.display)) return false;
 		return colour == player.colour;
 	}
 
 	@Override
 	public int hashCode() {
-		return colour.hashCode();
+		int result = display.hashCode();
+		result = 31 * result + colour.hashCode();
+		return result;
 	}
 
 	@Override
 	public String toString() {
 		return "Player{" +
-				"colour=" + colour +
+				"display=" + display +
+				", colour=" + colour +
 				'}';
 	}
 }

@@ -22,76 +22,76 @@ public class Board_Test {
 	}
 
 	@Before
-	public void before(){
+	public void before() {
 		board = new Board();
 	}
 
 	@After
-	public void after(){
+	public void after() {
 		board = null;
 	}
 
 	@Test
-	public void test_invalidBothMinimumGetSquare(){
+	public void test_invalidBothMinimumGetSquare() {
 		Coordinates location = new Coordinates(-1, -1);
 		Square square = board.getSquare(location);
 		LOGGER.debug("Invalid Both Minimum: " + square);
-		assert(square == null);
+		assert square == null;
 	}
 
 	@Test
-	public void test_edgeMinimumGetSquare(){
+	public void test_edgeMinimumGetSquare() {
 		Coordinates location = new Coordinates(0, 0);
 		Square square = board.getSquare(location);
 		LOGGER.debug("Edge Minimum: " + square);
-		assert(square != null);
+		assert square != null;
 	}
 
 	@Test
-	public void test_invalidRowMinimumGetSquare(){
+	public void test_invalidRowMinimumGetSquare() {
 		Coordinates location = new Coordinates(-1, 0);
 		Square square = board.getSquare(location);
 		LOGGER.debug("Invalid Row Minimum: " + square);
-		assert(square == null);
+		assert square == null;
 	}
 
 	@Test
-	public void test_invalidColMinimumGetSquare(){
+	public void test_invalidColMinimumGetSquare() {
 		Coordinates location = new Coordinates(0, -1);
 		Square square = board.getSquare(location);
 		LOGGER.debug("Invalid Col Minimum: " + square);
-		assert(square == null);
+		assert square == null;
 	}
 
 	@Test
-	public void test_invalidBothMaximumGetSquare(){
+	public void test_invalidBothMaximumGetSquare() {
 		Coordinates location = new Coordinates(10, 10);
 		Square square = board.getSquare(location);
 		LOGGER.debug("Invalid Both Maximum: " + square);
-		assert(square == null);
+		assert square == null;
 	}
 
 	@Test
-	public void test_edgeMaximumGetSquare(){
+	public void test_edgeMaximumGetSquare() {
 		Coordinates location = new Coordinates(9, 9);
 		Square square = board.getSquare(location);
 		LOGGER.debug("Edge Maximum: " + square);
-		assert(square != null);
+		assert square != null;
 	}
 
 	@Test
-	public void test_invalidRowMaximumGetSquare(){
+	public void test_invalidRowMaximumGetSquare() {
 		Coordinates location = new Coordinates(10, 9);
 		Square square = board.getSquare(location);
 		LOGGER.debug("Invalid Row Maximum: " + square);
-		assert(square == null);
+		assert square == null;
 	}
 
 	@Test
-	public void test_invalidColMaximumGetSquare(){
+	public void test_invalidColMaximumGetSquare() {
 		Coordinates location = new Coordinates(9, 10);
 		Square square = board.getSquare(location);
 		LOGGER.debug("Invalid Col Maximum: " + square);
-		assert(square == null);
+		assert square == null;
 	}
 }

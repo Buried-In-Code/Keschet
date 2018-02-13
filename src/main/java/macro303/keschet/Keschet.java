@@ -6,6 +6,7 @@ import macro303.keschet.pieces.*;
 import macro303.keschet.players.Player;
 import macro303.keschet.players.console.ConsolePlayer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
@@ -17,7 +18,7 @@ public abstract class Keschet {
 	private static Player player2;
 	private static Board board;
 
-	public static void main(String... args) {
+	public static void main(@Nullable String... args) {
 		board = new Board();
 		setPlayers();
 		placePieces();

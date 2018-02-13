@@ -1,4 +1,4 @@
-package macro303.keschet.display;
+package macro303.keschet.display.console;
 
 import macro303.keschet.Colour;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +12,7 @@ import java.util.Scanner;
  */
 public abstract class Reader {
 	private static final Logger LOGGER = LogManager.getLogger(Reader.class);
+	@NotNull
 	private static final Scanner reader = new Scanner(System.in);
 
 	@NotNull

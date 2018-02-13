@@ -3,18 +3,20 @@ package macro303.keschet.players.console;
 import macro303.keschet.Colour;
 import macro303.keschet.Coordinates;
 import macro303.keschet.board.Board;
-import macro303.keschet.display.Console;
+import macro303.keschet.display.console.Console;
 import macro303.keschet.pieces.Piece;
 import macro303.keschet.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Macro303 on 2018-02-12.
  */
 public class ConsolePlayer extends Player {
 	private static final Logger LOGGER = LogManager.getLogger(ConsolePlayer.class);
+	@Nullable
 	private Piece currentPiece = null;
 
 	public ConsolePlayer(@NotNull Colour colour) {

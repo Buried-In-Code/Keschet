@@ -1,10 +1,11 @@
-package macro303.keschet.display;
+package macro303.keschet.display.console;
 
 import macro303.keschet.Colour;
 import macro303.keschet.Coordinates;
 import macro303.keschet.Util;
 import macro303.keschet.board.Board;
 import macro303.keschet.board.Square;
+import macro303.keschet.display.Display;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Created by Macro303 on 2018-02-14.
+ */
 public class Console implements Display {
 	private static final Logger LOGGER = LogManager.getLogger(Console.class);
 

@@ -4,6 +4,7 @@ import macro303.keschet.board.Board;
 import macro303.keschet.board.Square;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,120 +14,101 @@ import org.junit.Test;
 public class Direction_Test {
 	private static final Logger LOGGER = LogManager.getLogger(Direction_Test.class);
 	private static Board board;
+	private static Square start;
 
 	@BeforeClass
 	public static void beforeClass() {
 		Tester.getInstance().setTesting(true);
 		board = new Board();
+		start = board.getSquare(new Coordinates(2, 2));
+		assert start != null;
 	}
 
 	@Test
 	public void test_northDirection() {
-		Square start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
 		Square end = board.getSquare(new Coordinates(2, 1));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
 		LOGGER.debug("North Direction: " + direction);
-		assert direction == Direction.NORTH;
+		Assert.assertEquals(Direction.NORTH, direction);
 	}
 
 	@Test
 	public void test_northEastDirection() {
-		Square start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
 		Square end = board.getSquare(new Coordinates(3, 1));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
 		LOGGER.debug("North-East Direction: " + direction);
-		assert direction == Direction.NORTH_EAST;
+		Assert.assertEquals(Direction.NORTH_EAST, direction);
 	}
 
 	@Test
 	public void test_eastDirection() {
-		Square start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
 		Square end = board.getSquare(new Coordinates(3, 2));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
 		LOGGER.debug("East Direction: " + direction);
-		assert direction == Direction.EAST;
+		Assert.assertEquals(Direction.EAST, direction);
 	}
 
 	@Test
 	public void test_southEastDirection() {
-		Square start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
 		Square end = board.getSquare(new Coordinates(3, 3));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
 		LOGGER.debug("South-East Direction: " + direction);
-		assert direction == Direction.SOUTH_EAST;
+		Assert.assertEquals(Direction.SOUTH_EAST, direction);
 	}
 
 	@Test
 	public void test_southDirection() {
-		Square start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
 		Square end = board.getSquare(new Coordinates(2, 3));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
 		LOGGER.debug("South Direction: " + direction);
-		assert direction == Direction.SOUTH;
+		Assert.assertEquals(Direction.SOUTH, direction);
 	}
 
 	@Test
 	public void test_southWestDirection() {
-		Square start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
 		Square end = board.getSquare(new Coordinates(1, 3));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
 		LOGGER.debug("South-West Direction: " + direction);
-		assert direction == Direction.SOUTH_WEST;
+		Assert.assertEquals(Direction.SOUTH_WEST, direction);
 	}
 
 	@Test
 	public void test_westDirection() {
-		Square start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
 		Square end = board.getSquare(new Coordinates(1, 2));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
 		LOGGER.debug("West Direction: " + direction);
-		assert direction == Direction.WEST;
+		Assert.assertEquals(Direction.WEST, direction);
 	}
 
 	@Test
 	public void test_northWestDirection() {
-		Square start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
 		Square end = board.getSquare(new Coordinates(1, 1));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
 		LOGGER.debug("North-West Direction: " + direction);
-		assert direction == Direction.NORTH_WEST;
+		Assert.assertEquals(Direction.NORTH_WEST, direction);
 	}
 
 	@Test
 	public void test_invalidDirection() {
-		Square start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
 		Square end = board.getSquare(new Coordinates(4, 3));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
 		LOGGER.debug("Invalid Direction: " + direction);
-		assert direction == Direction.INVALID;
+		Assert.assertEquals(Direction.INVALID, direction);
 	}
 
 	@Test
 	public void test_noDirection() {
-		Square start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
-		Square end = board.getSquare(new Coordinates(2, 2));
-		assert end != null;
-		Direction direction = Util.calculateDirection(start, end);
+		Direction direction = Util.calculateDirection(start, start);
 		LOGGER.debug("No Direction: " + direction);
-		assert direction == Direction.INVALID;
+		Assert.assertEquals(Direction.INVALID, direction);
 	}
 }

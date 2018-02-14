@@ -64,17 +64,14 @@ public class Console implements Display {
 				} else {
 					Square square = board.getSquare(new Coordinates(row, col));
 					assert square != null;
+					System.out.print(Colour.YELLOW.getColourCode());
 					if (colourSides) {
 						if (row < 3) {
 							System.out.print(Colour.BLUE.getColourCode());
 						} else if (row > 6) {
 							System.out.print(Colour.RED.getColourCode());
-						} else {
-							System.out.print(Colour.YELLOW.getColourCode());
 						}
-					} else if (square.getPiece() == null) {
-						System.out.print(Colour.YELLOW.getColourCode());
-					} else {
+					} else if (square.getPiece() != null) {
 						System.out.print(square.getPiece().getTeamColour().getColourCode());
 					}
 					if (square.getPiece() == null) {
@@ -90,9 +87,9 @@ public class Console implements Display {
 	}
 
 	@Override
-	public void drawBoard(@NotNull Board board, @NotNull Piece piece) {
-		Square location = board.findPiece(piece);
-		assert location != null;
+	public void drawBoard(@NotNull Board board, @NotNull Square location) {
+		Piece piece = location.getPiece();
+		assert piece != null;
 		for (int row = -1; row < Util.SIZE; row++) {
 			for (int col = -1; col < Util.SIZE; col++) {
 				System.out.print(Colour.GREEN.getColourCode());
@@ -105,12 +102,11 @@ public class Console implements Display {
 				} else {
 					Square square = board.getSquare(new Coordinates(row, col));
 					assert square != null;
-					boolean valid = Util.validMovement(piece, location, square);
+					System.out.print(Colour.YELLOW.getColourCode());
+					boolean valid = Util.validMovement(board, location, square);
 					if (valid) {
 						System.out.print(Colour.CYAN.getColourCode());
-					} else if (square.getPiece() == null) {
-						System.out.print(Colour.YELLOW.getColourCode());
-					} else {
+					} else if (square.getPiece() != null) {
 						System.out.print(square.getPiece().getTeamColour().getColourCode());
 					}
 					if (square.getPiece() == null) {

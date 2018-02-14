@@ -2,6 +2,7 @@ package macro303.keschet.display;
 
 import macro303.keschet.Coordinates;
 import macro303.keschet.board.Board;
+import macro303.keschet.board.Square;
 import macro303.keschet.pieces.Piece;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +18,7 @@ public interface Display {
 
 	void drawBoard(@NotNull Board board, boolean colourSides);
 
-	void drawBoard(@NotNull Board board, @NotNull Piece piece);
+	void drawBoard(@NotNull Board board, @NotNull Square location);
 
 	@NotNull
 	Coordinates requestLocation();

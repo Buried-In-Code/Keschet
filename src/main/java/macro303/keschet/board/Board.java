@@ -57,18 +57,4 @@ public class Board {
 		}
 		return temp;
 	}
-
-	@Nullable
-	public Square findPiece(@NotNull Piece piece) {
-		Square temp = null;
-		for (int row = 0; row < Util.SIZE; row++) {
-			for (int col = 0; col < Util.SIZE; col++) {
-				Square location = getSquare(new Coordinates(row, col));
-				assert location != null;
-				if (location.getPiece() != null && location.getPiece().equals(piece))
-					temp = location;
-			}
-		}
-		return temp;
-	}
 }

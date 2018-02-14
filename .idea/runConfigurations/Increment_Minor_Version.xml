@@ -16,6 +16,7 @@
               <option value="versions:commit" />
             </list>
           </option>
+          <option name="pomFileName" />
           <option name="profilesMap">
             <map />
           </option>
@@ -24,6 +25,8 @@
         </MavenRunnerParameters>
       </option>
     </MavenSettings>
-    <method />
+    <method>
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="test" />
+    </method>
   </configuration>
 </component>

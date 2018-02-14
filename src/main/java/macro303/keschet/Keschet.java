@@ -123,11 +123,11 @@ public abstract class Keschet {
 			Coordinates moveFrom = player.selectPiece(board);
 			Square fromLocation = board.getSquare(moveFrom);
 			if (fromLocation != null && fromLocation.getPiece() != null && fromLocation.getPiece().getTeamColour() == player.getTeamColour()) {
-				player.getDisplay().drawBoard(board, fromLocation.getPiece());
+				player.getDisplay().drawBoard(board, fromLocation);
 				Coordinates moveTo = player.movePieceTo(board, fromLocation.getPiece());
 				Square toLocation = board.getSquare(moveTo);
 				if (toLocation != null && (toLocation.getPiece() == null || toLocation.getPiece().getTeamColour() != player.getTeamColour())) {
-					boolean validMovement = Util.validMovement(fromLocation.getPiece(), fromLocation, toLocation);
+					boolean validMovement = Util.validMovement(board, fromLocation, toLocation);
 					if (validMovement) {
 						toLocation.setPiece(fromLocation.getPiece());
 						fromLocation.setPiece(null);

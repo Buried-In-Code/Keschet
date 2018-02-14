@@ -19,8 +19,8 @@ public class ConsolePlayer extends Player {
 	@Nullable
 	private Piece currentPiece = null;
 
-	public ConsolePlayer(@NotNull Colour colour) {
-		super(new Console(), colour);
+	public ConsolePlayer(@NotNull String name, @NotNull Colour colour) {
+		super(name, new Console(), colour);
 	}
 
 	@NotNull

@@ -2,7 +2,8 @@ package macro303.keschet;
 
 import macro303.keschet.board.Board;
 import macro303.keschet.board.Square;
-import macro303.keschet.pieces.*;
+import macro303.keschet.pieces.Emperor;
+import macro303.keschet.pieces.Piece;
 import macro303.keschet.players.Player;
 import macro303.keschet.players.console.ConsolePlayer;
 import org.jetbrains.annotations.NotNull;
@@ -28,13 +29,14 @@ public abstract class Keschet {
 	private static void setPlayers() {
 		//Randomize Player Order
 		if (new Random().nextInt(2) == 0) {
-			player1 = new ConsolePlayer(Colour.BLUE);
-			player2 = new ConsolePlayer(Colour.RED);
+			player1 = new ConsolePlayer("Jonah", Colour.BLUE);
+			player2 = new ConsolePlayer("Hanoj", Colour.RED);
 		} else {
-			player1 = new ConsolePlayer(Colour.BLUE);
-			player2 = new ConsolePlayer(Colour.RED);
+			player1 = new ConsolePlayer("Hanoj", Colour.BLUE);
+			player2 = new ConsolePlayer("Jonah", Colour.RED);
 		}
-
+		player1.getDisplay().showInfo(player1.getName() + " is Player 1: " + player1.getColour().name());
+		player2.getDisplay().showInfo(player2.getName() + " is Player 2: " + player2.getColour().name());
 	}
 
 	private static void placePieces() {
@@ -44,7 +46,7 @@ public abstract class Keschet {
 			placePiece(player2, new Emperor(player2.getColour()));
 		}
 //		1 General
-		for (int i = 0; i < 1; i++) {
+		/*for (int i = 0; i < 1; i++) {
 			placePiece(player1, new General(player1.getColour()));
 			placePiece(player2, new General(player2.getColour()));
 		}
@@ -77,7 +79,7 @@ public abstract class Keschet {
 		for (int i = 0; i < 8; i++) {
 			placePiece(player1, new Spearman(player1.getColour()));
 			placePiece(player2, new Spearman(player2.getColour()));
-		}
+		}*/
 	}
 
 	private static void placePiece(@NotNull Player player, @NotNull Piece piece) {
@@ -154,9 +156,9 @@ public abstract class Keschet {
 		int player2Count = board.countPieces(player2);
 		boolean player2Emperor = board.findPiece(Emperor.class, player2) != null;
 		if (player1Count <= 1 || !player1Emperor)
-			player2.getDisplay().showInfo("Player 2 Wins");
+			player2.getDisplay().showInfo(player2.getName() + " Wins");
 		if (player2Count <= 1 || !player2Emperor)
-			player2.getDisplay().showInfo("Player 1 Wins");
+			player2.getDisplay().showInfo(player1.getName() + " Wins");
 		return player1Count <= 1 || !player1Emperor || player2Count <= 1 || !player2Emperor;
 	}
 }

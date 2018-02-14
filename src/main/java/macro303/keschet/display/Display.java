@@ -2,6 +2,7 @@ package macro303.keschet.display;
 
 import macro303.keschet.Coordinates;
 import macro303.keschet.board.Board;
+import macro303.keschet.pieces.Piece;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,7 +13,11 @@ public interface Display {
 
 	void showWarning(@NotNull String message);
 
+	void drawBoard(@NotNull Board board);
+
 	void drawBoard(@NotNull Board board, boolean colourSides);
+
+	void drawBoard(@NotNull Board board, @NotNull Piece piece);
 
 	@NotNull
 	Coordinates requestLocation();

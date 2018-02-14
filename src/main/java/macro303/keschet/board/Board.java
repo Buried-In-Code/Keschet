@@ -1,7 +1,9 @@
 package macro303.keschet.board;
 
+import macro303.keschet.Colour;
 import macro303.keschet.Coordinates;
 import macro303.keschet.Util;
+import macro303.keschet.pieces.Piece;
 import macro303.keschet.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +21,7 @@ public class Board {
 	public Board() {
 		for (int row = 0; row < Util.SIZE; row++)
 			for (int col = 0; col < Util.SIZE; col++)
-				board[col][row] = new Square();
+				board[col][row] = new Square(new Coordinates(row, col));
 	}
 
 	@Nullable
@@ -35,7 +37,7 @@ public class Board {
 			for (int col = 0; col < Util.SIZE; col++) {
 				Square location = getSquare(new Coordinates(row, col));
 				assert location != null;
-				if (location.getPiece() != null && location.getPiece().getTeamColour() == player.getColour())
+				if (location.getPiece() != null && location.getPiece().getTeamColour() == player.getTeamColour())
 					counter++;
 			}
 		}
@@ -43,13 +45,27 @@ public class Board {
 	}
 
 	@Nullable
-	public Square findPiece(@NotNull Class clazz, @NotNull Player player) {
+	public Square findPiece(@NotNull Class clazz, @NotNull Colour teamColour) {
 		Square temp = null;
 		for (int row = 0; row < Util.SIZE; row++) {
 			for (int col = 0; col < Util.SIZE; col++) {
 				Square location = getSquare(new Coordinates(row, col));
 				assert location != null;
-				if (location.getPiece() != null && location.getPiece().getClass().equals(clazz) && location.getPiece().getTeamColour() == player.getColour())
+				if (location.getPiece() != null && location.getPiece().getClass().equals(clazz) && location.getPiece().getTeamColour() == teamColour)
+					temp = location;
+			}
+		}
+		return temp;
+	}
+
+	@Nullable
+	public Square findPiece(@NotNull Piece piece) {
+		Square temp = null;
+		for (int row = 0; row < Util.SIZE; row++) {
+			for (int col = 0; col < Util.SIZE; col++) {
+				Square location = getSquare(new Coordinates(row, col));
+				assert location != null;
+				if (location.getPiece() != null && location.getPiece().equals(piece))
 					temp = location;
 			}
 		}

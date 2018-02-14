@@ -1,6 +1,8 @@
 package macro303.keschet.board;
 
+import macro303.keschet.Coordinates;
 import macro303.keschet.pieces.Piece;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -9,6 +11,12 @@ import org.jetbrains.annotations.Nullable;
 public class Square {
 	@Nullable
 	private Piece piece = null;
+	@NotNull
+	private Coordinates location;
+
+	Square(@NotNull Coordinates location) {
+		this.location = location;
+	}
 
 	@Nullable
 	public Piece getPiece() {
@@ -19,6 +27,11 @@ public class Square {
 		this.piece = piece;
 	}
 
+	@NotNull
+	public Coordinates getLocation() {
+		return location;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -26,18 +39,22 @@ public class Square {
 
 		Square square = (Square) o;
 
-		return piece != null ? piece.equals(square.piece) : square.piece == null;
+		if (piece != null ? !piece.equals(square.piece) : square.piece != null) return false;
+		return location.equals(square.location);
 	}
 
 	@Override
 	public int hashCode() {
-		return piece != null ? piece.hashCode() : 0;
+		int result = piece != null ? piece.hashCode() : 0;
+		result = 31 * result + location.hashCode();
+		return result;
 	}
 
 	@Override
 	public String toString() {
 		return "Square{" +
 				"piece=" + piece +
+				", location=" + location +
 				'}';
 	}
 }

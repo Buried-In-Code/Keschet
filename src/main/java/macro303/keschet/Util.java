@@ -1,5 +1,6 @@
 package macro303.keschet;
 
+import macro303.keschet.board.Square;
 import macro303.keschet.pieces.Piece;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,9 +16,9 @@ public abstract class Util {
 	private static final Logger LOGGER = LogManager.getLogger(Util.class);
 
 	@NotNull
-	public static Direction calculateDirection(@NotNull Coordinates start, @NotNull Coordinates end) {
-		int horizontal = end.getRow() - start.getRow();
-		int vertical = end.getCol() - start.getCol();
+	public static Direction calculateDirection(@NotNull Square start, @NotNull Square end) {
+		int horizontal = end.getLocation().getRow() - start.getLocation().getRow();
+		int vertical = end.getLocation().getCol() - start.getLocation().getCol();
 		boolean diagonal = Math.abs(horizontal) == Math.abs(vertical);
 		if (Tester.getInstance().isTesting()) {
 			LOGGER.debug("Horizontal: " + horizontal);
@@ -43,33 +44,44 @@ public abstract class Util {
 		return INVALID;
 	}
 
-	public static int calculateDistance(@NotNull Coordinates start, @NotNull Coordinates end) {
+	public static int calculateDistance(@NotNull Square start, @NotNull Square end) {
 		return calculateDistance(start, end, calculateDirection(start, end));
 	}
 
-	public static int calculateDistance(@NotNull Coordinates start, @NotNull Coordinates end, @NotNull Direction direction) {
+	public static int calculateDistance(@NotNull Square start, @NotNull Square end, @NotNull Direction direction) {
 		switch (direction) {
 			case EAST:
 			case WEST:
-				return start.getRow() - end.getRow();
+				return start.getLocation().getRow() - end.getLocation().getRow();
 			case NORTH:
 			case SOUTH:
-				return start.getCol() - end.getCol();
+				return start.getLocation().getCol() - end.getLocation().getCol();
 			case NORTH_EAST:
 			case SOUTH_EAST:
 			case SOUTH_WEST:
 			case NORTH_WEST:
-				return start.getRow() - end.getRow();
+				return start.getLocation().getRow() - end.getLocation().getRow();
 			default:
 				return 0;
 		}
 	}
 
-	public static boolean validMovement(@NotNull Piece piece, @NotNull Direction direction, int distance) {
+	public static boolean validMovement(@NotNull Piece piece, @NotNull Square start, @NotNull Square end) {
+		Direction direction = calculateDirection(start, end);
+		int distance = calculateDistance(start, end, direction);
+		boolean exists = start.getPiece() != null && start.getPiece().equals(piece);
+		boolean selfTaking = end.getPiece() != null && end.getPiece().getTeamColour() == piece.getTeamColour();
 		boolean contains = false;
 		for (Direction validDirection : piece.getValidDirections())
 			if (validDirection == direction)
 				contains = true;
-		return piece.getMaxDistance() >= distance && contains;
+		if (Tester.getInstance().isTesting()) {
+			LOGGER.debug("Direction: " + direction);
+			LOGGER.debug("Distance: " + distance);
+			LOGGER.debug("Exists: " + exists);
+			LOGGER.debug("Self Taking: " + selfTaking);
+			LOGGER.debug("Contains: " + contains);
+		}
+		return exists && piece.getMaxDistance() >= Math.abs(distance) && Math.abs(distance) > 0 && contains && !selfTaking;
 	}
 }

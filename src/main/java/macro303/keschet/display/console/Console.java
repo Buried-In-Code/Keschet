@@ -6,6 +6,7 @@ import macro303.keschet.Util;
 import macro303.keschet.board.Board;
 import macro303.keschet.board.Square;
 import macro303.keschet.display.Display;
+import macro303.keschet.pieces.Piece;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -45,30 +46,78 @@ public class Console implements Display {
 	}
 
 	@Override
+	public void drawBoard(@NotNull Board board) {
+		drawBoard(board, false);
+	}
+
+	@Override
 	public void drawBoard(@NotNull Board board, boolean colourSides) {
 		for (int row = -1; row < Util.SIZE; row++) {
 			for (int col = -1; col < Util.SIZE; col++) {
 				System.out.print(Colour.GREEN.getColourCode());
-				if (row == -1 && col == -1)
+				if (row == -1 && col == -1) {
 					System.out.print("  ");
-				else if (col == -1)
+				} else if (col == -1) {
 					System.out.print(row + " ");
-				else if (row == -1)
+				} else if (row == -1) {
 					System.out.print(" " + col + " ");
-				else {
-					System.out.print(Colour.YELLOW.getColourCode());
-					if (colourSides) {
-						if (row < 3)
-							System.out.print(Colour.BLUE.getColourCode());
-						else if (row > 6)
-							System.out.print(Colour.RED.getColourCode());
-					}
+				} else {
 					Square square = board.getSquare(new Coordinates(row, col));
 					assert square != null;
-					if (square.getPiece() == null)
+					if (colourSides) {
+						if (row < 3) {
+							System.out.print(Colour.BLUE.getColourCode());
+						} else if (row > 6) {
+							System.out.print(Colour.RED.getColourCode());
+						} else {
+							System.out.print(Colour.YELLOW.getColourCode());
+						}
+					} else if (square.getPiece() == null) {
+						System.out.print(Colour.YELLOW.getColourCode());
+					} else {
+						System.out.print(square.getPiece().getTeamColour().getColourCode());
+					}
+					if (square.getPiece() == null) {
 						System.out.print(" ~ ");
-					else
-						System.out.print(" " + square.getPiece().getTeamColour().getColourCode() + square.getPiece().getSymbol() + " ");
+					} else {
+						System.out.print(" " + square.getPiece().getSymbol() + " ");
+					}
+				}
+			}
+			System.out.println();
+		}
+		System.out.print(Colour.RESET.getColourCode());
+	}
+
+	@Override
+	public void drawBoard(@NotNull Board board, @NotNull Piece piece) {
+		Square location = board.findPiece(piece);
+		assert location != null;
+		for (int row = -1; row < Util.SIZE; row++) {
+			for (int col = -1; col < Util.SIZE; col++) {
+				System.out.print(Colour.GREEN.getColourCode());
+				if (row == -1 && col == -1) {
+					System.out.print("  ");
+				} else if (col == -1) {
+					System.out.print(row + " ");
+				} else if (row == -1) {
+					System.out.print(" " + col + " ");
+				} else {
+					Square square = board.getSquare(new Coordinates(row, col));
+					assert square != null;
+					boolean valid = Util.validMovement(piece, location, square);
+					if (valid) {
+						System.out.print(Colour.CYAN.getColourCode());
+					} else if (square.getPiece() == null) {
+						System.out.print(Colour.YELLOW.getColourCode());
+					} else {
+						System.out.print(square.getPiece().getTeamColour().getColourCode());
+					}
+					if (square.getPiece() == null) {
+						System.out.print(" ~ ");
+					} else {
+						System.out.print(" " + square.getPiece().getSymbol() + " ");
+					}
 				}
 			}
 			System.out.println();

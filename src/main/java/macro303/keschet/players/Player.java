@@ -14,14 +14,14 @@ public abstract class Player {
 	@NotNull
 	protected final Display display;
 	@NotNull
-	protected final Colour colour;
+	protected final Colour teamColour;
 	@NotNull
 	private final String name;
 
-	protected Player(@NotNull String name, @NotNull Display display, @NotNull Colour colour) {
+	protected Player(@NotNull String name, @NotNull Display display, @NotNull Colour teamColour) {
 		this.name = name;
 		this.display = display;
-		this.colour = colour;
+		this.teamColour = teamColour;
 	}
 
 	@NotNull
@@ -30,8 +30,8 @@ public abstract class Player {
 	}
 
 	@NotNull
-	public Colour getColour() {
-		return colour;
+	public Colour getTeamColour() {
+		return teamColour;
 	}
 
 	@NotNull
@@ -56,14 +56,14 @@ public abstract class Player {
 		Player player = (Player) o;
 
 		if (!display.equals(player.display)) return false;
-		if (colour != player.colour) return false;
+		if (teamColour != player.teamColour) return false;
 		return name.equals(player.name);
 	}
 
 	@Override
 	public int hashCode() {
 		int result = display.hashCode();
-		result = 31 * result + colour.hashCode();
+		result = 31 * result + teamColour.hashCode();
 		result = 31 * result + name.hashCode();
 		return result;
 	}
@@ -72,7 +72,7 @@ public abstract class Player {
 	public String toString() {
 		return "Player{" +
 				"display=" + display +
-				", colour=" + colour +
+				", teamColour=" + teamColour +
 				", name='" + name + '\'' +
 				'}';
 	}

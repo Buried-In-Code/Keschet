@@ -2,6 +2,8 @@ package macro303.keschet;
 
 import macro303.keschet.board.Board;
 import macro303.keschet.board.Square;
+import macro303.keschet.pieces.Emperor;
+import macro303.keschet.pieces.Merchant;
 import macro303.keschet.pieces.Piece;
 import macro303.keschet.pieces.Scholar;
 import org.apache.logging.log4j.LogManager;
@@ -84,20 +86,40 @@ public abstract class Util {
 		Direction direction = calculateDirection(start, end);
 		int distance = calculateDistance(start, end, direction);
 		boolean directionValid = piece != null && validDirection(piece, direction);
-		boolean distanceValid = piece != null && validDistance(piece, distance);
-		boolean selfTaking = false;
-		boolean scholarBlocked = false;
-		boolean blocked = piece != null && checkForBlocking(board, start, direction, distance);
-		if (end.getPiece() != null) {
-			selfTaking = piece != null && end.getPiece().getTeamColour() == piece.getTeamColour();
-			scholarBlocked = piece != null && checkForScholar(board, end);
+		if (piece != null && piece.getClass() == Merchant.class) {
+			boolean blocked = checkForBlocking(board, start, direction, distance);
+			boolean selfTaking = false;
+			boolean scholarBlocked = false;
+			boolean merchantAbility = checkForEmperor(board, end, piece.getTeamColour());
+			if (!merchantAbility)
+				merchantAbility = validDistance(piece, distance);
+			if (end.getPiece() != null) {
+				selfTaking = end.getPiece().getTeamColour() == piece.getTeamColour();
+				scholarBlocked = checkForScholar(board, end);
+			}
+			LOGGER.debug("Direction: " + directionValid);
+			LOGGER.debug("Merchant Ability: " + merchantAbility);
+			LOGGER.debug("Blocked: " + blocked);
+			LOGGER.debug("Self Taking: " + selfTaking);
+			LOGGER.debug("Scholar Blocked: " + scholarBlocked);
+			return directionValid && merchantAbility && !blocked && !selfTaking && !scholarBlocked;
+		} else if (piece != null) {
+			boolean distanceValid = validDistance(piece, distance);
+			boolean blocked = checkForBlocking(board, start, direction, distance);
+			boolean selfTaking = false;
+			boolean scholarBlocked = false;
+			if (end.getPiece() != null) {
+				selfTaking = end.getPiece().getTeamColour() == piece.getTeamColour();
+				scholarBlocked = checkForScholar(board, end);
+			}
+			LOGGER.debug("Direction: " + directionValid);
+			LOGGER.debug("Distance: " + distanceValid);
+			LOGGER.debug("Blocked: " + blocked);
+			LOGGER.debug("Self Taking: " + selfTaking);
+			LOGGER.debug("Scholar Blocked: " + scholarBlocked);
+			return directionValid && distanceValid && !blocked && !selfTaking && !scholarBlocked;
 		}
-		LOGGER.debug("Direction: " + directionValid);
-		LOGGER.debug("Distance: " + distanceValid);
-		LOGGER.debug("Self Taking: " + selfTaking);
-		LOGGER.debug("Blocked: " + blocked);
-		LOGGER.debug("Scholar Blocked: " + scholarBlocked);
-		return directionValid && distanceValid && !selfTaking && !blocked && !scholarBlocked;
+		return false;
 	}
 
 	private static boolean checkForBlocking(@NotNull Board board, @NotNull Square start, @NotNull Direction direction, int distance) {
@@ -128,41 +150,79 @@ public abstract class Util {
 
 	public static boolean checkForScholar(@NotNull Board board, @NotNull Square location) {
 		LOGGER.debug("=====Check For Scholar=====");
-		boolean blocked = false;
+		boolean exists = false;
 		Piece piece = location.getPiece();
 		assert piece != null;
 		Square tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() - 1, location.getLocation().getCol()));
 		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Scholar.class && tempSquare.getPiece().getTeamColour() == piece.getTeamColour())
-			blocked = true;
-		LOGGER.debug("North: " + blocked);
+			exists = true;
+		LOGGER.debug("North: " + exists);
 		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() - 1, location.getLocation().getCol() + 1));
 		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Scholar.class && tempSquare.getPiece().getTeamColour() == piece.getTeamColour())
-			blocked = true;
-		LOGGER.debug("North-East: " + blocked);
+			exists = true;
+		LOGGER.debug("North-East: " + exists);
 		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow(), location.getLocation().getCol() + 1));
 		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Scholar.class && tempSquare.getPiece().getTeamColour() == piece.getTeamColour())
-			blocked = true;
-		LOGGER.debug("East: " + blocked);
+			exists = true;
+		LOGGER.debug("East: " + exists);
 		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() + 1, location.getLocation().getCol() + 1));
 		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Scholar.class && tempSquare.getPiece().getTeamColour() == piece.getTeamColour())
-			blocked = true;
-		LOGGER.debug("South-East: " + blocked);
+			exists = true;
+		LOGGER.debug("South-East: " + exists);
 		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() + 1, location.getLocation().getCol()));
 		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Scholar.class && tempSquare.getPiece().getTeamColour() == piece.getTeamColour())
-			blocked = true;
-		LOGGER.debug("South: " + blocked);
+			exists = true;
+		LOGGER.debug("South: " + exists);
 		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() + 1, location.getLocation().getCol() - 1));
 		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Scholar.class && tempSquare.getPiece().getTeamColour() == piece.getTeamColour())
-			blocked = true;
-		LOGGER.debug("South-West: " + blocked);
+			exists = true;
+		LOGGER.debug("South-West: " + exists);
 		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow(), location.getLocation().getCol() - 1));
 		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Scholar.class && tempSquare.getPiece().getTeamColour() == piece.getTeamColour())
-			blocked = true;
-		LOGGER.debug("West: " + blocked);
+			exists = true;
+		LOGGER.debug("West: " + exists);
 		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() - 1, location.getLocation().getCol() - 1));
 		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Scholar.class && tempSquare.getPiece().getTeamColour() == piece.getTeamColour())
-			blocked = true;
-		LOGGER.debug("North-West: " + blocked);
-		return blocked;
+			exists = true;
+		LOGGER.debug("North-West: " + exists);
+		return exists;
+	}
+
+	public static boolean checkForEmperor(@NotNull Board board, @NotNull Square location, @NotNull Colour teamColour) {
+		LOGGER.debug("=====Check For Emperor=====");
+		boolean exists = false;
+		Square tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() - 1, location.getLocation().getCol()));
+		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Emperor.class && tempSquare.getPiece().getTeamColour() == teamColour)
+			exists = true;
+		LOGGER.debug("North: " + exists);
+		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() - 1, location.getLocation().getCol() + 1));
+		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Emperor.class && tempSquare.getPiece().getTeamColour() == teamColour)
+			exists = true;
+		LOGGER.debug("North-East: " + exists);
+		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow(), location.getLocation().getCol() + 1));
+		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Emperor.class && tempSquare.getPiece().getTeamColour() == teamColour)
+			exists = true;
+		LOGGER.debug("East: " + exists);
+		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() + 1, location.getLocation().getCol() + 1));
+		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Emperor.class && tempSquare.getPiece().getTeamColour() == teamColour)
+			exists = true;
+		LOGGER.debug("South-East: " + exists);
+		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() + 1, location.getLocation().getCol()));
+		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Emperor.class && tempSquare.getPiece().getTeamColour() == teamColour)
+			exists = true;
+		LOGGER.debug("South: " + exists);
+		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() + 1, location.getLocation().getCol() - 1));
+		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Emperor.class && tempSquare.getPiece().getTeamColour() == teamColour)
+			exists = true;
+		LOGGER.debug("South-West: " + exists);
+		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow(), location.getLocation().getCol() - 1));
+		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Emperor.class && tempSquare.getPiece().getTeamColour() == teamColour)
+			exists = true;
+		LOGGER.debug("West: " + exists);
+		tempSquare = board.getSquare(new Coordinates(location.getLocation().getRow() - 1, location.getLocation().getCol() - 1));
+		if (tempSquare != null && tempSquare.getPiece() != null && tempSquare.getPiece().getClass() == Emperor.class && tempSquare.getPiece().getTeamColour() == teamColour)
+			exists = true;
+		LOGGER.debug("North-West: " + exists);
+		return exists;
 	}
 }

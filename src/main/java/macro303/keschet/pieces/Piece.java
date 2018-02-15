@@ -10,13 +10,13 @@ import java.util.Arrays;
  * Created by Macro303 on 2018-02-08.
  */
 public abstract class Piece {
-	@NotNull
-	private final Colour teamColour;
 	private final int maxDistance;
 	@NotNull
 	private final String symbol;
 	@NotNull
 	private final Direction[] validDirections;
+	@NotNull
+	private Colour teamColour;
 
 	protected Piece(@NotNull Colour teamColour, int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
 		this.teamColour = teamColour;
@@ -32,6 +32,10 @@ public abstract class Piece {
 	@NotNull
 	public Colour getTeamColour() {
 		return teamColour;
+	}
+
+	public void setTeamColour(@NotNull Colour teamColour) {
+		this.teamColour = teamColour;
 	}
 
 	public int getMaxDistance() {

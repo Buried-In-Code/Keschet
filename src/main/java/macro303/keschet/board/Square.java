@@ -12,10 +12,10 @@ public class Square {
 	@Nullable
 	private Piece piece = null;
 	@NotNull
-	private Coordinates location;
+	private Coordinates coordinates;
 
-	Square(@NotNull Coordinates location) {
-		this.location = location;
+	Square(@NotNull Coordinates coordinates) {
+		this.coordinates = coordinates;
 	}
 
 	@Nullable
@@ -28,8 +28,8 @@ public class Square {
 	}
 
 	@NotNull
-	public Coordinates getLocation() {
-		return location;
+	public Coordinates getCoordinates() {
+		return coordinates;
 	}
 
 	@Override
@@ -40,13 +40,13 @@ public class Square {
 		Square square = (Square) o;
 
 		if (piece != null ? !piece.equals(square.piece) : square.piece != null) return false;
-		return location.equals(square.location);
+		return coordinates.equals(square.coordinates);
 	}
 
 	@Override
 	public int hashCode() {
 		int result = piece != null ? piece.hashCode() : 0;
-		result = 31 * result + location.hashCode();
+		result = 31 * result + coordinates.hashCode();
 		return result;
 	}
 
@@ -54,7 +54,7 @@ public class Square {
 	public String toString() {
 		return "Square{" +
 				"piece=" + piece +
-				", location=" + location +
+				", coordinates=" + coordinates +
 				'}';
 	}
 }

@@ -67,7 +67,7 @@ public abstract class Keschet {
 			placePiece(player2, new Thief(player2.getTeamColour()));
 		}
 //		4 Lancer
-		for (int i = 0; i < 4; i++) {
+		/*for (int i = 0; i < 4; i++) {
 			placePiece(player1, new Lancer(player1.getTeamColour()));
 			placePiece(player2, new Lancer(player2.getTeamColour()));
 		}
@@ -80,7 +80,7 @@ public abstract class Keschet {
 		for (int i = 0; i < 8; i++) {
 			placePiece(player1, new Spearman(player1.getTeamColour()));
 			placePiece(player2, new Spearman(player2.getTeamColour()));
-		}
+		}*/
 	}
 
 	private static void placePiece(@NotNull Player player, @NotNull Piece piece) {
@@ -118,7 +118,7 @@ public abstract class Keschet {
 
 	private static void executeTurn(@NotNull Player player) {
 		player.getDisplay().drawBoard(board);
-		boolean selected = false;
+		boolean valid = false;
 		do {
 			Coordinates moveFrom = player.selectPiece(board);
 			Square fromLocation = board.getSquare(moveFrom);
@@ -129,9 +129,16 @@ public abstract class Keschet {
 				if (toLocation != null && (toLocation.getPiece() == null || toLocation.getPiece().getTeamColour() != player.getTeamColour())) {
 					boolean validMovement = Util.validMovement(board, fromLocation, toLocation);
 					if (validMovement) {
+						Piece taken = null;
+						if (toLocation.getPiece() != null && fromLocation.getPiece().getClass() == Thief.class) {
+							taken = toLocation.getPiece();
+						}
 						toLocation.setPiece(fromLocation.getPiece());
 						fromLocation.setPiece(null);
-						selected = true;
+						valid = true;
+						if (taken != null) {
+							stealPiece(toLocation, taken, player);
+						}
 					} else {
 						player.getDisplay().showInfo("That is an invalid move try again");
 					}
@@ -151,7 +158,30 @@ public abstract class Keschet {
 			} else {
 				player.getDisplay().showWarning("You did something wrong. Call the Wizard!");
 			}
-		} while (!selected);
+		} while (!valid);
+	}
+
+	private static void stealPiece(@NotNull Square location, @NotNull Piece piece, @NotNull Player player) {
+		piece.setTeamColour(player.getTeamColour());
+		boolean valid = false;
+		do {
+			player.getDisplay().drawBoard(board, location);
+			Square newLocation = board.getSquare(player.placePiece(board, piece));
+			if (newLocation != null && newLocation.getPiece() == null) {
+				valid = nextTo(newLocation, location);
+				if (valid) {
+					newLocation.setPiece(piece);
+				} else {
+					player.getDisplay().showInfo("Must be placed next to thief");
+				}
+			}
+		} while (!valid);
+	}
+
+	private static boolean nextTo(@NotNull Square newLocation, @NotNull Square oldLocation) {
+		int row = Math.abs(oldLocation.getCoordinates().getRow() - newLocation.getCoordinates().getRow());
+		int col = Math.abs(oldLocation.getCoordinates().getCol() - newLocation.getCoordinates().getCol());
+		return row <= 1 && col <= 1;
 	}
 
 	private static boolean checkWinCondition() {

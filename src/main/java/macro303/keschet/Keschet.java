@@ -28,7 +28,6 @@ public abstract class Keschet {
 	}
 
 	private static void setPlayers() {
-		//Randomize Player Order
 		if (new Random().nextInt(2) == 0) {
 			player1 = new ConsolePlayer("Jonah", Colour.BLUE);
 			player2 = new ConsolePlayer("Hanoj", Colour.RED);
@@ -67,7 +66,7 @@ public abstract class Keschet {
 			placePiece(player2, new Thief(player2.getTeamColour()));
 		}
 //		4 Lancer
-		/*for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) {
 			placePiece(player1, new Lancer(player1.getTeamColour()));
 			placePiece(player2, new Lancer(player2.getTeamColour()));
 		}
@@ -80,7 +79,7 @@ public abstract class Keschet {
 		for (int i = 0; i < 8; i++) {
 			placePiece(player1, new Spearman(player1.getTeamColour()));
 			placePiece(player2, new Spearman(player2.getTeamColour()));
-		}*/
+		}
 	}
 
 	private static void placePiece(@NotNull Player player, @NotNull Piece piece) {

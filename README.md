@@ -1,4 +1,4 @@
-# Keschet _2.0_
+# Keschet _2.1_
 
 A chess-style game from the Blood Song by Anthony Ryan.
 
@@ -14,4 +14,3 @@ A chess-style game from the Blood Song by Anthony Ryan.
 
 - At the start of the game a player may place any piece in any square in the first 3 rows at the player's end of the board.
 - A piece is taken if the square it occupies is occupied by an opposing piece.
-- Type `Help` at any point for further information

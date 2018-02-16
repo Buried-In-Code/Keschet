@@ -1,35 +1,40 @@
 package macro303.keschet.pieces;
 
-import macro303.keschet.Board;
-import macro303.keschet.Console;
+import macro303.keschet.Colour;
 import macro303.keschet.Direction;
-import macro303.keschet.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Created by Macro303 on 2018-02-08.
+ */
 public abstract class Piece {
-	private static final Logger LOGGER = LogManager.getLogger(Piece.class);
+	private final int maxDistance;
+	@NotNull
+	private final String symbol;
+	@NotNull
+	private final Direction[] validDirections;
+	@NotNull
+	private Colour teamColour;
 
-	protected Console.Colour teamColour;
-	protected int maxDistance;
-	protected String symbol;
-	protected Direction[] validDirections;
-
-	Piece(Console.Colour teamColour, int maxDistance, String symbol, Direction[] validDirections) {
+	protected Piece(@NotNull Colour teamColour, int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
 		this.teamColour = teamColour;
 		this.maxDistance = maxDistance;
 		this.symbol = symbol;
 		this.validDirections = validDirections;
 	}
 
-	public Console.Colour getTeamColour() {
+	protected Piece(int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
+		this(Colour.RESET, maxDistance, symbol, validDirections);
+	}
+
+	@NotNull
+	public Colour getTeamColour() {
 		return teamColour;
 	}
 
-	public void setTeamColour(Console.Colour teamColour) {
+	public void setTeamColour(@NotNull Colour teamColour) {
 		this.teamColour = teamColour;
 	}
 
@@ -37,32 +42,14 @@ public abstract class Piece {
 		return maxDistance;
 	}
 
+	@NotNull
 	public String getSymbol() {
 		return symbol;
 	}
 
-	public boolean validMovement(Pair<Integer, Integer> start, Pair<Integer, Integer> end) {
-		Direction direction = Board.calculateDirection(start, end);
-		int distance = Board.calculateDistance(start, end);
-		if (getValidDirections().contains(direction) && maxDistance >= distance) {
-			LOGGER.trace("boolean validMovement(Pair<Integer, Integer>, Pair<Integer, Integer>) = " + true);
-			return true;
-		}
-		LOGGER.trace("boolean validMovement(Pair<Integer, Integer>, Pair<Integer, Integer>) = " + false);
-		return false;
-	}
-
-	public ArrayList<Direction> getValidDirections() {
-		return new ArrayList<>(Arrays.asList(validDirections));
-	}
-
-	@Override
-	public int hashCode() {
-		int result = teamColour.hashCode();
-		result = 31 * result + maxDistance;
-		result = 31 * result + symbol.hashCode();
-		result = 31 * result + Arrays.hashCode(validDirections);
-		return result;
+	@NotNull
+	public Direction[] getValidDirections() {
+		return validDirections;
 	}
 
 	@Override
@@ -80,13 +67,21 @@ public abstract class Piece {
 	}
 
 	@Override
+	public int hashCode() {
+		int result = teamColour.hashCode();
+		result = 31 * result + maxDistance;
+		result = 31 * result + symbol.hashCode();
+		result = 31 * result + Arrays.hashCode(validDirections);
+		return result;
+	}
+
+	@Override
 	public String toString() {
 		return "Piece{" +
-				"maxDistance=" + maxDistance +
+				"teamColour=" + teamColour +
+				", maxDistance=" + maxDistance +
 				", symbol='" + symbol + '\'' +
-				", teamColour=" + teamColour +
 				", validDirections=" + Arrays.toString(validDirections) +
 				'}';
 	}
-
 }

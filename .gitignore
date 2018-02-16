@@ -71,6 +71,8 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-target/
-.idea/
+!/.idea/
+/.idea/*
+!/.idea/runConfigurations/
+!/.idea/codeStyles/
 *.iml

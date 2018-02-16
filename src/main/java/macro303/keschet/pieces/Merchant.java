@@ -1,30 +1,32 @@
 package macro303.keschet.pieces;
 
-import macro303.keschet.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import macro303.keschet.Colour;
+import macro303.keschet.Direction;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import static macro303.keschet.Direction.*;
 
+/**
+ * Created by Macro303 on 2018-02-09.
+ */
 public class Merchant extends Piece {
-	private static final Logger LOGGER = LogManager.getLogger(Merchant.class);
+	@NotNull
+//	private static final String symbol = "\uD83D\uDCB0";
+	private static final String symbol = "M";
+	private static final int maxDistance = 1;
+	@NotNull
+	private static final Direction[] validDirections = new Direction[]{NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST};
 
-	public Merchant(Console.Colour teamColour) {
-		super(teamColour, 1, "M", new Direction[]{Direction.NORTH, Direction.NORTH_EAST, Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH, Direction.SOUTH_WEST, Direction.WEST, Direction.NORTH_WEST});
+	public Merchant(@NotNull Colour teamColour) {
+		super(teamColour, maxDistance, symbol, validDirections);
 	}
 
-	@Override
-	public boolean validMovement(Pair<Integer, Integer> start, Pair<Integer, Integer> end) {
-		Board board = Keschet.getBoard();
-		Direction movingDirection = Board.calculateDirection(start, end);
-		boolean validDirection = Arrays.stream(validDirections).anyMatch(direction -> direction == movingDirection);
-		boolean valid = (board.getAllSurroundingPieces(end).stream().anyMatch(piece -> piece instanceof Emperor && piece.getTeamColour() == getTeamColour()) && validDirection) || super.validMovement(start, end);
-		LOGGER.trace("boolean validMovement(Pair<Integer, Integer>, Pair<Integer, Integer>) = " + valid);
-		return valid;
+	public Merchant() {
+		super(maxDistance, symbol, validDirections);
 	}
 
 	@Override
 	public String toString() {
-		return "Merchant{} " + super.toString();
+		return "Merchant{}";
 	}
 }

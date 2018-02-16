@@ -1,16 +1,32 @@
 package macro303.keschet.pieces;
 
-import macro303.keschet.Console;
+import macro303.keschet.Colour;
 import macro303.keschet.Direction;
+import org.jetbrains.annotations.NotNull;
 
+import static macro303.keschet.Direction.*;
+
+/**
+ * Created by Macro303 on 2018-02-08.
+ */
 public class Emperor extends Piece {
+	@NotNull
+//	private static final String symbol = "\u265A";
+	private static final String symbol = "E";
+	private static final int maxDistance = 4;
+	@NotNull
+	private static final Direction[] validDirections = new Direction[]{NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST};
 
-	public Emperor(Console.Colour teamColour) {
-		super(teamColour, 4, "E", new Direction[]{Direction.NORTH, Direction.NORTH_EAST, Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH, Direction.SOUTH_WEST, Direction.WEST, Direction.NORTH_WEST});
+	public Emperor(@NotNull Colour teamColour) {
+		super(teamColour, maxDistance, symbol, validDirections);
+	}
+
+	public Emperor() {
+		super(maxDistance, symbol, validDirections);
 	}
 
 	@Override
 	public String toString() {
-		return "Emperor{} " + super.toString();
+		return "Emperor{}";
 	}
 }

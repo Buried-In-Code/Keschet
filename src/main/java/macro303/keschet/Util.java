@@ -19,6 +19,8 @@ import static macro303.keschet.Direction.*;
  */
 public abstract class Util {
 	public static final int SIZE = 10;
+	public static final Colour player1Colour = Colour.BLUE;
+	public static final Colour player2Colour = Colour.RED;
 	private static final Logger LOGGER = LogManager.getLogger(Util.class);
 
 	@NotNull

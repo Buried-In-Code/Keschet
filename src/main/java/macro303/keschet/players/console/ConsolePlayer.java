@@ -3,7 +3,6 @@ package macro303.keschet.players.console;
 import macro303.board_game.Board;
 import macro303.board_game.Colour;
 import macro303.board_game.Coordinates;
-import macro303.keschet.display.console.Console;
 import macro303.keschet.pieces.Piece;
 import macro303.keschet.players.Player;
 import org.apache.logging.log4j.LogManager;
@@ -20,30 +19,49 @@ public class ConsolePlayer extends Player {
 	private Piece currentPiece = null;
 
 	public ConsolePlayer(@NotNull String name, @NotNull Colour colour) {
-		super(name, new Console(), colour);
+		super(name, colour);
 	}
 
 	@NotNull
 	@Override
 	public Coordinates placePiece(@NotNull Board board, @NotNull Piece piece) {
 		if (currentPiece != piece)
-			((Console) display).showTitle("Place " + piece.getClass().getSimpleName(), getTeamColour());
+			LOGGER.info("Place " + piece.getClass().getSimpleName(), getTeamColour());
 		currentPiece = piece;
-		return display.requestLocation();
+		return requestLocation();
 	}
 
 	@NotNull
 	@Override
 	public Coordinates selectPiece(@NotNull Board board) {
-		((Console) display).showTitle("Select a piece", getTeamColour());
-		return display.requestLocation();
+		LOGGER.info("Select a piece", getTeamColour());
+		return requestLocation();
 	}
 
 	@NotNull
 	@Override
 	public Coordinates movePieceTo(@NotNull Board board, @NotNull Piece piece) {
-		((Console) display).showTitle("Move " + piece.getClass().getSimpleName() + " to", getTeamColour());
-		return display.requestLocation();
+		LOGGER.info("Move " + piece.getClass().getSimpleName() + " to", getTeamColour());
+		return requestLocation();
+	}
+
+	@NotNull
+	private Coordinates requestLocation() {
+		boolean valid = false;
+		int row = -1;
+		int col = -1;
+		do {
+			String input = Reader.readConsole("Location (Row:Col)");
+			String[] location = input.split(":");
+			try {
+				row = Integer.parseInt(location[0]);
+				col = Integer.parseInt(location[1]);
+				valid = true;
+			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+				LOGGER.warn("Invalid Selection");
+			}
+		} while (!valid);
+		return new Coordinates(row, col);
 	}
 
 	@Override

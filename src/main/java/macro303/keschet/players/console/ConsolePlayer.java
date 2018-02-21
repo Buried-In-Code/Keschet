@@ -1,8 +1,8 @@
 package macro303.keschet.players.console;
 
-import macro303.keschet.Colour;
-import macro303.keschet.Coordinates;
-import macro303.keschet.board.Board;
+import macro303.board_game.Board;
+import macro303.board_game.Colour;
+import macro303.board_game.Coordinates;
 import macro303.keschet.display.console.Console;
 import macro303.keschet.pieces.Piece;
 import macro303.keschet.players.Player;

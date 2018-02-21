@@ -1,6 +1,6 @@
 package macro303.keschet.display.console;
 
-import macro303.keschet.Colour;
+import macro303.board_game.Colour;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

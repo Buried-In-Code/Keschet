@@ -1,7 +1,8 @@
 package macro303.keschet.board;
 
-import macro303.keschet.Coordinates;
-import macro303.keschet.Tester;
+import macro303.board_game.Coordinates;
+import macro303.board_game.Square;
+import macro303.board_game.Tester;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -13,12 +14,12 @@ import org.junit.Test;
  */
 public class Board_Test {
 	private static final Logger LOGGER = LogManager.getLogger(Board_Test.class);
-	private static Board board;
+	private static KeschetBoard board;
 
 	@BeforeClass
 	public static void beforeClass() {
 		Tester.getInstance().setTesting(true);
-		board = new Board();
+		board = new KeschetBoard(10);
 	}
 
 	@Test

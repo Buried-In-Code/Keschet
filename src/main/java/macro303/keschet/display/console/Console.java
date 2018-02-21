@@ -1,10 +1,10 @@
 package macro303.keschet.display.console;
 
-import macro303.keschet.Colour;
-import macro303.keschet.Coordinates;
+import macro303.board_game.Board;
+import macro303.board_game.Colour;
+import macro303.board_game.Coordinates;
+import macro303.board_game.Square;
 import macro303.keschet.Util;
-import macro303.keschet.board.Board;
-import macro303.keschet.board.Square;
 import macro303.keschet.display.Display;
 import macro303.keschet.pieces.Piece;
 import org.apache.logging.log4j.LogManager;
@@ -71,13 +71,13 @@ public class Console implements Display {
 						} else if (row > 6) {
 							System.out.print(Colour.RED.getColourCode());
 						}
-					} else if (square.getPiece() != null) {
-						System.out.print(square.getPiece().getTeamColour().getColourCode());
+					} else if (square.getItem() != null) {
+						System.out.print(((Piece) square.getItem()).getTeamColour().getColourCode());
 					}
-					if (square.getPiece() == null) {
+					if (square.getItem() == null) {
 						System.out.print(" ~ ");
 					} else {
-						System.out.print(" " + square.getPiece().getSymbol() + " ");
+						System.out.print(" " + square.getItem().getSymbol() + " ");
 					}
 				}
 			}
@@ -88,7 +88,7 @@ public class Console implements Display {
 
 	@Override
 	public void drawBoard(@NotNull Board board, @NotNull Square location) {
-		Piece piece = location.getPiece();
+		Piece piece = (Piece) location.getItem();
 		assert piece != null;
 		for (int row = -1; row < Util.SIZE; row++) {
 			for (int col = -1; col < Util.SIZE; col++) {
@@ -106,13 +106,13 @@ public class Console implements Display {
 					boolean valid = Util.validMovement(board, location, square);
 					if (valid) {
 						System.out.print(Colour.CYAN.getColourCode());
-					} else if (square.getPiece() != null) {
-						System.out.print(square.getPiece().getTeamColour().getColourCode());
+					} else if (square.getItem() != null) {
+						System.out.print(((Piece) square.getItem()).getTeamColour().getColourCode());
 					}
-					if (square.getPiece() == null) {
+					if (square.getItem() == null) {
 						System.out.print(" ~ ");
 					} else {
-						System.out.print(" " + square.getPiece().getSymbol() + " ");
+						System.out.print(" " + square.getItem().getSymbol() + " ");
 					}
 				}
 			}

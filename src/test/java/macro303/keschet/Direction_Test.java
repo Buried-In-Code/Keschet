@@ -1,7 +1,9 @@
 package macro303.keschet;
 
-import macro303.keschet.board.Board;
-import macro303.keschet.board.Square;
+import macro303.board_game.Board;
+import macro303.board_game.Coordinates;
+import macro303.board_game.Square;
+import macro303.board_game.Tester;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -19,7 +21,7 @@ public class Direction_Test {
 	@BeforeClass
 	public static void beforeClass() {
 		Tester.getInstance().setTesting(true);
-		board = new Board();
+		board = new Board(10);
 		start = board.getSquare(new Coordinates(2, 2));
 		assert start != null;
 	}

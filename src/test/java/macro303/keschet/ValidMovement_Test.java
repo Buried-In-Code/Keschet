@@ -1,7 +1,6 @@
 package macro303.keschet;
 
-import macro303.keschet.board.Board;
-import macro303.keschet.board.Square;
+import macro303.board_game.*;
 import macro303.keschet.pieces.Emperor;
 import macro303.keschet.pieces.Merchant;
 import macro303.keschet.pieces.Piece;
@@ -33,23 +32,23 @@ public class ValidMovement_Test {
 		allyScholar = new Scholar(Colour.BLUE);
 		enemyEmperor = new Emperor(Colour.RED);
 		allyMerchant = new Merchant(Colour.BLUE);
-		board = new Board();
+		board = new Board(10);
 		start = board.getSquare(new Coordinates(2, 2));
 	}
 
 	@Before
 	public void before() {
-		start.setPiece(allyEmperor);
+		start.setItem(allyEmperor);
 	}
 
 	@After
 	public void after() {
-		start.setPiece(null);
+		start.setItem(null);
 		if (end != null)
-			end.setPiece(null);
+			end.setItem(null);
 		end = null;
 		if (blocking != null)
-			blocking.setPiece(null);
+			blocking.setItem(null);
 		blocking = null;
 	}
 
@@ -163,11 +162,11 @@ public class ValidMovement_Test {
 	public void test_selfTakingMove() {
 		end = board.getSquare(new Coordinates(3, 3));
 		assert end != null;
-		end.setPiece(allyScholar);
+		end.setItem(allyScholar);
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.debug("Self Taking Move: " + valid);
 		Assert.assertFalse(valid);
-		end.setPiece(null);
+		end.setItem(null);
 	}
 
 	@Test
@@ -176,7 +175,7 @@ public class ValidMovement_Test {
 		assert end != null;
 		blocking = board.getSquare(new Coordinates(4, 4));
 		assert blocking != null;
-		blocking.setPiece(enemyScholar);
+		blocking.setItem(enemyScholar);
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.debug("Blocked Move: " + valid);
 		Assert.assertFalse(valid);
@@ -186,7 +185,7 @@ public class ValidMovement_Test {
 	public void test_takingMove() {
 		end = board.getSquare(new Coordinates(4, 4));
 		assert end != null;
-		end.setPiece(enemyScholar);
+		end.setItem(enemyScholar);
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.debug("Taking Move: " + valid);
 		Assert.assertTrue(valid);
@@ -205,10 +204,10 @@ public class ValidMovement_Test {
 	public void test_enemyScholarBlockMove() {
 		end = board.getSquare(new Coordinates(4, 4));
 		assert end != null;
-		end.setPiece(enemyScholar);
+		end.setItem(enemyScholar);
 		blocking = board.getSquare(new Coordinates(4, 5));
 		assert blocking != null;
-		blocking.setPiece(enemyScholar);
+		blocking.setItem(enemyScholar);
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.debug("Enemy Scholar Block Move: " + valid);
 		Assert.assertFalse(valid);
@@ -218,10 +217,10 @@ public class ValidMovement_Test {
 	public void test_allyScholarBlockMove() {
 		end = board.getSquare(new Coordinates(4, 4));
 		assert end != null;
-		end.setPiece(enemyScholar);
+		end.setItem(enemyScholar);
 		blocking = board.getSquare(new Coordinates(4, 5));
 		assert blocking != null;
-		blocking.setPiece(allyScholar);
+		blocking.setItem(allyScholar);
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.debug("Ally Scholar Block Move: " + valid);
 		Assert.assertTrue(valid);
@@ -229,12 +228,12 @@ public class ValidMovement_Test {
 
 	@Test
 	public void test_allyMerchantAbilityMove() {
-		start.setPiece(allyMerchant);
+		start.setItem(allyMerchant);
 		end = board.getSquare(new Coordinates(4, 4));
 		assert end != null;
 		blocking = board.getSquare(new Coordinates(4, 5));
 		assert blocking != null;
-		blocking.setPiece(allyEmperor);
+		blocking.setItem(allyEmperor);
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.debug("Ally Merchant Ability Move: " + valid);
 		Assert.assertTrue(valid);
@@ -242,12 +241,12 @@ public class ValidMovement_Test {
 
 	@Test
 	public void test_enemyMerchantAbilityMove() {
-		start.setPiece(allyMerchant);
+		start.setItem(allyMerchant);
 		end = board.getSquare(new Coordinates(4, 4));
 		assert end != null;
 		blocking = board.getSquare(new Coordinates(4, 5));
 		assert blocking != null;
-		blocking.setPiece(enemyEmperor);
+		blocking.setItem(enemyEmperor);
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.debug("Enemy Merchant Ability Move: " + valid);
 		Assert.assertFalse(valid);

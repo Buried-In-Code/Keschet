@@ -1,9 +1,8 @@
 package macro303.keschet.display;
 
-import macro303.keschet.Coordinates;
-import macro303.keschet.board.Board;
-import macro303.keschet.board.Square;
-import macro303.keschet.pieces.Piece;
+import macro303.board_game.Board;
+import macro303.board_game.Coordinates;
+import macro303.board_game.Square;
 import org.jetbrains.annotations.NotNull;
 
 /**

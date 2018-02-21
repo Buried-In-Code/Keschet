@@ -1,7 +1,9 @@
 package macro303.keschet;
 
-import macro303.keschet.board.Board;
-import macro303.keschet.board.Square;
+import macro303.board_game.Colour;
+import macro303.board_game.Coordinates;
+import macro303.board_game.Square;
+import macro303.keschet.board.KeschetBoard;
 import macro303.keschet.pieces.*;
 import macro303.keschet.players.Player;
 import macro303.keschet.players.console.ConsolePlayer;
@@ -16,10 +18,10 @@ import java.util.Random;
 public abstract class Keschet {
 	private static Player player1;
 	private static Player player2;
-	private static Board board;
+	private static KeschetBoard board;
 
 	public static void main(@Nullable String... args) {
-		board = new Board();
+		board = new KeschetBoard(10);
 		setPlayers();
 		placePieces();
 		playGame();
@@ -88,12 +90,12 @@ public abstract class Keschet {
 		do {
 			Coordinates selected = player.placePiece(board, piece);
 			Square location = board.getSquare(selected);
-			if (location != null && location.getPiece() == null && ((player == player1 && selected.getRow() < 3) || (player == player2 && selected.getRow() > 6))) {
-				location.setPiece(piece);
+			if (location != null && location.getItem() == null && ((player == player1 && selected.getRow() < 3) || (player == player2 && selected.getRow() > 6))) {
+				location.setItem(piece);
 				placed = true;
 			} else if (location == null) {
 				player.getDisplay().showInfo("Must be placed on the board (0-9)");
-			} else if (location.getPiece() != null) {
+			} else if (location.getItem() != null) {
 				player.getDisplay().showInfo("Must be placed on an empty square");
 			} else if ((player != player1 || selected.getRow() >= 3) && (player != player2 || selected.getRow() <= 6)) {
 				player.getDisplay().showInfo("Must be placed within 3 rows on your side");
@@ -121,19 +123,19 @@ public abstract class Keschet {
 		do {
 			Coordinates moveFrom = player.selectPiece(board);
 			Square fromLocation = board.getSquare(moveFrom);
-			if (fromLocation != null && fromLocation.getPiece() != null && fromLocation.getPiece().getTeamColour() == player.getTeamColour()) {
+			if (fromLocation != null && fromLocation.getItem() != null && ((Piece) fromLocation.getItem()).getTeamColour() == player.getTeamColour()) {
 				player.getDisplay().drawBoard(board, fromLocation);
-				Coordinates moveTo = player.movePieceTo(board, fromLocation.getPiece());
+				Coordinates moveTo = player.movePieceTo(board, (Piece) fromLocation.getItem());
 				Square toLocation = board.getSquare(moveTo);
-				if (toLocation != null && (toLocation.getPiece() == null || toLocation.getPiece().getTeamColour() != player.getTeamColour())) {
+				if (toLocation != null && (toLocation.getItem() == null || ((Piece) toLocation.getItem()).getTeamColour() != player.getTeamColour())) {
 					boolean validMovement = Util.validMovement(board, fromLocation, toLocation);
 					if (validMovement) {
 						Piece taken = null;
-						if (toLocation.getPiece() != null && fromLocation.getPiece().getClass() == Thief.class) {
-							taken = toLocation.getPiece();
+						if (toLocation.getItem() != null && fromLocation.getItem().getClass() == Thief.class) {
+							taken = (Piece) toLocation.getItem();
 						}
-						toLocation.setPiece(fromLocation.getPiece());
-						fromLocation.setPiece(null);
+						toLocation.setItem(fromLocation.getItem());
+						fromLocation.setItem(null);
 						valid = true;
 						if (taken != null) {
 							stealPiece(toLocation, taken, player);
@@ -143,16 +145,16 @@ public abstract class Keschet {
 					}
 				} else if (toLocation == null) {
 					player.getDisplay().showInfo("Must be placed on the board (0-9)");
-				} else if (toLocation.getPiece() != null && toLocation.getPiece().getTeamColour() == player.getTeamColour()) {
+				} else if (toLocation.getItem() != null && ((Piece) toLocation.getItem()).getTeamColour() == player.getTeamColour()) {
 					player.getDisplay().showInfo("That's your piece, you can't take your own piece");
 				} else {
 					player.getDisplay().showWarning("You did something wrong. Call the Wizard!");
 				}
 			} else if (fromLocation == null) {
 				player.getDisplay().showInfo("Must be placed on the board (0-9)");
-			} else if (fromLocation.getPiece() == null) {
+			} else if (fromLocation.getItem() == null) {
 				player.getDisplay().showInfo("No Piece at that location");
-			} else if (fromLocation.getPiece().getTeamColour() != player.getTeamColour()) {
+			} else if (((Piece) fromLocation.getItem()).getTeamColour() != player.getTeamColour()) {
 				player.getDisplay().showInfo("That's not your piece, put it back");
 			} else {
 				player.getDisplay().showWarning("You did something wrong. Call the Wizard!");
@@ -166,10 +168,10 @@ public abstract class Keschet {
 		do {
 			player.getDisplay().drawBoard(board, location);
 			Square newLocation = board.getSquare(player.placePiece(board, piece));
-			if (newLocation != null && newLocation.getPiece() == null) {
+			if (newLocation != null && newLocation.getItem() == null) {
 				valid = nextTo(newLocation, location);
 				if (valid) {
-					newLocation.setPiece(piece);
+					newLocation.setItem(piece);
 				} else {
 					player.getDisplay().showInfo("Must be placed next to thief");
 				}

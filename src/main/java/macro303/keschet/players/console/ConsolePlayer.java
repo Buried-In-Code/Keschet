@@ -25,8 +25,6 @@ public class ConsolePlayer extends Player {
 	@NotNull
 	@Override
 	public Coordinates placePiece(@NotNull Board board, @NotNull Piece piece) {
-		if (currentPiece != piece)
-			LOGGER.info("Place " + piece.getClass().getSimpleName(), getTeamColour());
 		currentPiece = piece;
 		return requestLocation();
 	}
@@ -34,14 +32,12 @@ public class ConsolePlayer extends Player {
 	@NotNull
 	@Override
 	public Coordinates selectPiece(@NotNull Board board) {
-		LOGGER.info("Select a piece", getTeamColour());
 		return requestLocation();
 	}
 
 	@NotNull
 	@Override
 	public Coordinates movePieceTo(@NotNull Board board, @NotNull Piece piece) {
-		LOGGER.info("Move " + piece.getClass().getSimpleName() + " to", getTeamColour());
 		return requestLocation();
 	}
 

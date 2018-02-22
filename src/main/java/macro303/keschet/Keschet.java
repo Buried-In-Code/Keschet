@@ -1,9 +1,7 @@
 package macro303.keschet;
 
-import macro303.board_game.Colour;
 import macro303.board_game.Coordinates;
 import macro303.board_game.Square;
-import macro303.keschet.board.KeschetBoard;
 import macro303.keschet.pieces.*;
 import macro303.keschet.players.Player;
 import macro303.keschet.players.console.ConsolePlayer;
@@ -22,13 +20,15 @@ public abstract class Keschet {
 	private static Player player1;
 	private static Player player2;
 	private static KeschetBoard board;
+	private static KeschetDisplay display;
 
 	public static void main(@Nullable String... args) {
 		board = new KeschetBoard(10);
+		display = new KeschetDisplay(board);
 		setPlayers();
 		placePieces();
 		playGame();
-		board.draw(true, true);
+		display.draw(true, true);
 	}
 
 	private static void setPlayers() {
@@ -87,7 +87,8 @@ public abstract class Keschet {
 	}
 
 	private static void placePiece(@NotNull Player player, @NotNull Piece piece) {
-		board.draw(true);
+		display.draw(true);
+		display.showTitle("Place " + piece.getClass().getSimpleName(), player.getTeamColour());
 		boolean placed = false;
 		do {
 			Coordinates selected = player.placePiece(board, piece);
@@ -96,13 +97,13 @@ public abstract class Keschet {
 				location.setItem(piece);
 				placed = true;
 			} else if (location == null) {
-				LOGGER.info("Must be placed on the board (0-9)");
+				display.showWarning("Must be placed on the board (0-9)");
 			} else if (location.getItem() != null) {
-				LOGGER.info("Must be placed on an empty square");
+				display.showWarning("Must be placed on an empty square");
 			} else if ((player != player1 || selected.getRow() >= 3) && (player != player2 || selected.getRow() <= 6)) {
-				LOGGER.info("Must be placed within 3 rows on your side");
+				display.showWarning("Must be placed within 3 rows on your side");
 			} else {
-				LOGGER.warn("You did something wrong. Call the Wizard!");
+				display.showError("You did something wrong. Call the Wizard!");
 			}
 		} while (!placed);
 	}
@@ -120,13 +121,15 @@ public abstract class Keschet {
 	}
 
 	private static void executeTurn(@NotNull Player player) {
-		board.draw(true, true);
+		display.draw(true, true);
+		display.showTitle("Select a Piece", player.getTeamColour());
 		boolean valid = false;
 		do {
 			Coordinates moveFrom = player.selectPiece(board);
 			Square fromLocation = board.getSquare(moveFrom);
 			if (fromLocation != null && fromLocation.getItem() != null && ((Piece) fromLocation.getItem()).getTeamColour() == player.getTeamColour()) {
-				board.draw(fromLocation);
+				display.draw(fromLocation);
+				display.showTitle("Move " + ((Piece) fromLocation.getItem()).getClass().getSimpleName(), player.getTeamColour());
 				Coordinates moveTo = player.movePieceTo(board, (Piece) fromLocation.getItem());
 				Square toLocation = board.getSquare(moveTo);
 				if (toLocation != null && (toLocation.getItem() == null || ((Piece) toLocation.getItem()).getTeamColour() != player.getTeamColour())) {
@@ -143,39 +146,40 @@ public abstract class Keschet {
 							stealPiece(toLocation, taken, player);
 						}
 					} else {
-						LOGGER.info("That is an invalid move try again");
+						display.showWarning("That is an invalid move try again");
 					}
 				} else if (toLocation == null) {
-					LOGGER.info("Must be placed on the board (0-9)");
+					display.showWarning("Must be placed on the board (0-9)");
 				} else if (toLocation.getItem() != null && ((Piece) toLocation.getItem()).getTeamColour() == player.getTeamColour()) {
-					LOGGER.info("That's your piece, you can't take your own piece");
+					display.showWarning("That's your piece, you can't take your own piece");
 				} else {
-					LOGGER.warn("You did something wrong. Call the Wizard!");
+					display.showError("You did something wrong. Call the Wizard!");
 				}
 			} else if (fromLocation == null) {
-				LOGGER.info("Must be placed on the board (0-9)");
+				display.showWarning("Must be placed on the board (0-9)");
 			} else if (fromLocation.getItem() == null) {
-				LOGGER.info("No Piece at that location");
+				display.showWarning("No Piece at that location");
 			} else if (((Piece) fromLocation.getItem()).getTeamColour() != player.getTeamColour()) {
-				LOGGER.info("That's not your piece, put it back");
+				display.showWarning("That's not your piece, put it back");
 			} else {
-				LOGGER.warn("You did something wrong. Call the Wizard!");
+				display.showError("You did something wrong. Call the Wizard!");
 			}
 		} while (!valid);
 	}
 
 	private static void stealPiece(@NotNull Square location, @NotNull Piece piece, @NotNull Player player) {
 		piece.setTeamColour(player.getTeamColour());
+		display.draw(location);
+		display.showTitle("Select location for stolen " + piece.getClass().getSimpleName(), player.getTeamColour());
 		boolean valid = false;
 		do {
-			board.draw(location);
 			Square newLocation = board.getSquare(player.placePiece(board, piece));
 			if (newLocation != null && newLocation.getItem() == null) {
 				valid = nextTo(newLocation, location);
 				if (valid) {
 					newLocation.setItem(piece);
 				} else {
-					LOGGER.info("Must be placed next to thief");
+					display.showWarning("Must be placed next to thief");
 				}
 			}
 		} while (!valid);
@@ -193,9 +197,9 @@ public abstract class Keschet {
 		int player2Count = board.countPieces(player2);
 		boolean player2Emperor = board.findPiece(Emperor.class, player2.getTeamColour()) != null;
 		if (player1Count <= 1 || !player1Emperor)
-			LOGGER.info(player2.getName() + " Wins");
+			display.showTitle(player2.getName() + " Wins", player2.getTeamColour());
 		if (player2Count <= 1 || !player2Emperor)
-			LOGGER.info(player1.getName() + " Wins");
+			display.showTitle(player1.getName() + " Wins", player1.getTeamColour());
 		return player1Count <= 1 || !player1Emperor || player2Count <= 1 || !player2Emperor;
 	}
 }

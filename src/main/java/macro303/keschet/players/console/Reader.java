@@ -17,7 +17,7 @@ public abstract class Reader {
 
 	@NotNull
 	public static String readConsole(String prompt) {
-		System.out.print(Colour.CYAN.getColourCode());
+		System.out.print(Colour.WHITE.getColourCode());
 		System.out.println(prompt);
 		System.out.print("> ");
 		System.out.print(Colour.RESET.getColourCode());

@@ -1,13 +1,13 @@
 package macro303.keschet;
 
-import macro303.board_game.Board;
-import macro303.board_game.Colour;
-import macro303.board_game.Coordinates;
-import macro303.board_game.Square;
+import macro303.board_game.*;
 import macro303.keschet.pieces.Piece;
 import org.jetbrains.annotations.NotNull;
 
-public class KeschetDisplay extends macro303.board_game.Display {
+/**
+ * Created by Macro303 on 2018-02-22.
+ */
+public class KeschetDisplay extends Display {
 
 	public KeschetDisplay(@NotNull Board board, @NotNull Colour boardColour, @NotNull Colour headerColour) {
 		super(board, boardColour, headerColour);
@@ -37,8 +37,6 @@ public class KeschetDisplay extends macro303.board_game.Display {
 						} else if (row > 6) {
 							System.out.print(Util.player2Colour.getColourCode());
 						}
-					} else if (square.getItem() != null) {
-						System.out.print(((Piece) square.getItem()).getTeamColour().getColourCode());
 					}
 					if (square.getItem() == null) {
 						System.out.print(" ~ ");
@@ -71,8 +69,6 @@ public class KeschetDisplay extends macro303.board_game.Display {
 					boolean valid = Util.validMovement(board, location, square);
 					if (valid) {
 						System.out.print(Colour.CYAN.getColourCode());
-					} else if (square.getItem() != null) {
-						System.out.print(((Piece) square.getItem()).getTeamColour().getColourCode());
 					}
 					if (square.getItem() == null) {
 						System.out.print(" ~ ");

@@ -4,6 +4,7 @@ import macro303.board_game.Coordinates;
 import macro303.board_game.Square;
 import macro303.keschet.pieces.*;
 import macro303.keschet.players.Player;
+import macro303.keschet.players.auto.AutoPlayer;
 import macro303.keschet.players.console.ConsolePlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,9 +35,9 @@ public abstract class Keschet {
 	private static void setPlayers() {
 		if (new Random().nextInt(2) == 0) {
 			player1 = new ConsolePlayer("Jonah", Util.player1Colour);
-			player2 = new ConsolePlayer("Hanoj", Util.player2Colour);
+			player2 = new AutoPlayer("Hanoj", Util.player2Colour);
 		} else {
-			player1 = new ConsolePlayer("Hanoj", Util.player1Colour);
+			player1 = new AutoPlayer("Hanoj", Util.player1Colour);
 			player2 = new ConsolePlayer("Jonah", Util.player2Colour);
 		}
 		LOGGER.info(player1.getName() + " is Player 1: " + player1.getTeamColour().name());

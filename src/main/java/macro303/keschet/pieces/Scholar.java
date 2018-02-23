@@ -1,6 +1,6 @@
 package macro303.keschet.pieces;
 
-import macro303.keschet.Colour;
+import macro303.board_game.Colour;
 import macro303.keschet.Direction;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +27,6 @@ public class Scholar extends Piece {
 
 	@Override
 	public String toString() {
-		return "Scholar{}";
+		return "Scholar{} " + super.toString();
 	}
 }

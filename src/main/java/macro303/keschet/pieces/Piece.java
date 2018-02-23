@@ -1,6 +1,7 @@
 package macro303.keschet.pieces;
 
-import macro303.keschet.Colour;
+import macro303.board_game.Colour;
+import macro303.board_game.item.Item;
 import macro303.keschet.Direction;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,7 +10,7 @@ import java.util.Arrays;
 /**
  * Created by Macro303 on 2018-02-08.
  */
-public abstract class Piece {
+public abstract class Piece implements Item {
 	private final int maxDistance;
 	@NotNull
 	private final String symbol;
@@ -43,7 +44,12 @@ public abstract class Piece {
 	}
 
 	@NotNull
+	@Override
 	public String getSymbol() {
+		return getTeamColour().getColourCode() + symbol;
+	}
+
+	public String getSymbol2(){
 		return symbol;
 	}
 
@@ -60,28 +66,28 @@ public abstract class Piece {
 		Piece piece = (Piece) o;
 
 		if (maxDistance != piece.maxDistance) return false;
-		if (teamColour != piece.teamColour) return false;
 		if (!symbol.equals(piece.symbol)) return false;
 		// Probably incorrect - comparing Object[] arrays with Arrays.equals
-		return Arrays.equals(validDirections, piece.validDirections);
+		if (!Arrays.equals(validDirections, piece.validDirections)) return false;
+		return teamColour == piece.teamColour;
 	}
 
 	@Override
 	public int hashCode() {
-		int result = teamColour.hashCode();
-		result = 31 * result + maxDistance;
+		int result = maxDistance;
 		result = 31 * result + symbol.hashCode();
 		result = 31 * result + Arrays.hashCode(validDirections);
+		result = 31 * result + teamColour.hashCode();
 		return result;
 	}
 
 	@Override
 	public String toString() {
 		return "Piece{" +
-				"teamColour=" + teamColour +
-				", maxDistance=" + maxDistance +
+				"maxDistance=" + maxDistance +
 				", symbol='" + symbol + '\'' +
 				", validDirections=" + Arrays.toString(validDirections) +
+				", teamColour=" + teamColour +
 				'}';
 	}
 }

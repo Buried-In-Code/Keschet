@@ -1,4 +1,4 @@
-# Keschet _2.1_
+# Keschet _2.1.1_
 
 A chess-style game from the Blood Song by Anthony Ryan.
 

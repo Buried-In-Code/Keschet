@@ -34,11 +34,11 @@ public abstract class Keschet {
 
 	private static void setPlayers() {
 		if (new Random().nextInt(2) == 0) {
-			player1 = new ConsolePlayer("Jonah", Util.player1Colour);
+			player1 = new AutoPlayer("Jonah", Util.player1Colour);
 			player2 = new AutoPlayer("Hanoj", Util.player2Colour);
 		} else {
 			player1 = new AutoPlayer("Hanoj", Util.player1Colour);
-			player2 = new ConsolePlayer("Jonah", Util.player2Colour);
+			player2 = new AutoPlayer("Jonah", Util.player2Colour);
 		}
 		LOGGER.info(player1.getName() + " is Player 1: " + player1.getTeamColour().name());
 		LOGGER.info(player2.getName() + " is Player 2: " + player2.getTeamColour().name());

@@ -5,7 +5,7 @@
 
 	<groupId>nz.co.macro303</groupId>
 	<artifactId>keschet</artifactId>
-	<version>2.1.0-4</version>
+	<version>2.1.1</version>
 	<name>Keschet</name>
 	<packaging>jar</packaging>
 

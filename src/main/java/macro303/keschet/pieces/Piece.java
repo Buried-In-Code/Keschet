@@ -46,7 +46,11 @@ public abstract class Piece implements Item {
 	@NotNull
 	@Override
 	public String getSymbol() {
-		return teamColour.getColourCode() + symbol;
+		return getTeamColour().getColourCode() + symbol;
+	}
+
+	public String getSymbol2(){
+		return symbol;
 	}
 
 	@NotNull

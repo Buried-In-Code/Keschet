@@ -65,15 +65,18 @@ public class KeschetDisplay extends Display {
 				} else {
 					Square square = board.getSquare(new Coordinates(row, col));
 					assert square != null;
+					Piece item = (Piece) square.getItem();
 					System.out.print(boardColour.getColourCode());
 					boolean valid = Util.validMovement(board, location, square);
 					if (valid) {
 						System.out.print(Colour.CYAN.getColourCode());
+					} else if (item != null) {
+						System.out.print(item.getTeamColour().getColourCode());
 					}
-					if (square.getItem() == null) {
+					if (item == null) {
 						System.out.print(" ~ ");
 					} else {
-						System.out.print(" " + square.getItem().getSymbol() + " ");
+						System.out.print(" " + item.getSymbol2() + " ");
 					}
 				}
 				System.out.print(Colour.RESET.getColourCode());

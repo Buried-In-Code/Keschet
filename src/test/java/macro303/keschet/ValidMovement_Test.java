@@ -27,14 +27,14 @@ public class ValidMovement_Test {
 
 	@BeforeClass
 	public static void beforeClass() {
-		Tester.getInstance().setTesting(true);
 		allyEmperor = new Emperor(Colour.BLUE);
 		enemyScholar = new Scholar(Colour.RED);
 		allyScholar = new Scholar(Colour.BLUE);
 		enemyEmperor = new Emperor(Colour.RED);
 		allyMerchant = new Merchant(Colour.BLUE);
 		board = new Board(10);
-		display = new KeschetDisplay(board);
+		display = new KeschetDisplay();
+		display.setBoard(board);
 		start = board.getSquare(new Coordinates(2, 2));
 	}
 

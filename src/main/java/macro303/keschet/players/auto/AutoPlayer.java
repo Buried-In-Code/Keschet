@@ -25,7 +25,7 @@ public class AutoPlayer extends Player {
 	@NotNull
 	@Override
 	public Coordinates placePiece(@NotNull Board board, @NotNull Piece piece) {
-		for (int row = teamColour == Util.player1Colour ? 0 : (board.getHeight() - 1); teamColour == Util.player1Colour ? (row < board.getHeight()) : (row >= 0); row = teamColour == Util.player1Colour ? row + 1 : row - 1) {
+		for (int row = getTeamColour() == Util.player1Colour ? 0 : (board.getHeight() - 1); getTeamColour() == Util.player1Colour ? (row < board.getHeight()) : (row >= 0); row = getTeamColour() == Util.player1Colour ? row + 1 : row - 1) {
 			for (int col = 0; col < board.getWidth(); col++) {
 				Square square = board.getSquare(new Coordinates(row, col));
 				assert square != null;

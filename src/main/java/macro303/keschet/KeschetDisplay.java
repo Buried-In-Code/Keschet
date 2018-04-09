@@ -1,20 +1,23 @@
 package macro303.keschet;
 
-import macro303.board_game.*;
+import macro303.board_game.Colour;
+import macro303.board_game.Coordinates;
+import macro303.board_game.Display;
+import macro303.board_game.Square;
 import macro303.keschet.pieces.Piece;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Macro303 on 2018-02-22.
  */
 public class KeschetDisplay extends Display {
 
-	public KeschetDisplay(@NotNull Board board, @NotNull Colour boardColour, @NotNull Colour headerColour) {
-		super(board, boardColour, headerColour);
+	public KeschetDisplay() {
+		super(false, true, true);
 	}
 
-	public KeschetDisplay(@NotNull Board board) {
-		super(board);
+	@Override
+	public void draw() {
+		draw(false);
 	}
 
 	public void draw(boolean colourSides) {

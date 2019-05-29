@@ -31,7 +31,7 @@ application {
 }
 
 group = 'nz.macro303.game'
-version = '3.0.0'
+version = '2.1.2'
 
 dependencies {
 	implementation group: 'nz.co.macro303', name: 'board-game', version: "0.3"

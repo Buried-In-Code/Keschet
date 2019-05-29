@@ -1,6 +1,9 @@
 package macro303.keschet;
 
-import macro303.board_game.*;
+import macro303.board_game.Board;
+import macro303.board_game.Colour;
+import macro303.board_game.Coordinates;
+import macro303.board_game.Square;
 import macro303.keschet.pieces.Emperor;
 import macro303.keschet.pieces.Merchant;
 import macro303.keschet.pieces.Piece;

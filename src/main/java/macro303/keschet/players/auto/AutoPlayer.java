@@ -48,6 +48,11 @@ public class AutoPlayer extends Player {
 		return requestLocation();
 	}
 
+	@Override
+	public String toString() {
+		return "AutoPlayer{} " + super.toString();
+	}
+
 	@NotNull
 	private Coordinates requestLocation() {
 		boolean valid = false;
@@ -65,10 +70,5 @@ public class AutoPlayer extends Player {
 			}
 		} while (!valid);
 		return new Coordinates(row, col);
-	}
-
-	@Override
-	public String toString() {
-		return "AutoPlayer{} " + super.toString();
 	}
 }

@@ -38,6 +38,11 @@ public class ConsolePlayer extends Player {
 		return requestLocation();
 	}
 
+	@Override
+	public String toString() {
+		return "ConsolePlayer{} " + super.toString();
+	}
+
 	@NotNull
 	private Coordinates requestLocation() {
 		boolean valid = false;
@@ -55,10 +60,5 @@ public class ConsolePlayer extends Player {
 			}
 		} while (!valid);
 		return new Coordinates(row, col);
-	}
-
-	@Override
-	public String toString() {
-		return "ConsolePlayer{} " + super.toString();
 	}
 }

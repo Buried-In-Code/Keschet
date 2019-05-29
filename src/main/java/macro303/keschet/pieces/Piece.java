@@ -19,24 +19,15 @@ public abstract class Piece implements Item {
 	@NotNull
 	private Colour teamColour;
 
+	protected Piece(int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
+		this(Colour.RESET, maxDistance, symbol, validDirections);
+	}
+
 	protected Piece(@NotNull Colour teamColour, int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
 		this.teamColour = teamColour;
 		this.maxDistance = maxDistance;
 		this.symbol = symbol;
 		this.validDirections = validDirections;
-	}
-
-	protected Piece(int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
-		this(Colour.RESET, maxDistance, symbol, validDirections);
-	}
-
-	@NotNull
-	public Colour getTeamColour() {
-		return teamColour;
-	}
-
-	public void setTeamColour(@NotNull Colour teamColour) {
-		this.teamColour = teamColour;
 	}
 
 	public int getMaxDistance() {
@@ -49,13 +40,31 @@ public abstract class Piece implements Item {
 		return getTeamColour().getColourCode() + symbol;
 	}
 
-	public String getSymbol2(){
+	@NotNull
+	public Colour getTeamColour() {
+		return teamColour;
+	}
+
+	public void setTeamColour(@NotNull Colour teamColour) {
+		this.teamColour = teamColour;
+	}
+
+	public String getSymbol2() {
 		return symbol;
 	}
 
 	@NotNull
 	public Direction[] getValidDirections() {
 		return validDirections;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = maxDistance;
+		result = 31 * result + symbol.hashCode();
+		result = 31 * result + Arrays.hashCode(validDirections);
+		result = 31 * result + teamColour.hashCode();
+		return result;
 	}
 
 	@Override
@@ -70,15 +79,6 @@ public abstract class Piece implements Item {
 		// Probably incorrect - comparing Object[] arrays with Arrays.equals
 		if (!Arrays.equals(validDirections, piece.validDirections)) return false;
 		return teamColour == piece.teamColour;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = maxDistance;
-		result = 31 * result + symbol.hashCode();
-		result = 31 * result + Arrays.hashCode(validDirections);
-		result = 31 * result + teamColour.hashCode();
-		return result;
 	}
 
 	@Override

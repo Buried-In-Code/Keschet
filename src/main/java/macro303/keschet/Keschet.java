@@ -30,23 +30,6 @@ public class Keschet extends Game {
 		playGame();
 	}
 
-	public static void main(@Nullable String... args) {
-		new Keschet();
-	}
-
-	@Override
-	protected void setPlayers(@NotNull String name1, @NotNull String name2) {
-		if (new Random().nextInt(2) == 0) {
-			player1 = new AutoPlayer(name1, player1Colour);
-			player2 = new AutoPlayer(name2, player2Colour);
-		} else {
-			player1 = new AutoPlayer(name2, player1Colour);
-			player2 = new AutoPlayer(name1, player2Colour);
-		}
-		display.showMessage(player1.getTeamColour().getColourCode() + "Player 1 is: " + player1.getName());
-		display.showMessage(player2.getTeamColour().getColourCode() + "Player 2 is: " + player2.getName());
-	}
-
 	private void placePieces() {
 		Player[] players = new Player[]{(Player) player1, (Player) player2};
 //		1 Emperor
@@ -105,6 +88,29 @@ public class Keschet extends Game {
 		} while (!placed);
 	}
 
+	public static void main(@Nullable String... args) {
+		new Keschet();
+	}
+
+	@Override
+	@Nullable
+	protected Team checkWinCondition() {
+		int player1Count = ((KeschetBoard) board).countPieces((Player) player1);
+		boolean player1Emperor = ((KeschetBoard) board).findPiece(Emperor.class, player1.getTeamColour()) != null;
+		int player2Count = ((KeschetBoard) board).countPieces((Player) player2);
+		boolean player2Emperor = ((KeschetBoard) board).findPiece(Emperor.class, player2.getTeamColour()) != null;
+		Team winner = null;
+		if ((player1Count <= 1 || !player1Emperor) && (player2Count <= 1 || !player2Emperor))
+			winner = draw;
+		if (player1Count <= 1 || !player1Emperor)
+			winner = player2;
+		if (player2Count <= 1 || !player2Emperor)
+			winner = player1;
+		if (winner != null)
+			display.showTitle(winner.getName() + " Wins", winner.getTeamColour());
+		return winner;
+	}
+
 	@Override
 	protected void executeTurn(@NotNull Team player) {
 		display.draw();
@@ -154,6 +160,19 @@ public class Keschet extends Game {
 		} while (!valid);
 	}
 
+	@Override
+	protected void setPlayers(@NotNull String name1, @NotNull String name2) {
+		if (new Random().nextInt(2) == 0) {
+			player1 = new AutoPlayer(name1, player1Colour);
+			player2 = new AutoPlayer(name2, player2Colour);
+		} else {
+			player1 = new AutoPlayer(name2, player1Colour);
+			player2 = new AutoPlayer(name1, player2Colour);
+		}
+		display.showMessage(player1.getTeamColour().getColourCode() + "Player 1 is: " + player1.getName());
+		display.showMessage(player2.getTeamColour().getColourCode() + "Player 2 is: " + player2.getName());
+	}
+
 	private void stealPiece(@NotNull Square location, @NotNull Piece piece, @NotNull Player player) {
 		piece.setTeamColour(player.getTeamColour());
 		((KeschetDisplay) display).draw(location);
@@ -176,24 +195,5 @@ public class Keschet extends Game {
 		int row = Math.abs(oldLocation.getCoordinates().getRow() - newLocation.getCoordinates().getRow());
 		int col = Math.abs(oldLocation.getCoordinates().getCol() - newLocation.getCoordinates().getCol());
 		return row <= 1 && col <= 1;
-	}
-
-	@Override
-	@Nullable
-	protected Team checkWinCondition() {
-		int player1Count = ((KeschetBoard) board).countPieces((Player) player1);
-		boolean player1Emperor = ((KeschetBoard) board).findPiece(Emperor.class, player1.getTeamColour()) != null;
-		int player2Count = ((KeschetBoard) board).countPieces((Player) player2);
-		boolean player2Emperor = ((KeschetBoard) board).findPiece(Emperor.class, player2.getTeamColour()) != null;
-		Team winner = null;
-		if ((player1Count <= 1 || !player1Emperor) && (player2Count <= 1 || !player2Emperor))
-			winner = draw;
-		if (player1Count <= 1 || !player1Emperor)
-			winner = player2;
-		if (player2Count <= 1 || !player2Emperor)
-			winner = player1;
-		if (winner != null)
-			display.showTitle(winner.getName() + " Wins", winner.getTeamColour());
-		return winner;
 	}
 }

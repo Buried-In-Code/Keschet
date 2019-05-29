@@ -34,7 +34,7 @@ group = 'nz.macro303.game'
 version = '2.1.2'
 
 dependencies {
-	implementation group: 'nz.co.macro303', name: 'board-game', version: "0.3"
+	implementation group: 'nz.co.macro303', name: 'board-game', version: "0.3.1"
 	implementation group: 'org.jetbrains', name: 'annotations', version: "17.0.0"
 	implementation group: 'org.yaml', name: 'snakeyaml', version: "1.24"
 	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: "$loggerVersion"

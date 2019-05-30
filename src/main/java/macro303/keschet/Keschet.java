@@ -67,8 +67,10 @@ public class Keschet extends Game {
 	}
 
 	private void placePiece(@NotNull Player player, @NotNull Piece piece) {
-		((KeschetDisplay) display).draw(true);
-		display.showTitle("Place " + piece.getClass().getSimpleName(), player.getTeamColour());
+		if (!(player instanceof AutoPlayer)) {
+			((KeschetDisplay) display).draw(true);
+			display.showTitle("Place " + piece.getClass().getSimpleName(), player.getTeamColour());
+		}
 		boolean placed = false;
 		do {
 			Coordinates selected = player.placePiece(board, piece);

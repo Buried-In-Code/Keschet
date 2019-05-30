@@ -1,127 +1,127 @@
 package macro303.keschet;
 
 import macro303.board_game.Board;
+import macro303.board_game.Colour;
 import macro303.board_game.Coordinates;
 import macro303.board_game.Square;
+import macro303.keschet.pieces.General;
+import macro303.keschet.pieces.Piece;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Created by Macro303 on 2018-02-08.
  */
 public class Direction_Test {
-	private static final Logger LOGGER = LogManager.getLogger(Direction_Test.class);
+	private static final Logger LOGGER = LogManager.getLogger();
 	private static Board board;
-	private static KeschetDisplay display;
 	private static Square start;
+	private static Square end;
 
-	@BeforeClass
-	public static void beforeClass() {
+	@BeforeAll
+	static void beforeAll() {
 		board = new Board(10);
-		display = new KeschetDisplay();
-		display.setBoard(board);
 		start = board.getSquare(new Coordinates(2, 2));
-		assert start != null;
+	}
+
+	@BeforeEach
+	void beforeEach(){
+		start.setItem(new General(Colour.BLUE));
+		if (end != null)
+			end.setItem(null);
 	}
 
 	@Test
-	public void test_northDirection() {
-		display.showMessage("=====North Direction=====");
-		Square end = board.getSquare(new Coordinates(2, 1));
+	void test_northDirection() {
+		end = board.getSquare(new Coordinates(2, 1));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
-		display.showMessage("North Direction: " + direction);
-		Assert.assertEquals(Direction.NORTH, direction);
+		LOGGER.info("North ==> " + direction);
+		assertEquals(Direction.NORTH, direction);
 	}
 
 	@Test
-	public void test_northEastDirection() {
-		display.showMessage("=====North-East Direction=====");
-		Square end = board.getSquare(new Coordinates(3, 1));
+	void test_northEastDirection() {
+		end = board.getSquare(new Coordinates(3, 1));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
-		display.showMessage("North-East Direction: " + direction);
-		Assert.assertEquals(Direction.NORTH_EAST, direction);
+		LOGGER.info("North-East ==> " + direction);
+		assertEquals(Direction.NORTH_EAST, direction);
 	}
 
 	@Test
-	public void test_eastDirection() {
-		display.showMessage("=====East Direction=====");
-		Square end = board.getSquare(new Coordinates(3, 2));
+	void test_eastDirection() {
+		end = board.getSquare(new Coordinates(3, 2));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
-		display.showMessage("East Direction: " + direction);
-		Assert.assertEquals(Direction.EAST, direction);
+		LOGGER.info("East ==> " + direction);
+		assertEquals(Direction.EAST, direction);
 	}
 
 	@Test
-	public void test_southEastDirection() {
-		display.showMessage("=====South-East Direction=====");
-		Square end = board.getSquare(new Coordinates(3, 3));
+	void test_southEastDirection() {
+		end = board.getSquare(new Coordinates(3, 3));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
-		display.showMessage("South-East Direction: " + direction);
-		Assert.assertEquals(Direction.SOUTH_EAST, direction);
+		LOGGER.info("South-East ==> " + direction);
+		assertEquals(Direction.SOUTH_EAST, direction);
 	}
 
 	@Test
-	public void test_southDirection() {
-		display.showMessage("=====South Direction=====");
-		Square end = board.getSquare(new Coordinates(2, 3));
+	void test_southDirection() {
+		end = board.getSquare(new Coordinates(2, 3));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
-		display.showMessage("South Direction: " + direction);
-		Assert.assertEquals(Direction.SOUTH, direction);
+		LOGGER.info("South ==> " + direction);
+		assertEquals(Direction.SOUTH, direction);
 	}
 
 	@Test
-	public void test_southWestDirection() {
-		display.showMessage("=====South-West Direction=====");
-		Square end = board.getSquare(new Coordinates(1, 3));
+	void test_southWestDirection() {
+		end = board.getSquare(new Coordinates(1, 3));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
-		display.showMessage("South-West Direction: " + direction);
-		Assert.assertEquals(Direction.SOUTH_WEST, direction);
+		LOGGER.info("South-West ==> " + direction);
+		assertEquals(Direction.SOUTH_WEST, direction);
 	}
 
 	@Test
-	public void test_westDirection() {
-		display.showMessage("=====West Direction=====");
-		Square end = board.getSquare(new Coordinates(1, 2));
+	void test_westDirection() {
+		end = board.getSquare(new Coordinates(1, 2));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
-		display.showMessage("West Direction: " + direction);
-		Assert.assertEquals(Direction.WEST, direction);
+		LOGGER.info("West ==> " + direction);
+		assertEquals(Direction.WEST, direction);
 	}
 
 	@Test
-	public void test_northWestDirection() {
-		display.showMessage("=====North-West Direction=====");
-		Square end = board.getSquare(new Coordinates(1, 1));
+	void test_northWestDirection() {
+		end = board.getSquare(new Coordinates(1, 1));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
-		display.showMessage("North-West Direction: " + direction);
-		Assert.assertEquals(Direction.NORTH_WEST, direction);
+		LOGGER.info("North-West ==> " + direction);
+		assertEquals(Direction.NORTH_WEST, direction);
 	}
 
 	@Test
-	public void test_invalidDirection() {
-		display.showMessage("=====Invalid Direction=====");
-		Square end = board.getSquare(new Coordinates(4, 3));
+	void test_invalidDirection() {
+		end = board.getSquare(new Coordinates(4, 3));
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
-		display.showMessage("Invalid Direction: " + direction);
-		Assert.assertEquals(Direction.INVALID, direction);
+		LOGGER.info("Invalid ==> " + direction);
+		assertEquals(Direction.INVALID, direction);
 	}
 
 	@Test
-	public void test_noDirection() {
-		display.showMessage("=====No Direction=====");
+	void test_noDirection() {
 		Direction direction = Util.calculateDirection(start, start);
-		display.showMessage("No Direction: " + direction);
-		Assert.assertEquals(Direction.INVALID, direction);
+		LOGGER.info("None ==> " + direction);
+		assertEquals(Direction.INVALID, direction);
 	}
 }

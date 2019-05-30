@@ -1,6 +1,7 @@
 buildscript {
 	ext {
 		loggerVersion = '2.11.2'
+		junitVersion = '5.3.1'
 	}
 
 	repositories {
@@ -34,12 +35,13 @@ group = 'nz.macro303.game'
 version = '2.1.2'
 
 dependencies {
-	implementation group: 'nz.co.macro303', name: 'board-game', version: "0.3.1"
+	implementation group: 'nz.macro303', name: 'Board-Game', version: "0.3.1"
 	implementation group: 'org.jetbrains', name: 'annotations', version: "17.0.0"
 	implementation group: 'org.yaml', name: 'snakeyaml', version: "1.24"
 	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: "$loggerVersion"
 	runtimeOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: "$loggerVersion"
-	testImplementation group: 'junit', name: 'junit', version: "4.13-beta-3"
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junitVersion"
+	testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$junitVersion"
 }
 
 compileJava {
@@ -58,4 +60,8 @@ jar {
 
 run {
 	standardInput = System.in
+}
+
+test {
+	useJUnitPlatform()
 }

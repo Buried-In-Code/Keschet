@@ -15,7 +15,7 @@ public class Lancer extends Piece {
 	private static final String symbol = "L";
 	private static final int maxDistance = 10;
 	@NotNull
-	private static final Direction[] validDirections = new Direction[]{NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST};
+	private static final Direction[] validDirections = new Direction[]{NORTH_EAST, SOUTH_EAST, SOUTH_WEST, NORTH_WEST};
 
 	public Lancer(@NotNull Colour teamColour) {
 		super(teamColour, maxDistance, symbol, validDirections);

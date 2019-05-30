@@ -14,7 +14,8 @@ A chess-style game from the Blood Song by Anthony Ryan.
 - [annotations: 17.0.0](https://www.jetbrains.com/)
 - [log4j-api: 2.11.2](https://logging.apache.org/log4j/2.x/)
 - [log4j-core: 2.11.2 (Runtime)](https://logging.apache.org/log4j/2.x/)
-- [junit: 4.13-beta-3 (Test)](http://junit.org/junit4/)
+- [junit-jupiter-api: 5.3.1 (Test)](https://junit.org/junit5/)
+- [junit-jupiter-engine: 5.3.1 (Test Runtime)](https://junit.org/junit5/)
 
 ## Rules
 

@@ -2,12 +2,11 @@ package macro303.keschet;
 
 import macro303.board_game.Board;
 import macro303.board_game.Colour;
-import macro303.board_game.Coordinates;
 import macro303.board_game.Square;
-import macro303.keschet.pieces.Emperor;
-import macro303.keschet.pieces.Merchant;
-import macro303.keschet.pieces.Piece;
-import macro303.keschet.pieces.Scholar;
+import macro303.keschet.core.pieces.Emperor;
+import macro303.keschet.core.pieces.Merchant;
+import macro303.keschet.core.pieces.Piece;
+import macro303.keschet.core.pieces.Scholar;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -18,25 +17,25 @@ import static macro303.keschet.Direction.*;
  * Created by Macro303 on 2018-02-08.
  */
 public abstract class Util {
+	private static final Logger LOGGER = LogManager.getLogger(Util.class);
 	public static final int SIZE = 10;
 	public static final Colour player1Colour = Colour.BLUE;
 	public static final Colour player2Colour = Colour.MAGENTA;
-	private static final Logger LOGGER = LogManager.getLogger(Util.class);
 
 	public static boolean validMovement(@NotNull Board board, @NotNull Square start, @NotNull Square end) {
-		Piece piece = (Piece) start.getItem();
+		Piece piece = (Piece) start.getPiece();
 		Direction direction = calculateDirection(start, end);
 		int distance = calculateDistance(start, end, direction);
 		boolean directionValid = piece != null && validDirection(piece, direction);
-		if (piece != null && piece.getClass() == Merchant.class) {
+		if (piece instanceof Merchant) {
 			boolean blocked = checkForBlocking(board, start, direction, distance);
 			boolean selfTaking = false;
 			boolean scholarBlocked = false;
-			boolean merchantAbility = checkForEmperor(board, end, piece.getTeamColour());
+			boolean merchantAbility = checkForEmperor(board, end, piece.getColour());
 			if (!merchantAbility)
 				merchantAbility = validDistance(piece, distance);
-			if (end.getItem() != null) {
-				selfTaking = ((Piece) end.getItem()).getTeamColour() == piece.getTeamColour();
+			if (end.getPiece() != null) {
+				selfTaking = ((Piece) end.getPiece()).getColour() == piece.getColour();
 				scholarBlocked = checkForScholar(board, end);
 			}
 			return directionValid && merchantAbility && !blocked && !selfTaking && !scholarBlocked;
@@ -45,8 +44,8 @@ public abstract class Util {
 			boolean blocked = checkForBlocking(board, start, direction, distance);
 			boolean selfTaking = false;
 			boolean scholarBlocked = false;
-			if (end.getItem() != null) {
-				selfTaking = ((Piece) end.getItem()).getTeamColour() == piece.getTeamColour();
+			if (end.getPiece() != null) {
+				selfTaking = ((Piece) end.getPiece()).getColour() == piece.getColour();
 				scholarBlocked = checkForScholar(board, end);
 			}
 			return directionValid && distanceValid && !blocked && !selfTaking && !scholarBlocked;
@@ -56,8 +55,8 @@ public abstract class Util {
 
 	@NotNull
 	public static Direction calculateDirection(@NotNull Square start, @NotNull Square end) {
-		int horizontal = end.getCoordinates().getRow() - start.getCoordinates().getRow();
-		int vertical = end.getCoordinates().getCol() - start.getCoordinates().getCol();
+		int horizontal = end.getY() - start.getY();
+		int vertical = end.getX() - start.getX();
 		boolean diagonal = Math.abs(horizontal) == Math.abs(vertical);
 		if (horizontal == 0 && vertical < 0 && !diagonal)
 			return NORTH;
@@ -86,10 +85,10 @@ public abstract class Util {
 			case SOUTH_EAST:
 			case SOUTH_WEST:
 			case NORTH_WEST:
-				return Math.abs(start.getCoordinates().getRow() - end.getCoordinates().getRow());
+				return Math.abs(start.getY() - end.getY());
 			case NORTH:
 			case SOUTH:
-				return Math.abs(start.getCoordinates().getCol() - end.getCoordinates().getCol());
+				return Math.abs(start.getX() - end.getX());
 			default:
 				return 0;
 		}
@@ -104,24 +103,24 @@ public abstract class Util {
 	}
 
 	private static boolean checkForBlocking(@NotNull Board board, @NotNull Square start, @NotNull Direction direction, int distance) {
-		int tempRow = start.getCoordinates().getRow();
-		int tempCol = start.getCoordinates().getCol();
+		int tempRow = start.getX();
+		int tempCol = start.getY();
 		boolean blocked = false;
 		for (int i = 0; i < distance; i++) {
 			if (direction == NORTH || direction == NORTH_EAST || direction == NORTH_WEST) {
-				tempCol--;
+				tempRow--;
 			} else if (direction == SOUTH || direction == SOUTH_EAST || direction == SOUTH_WEST) {
-				tempCol++;
+				tempRow++;
 			}
 			if (direction == EAST || direction == NORTH_EAST || direction == SOUTH_EAST) {
-				tempRow++;
+				tempCol++;
 			} else if (direction == WEST || direction == NORTH_WEST || direction == SOUTH_WEST) {
-				tempRow--;
+				tempCol--;
 			}
 			if (direction == INVALID)
 				blocked = true;
-			Square tempSquare = board.getSquare(new Coordinates(tempRow, tempCol));
-			if (tempSquare != null && tempSquare.getItem() != null && i != distance - 1)
+			Square tempSquare = board.getSquare(tempRow, tempCol);
+			if (tempSquare != null && tempSquare.getPiece() != null && i != distance - 1)
 				blocked = true;
 		}
 		return blocked;
@@ -129,29 +128,29 @@ public abstract class Util {
 
 	public static boolean checkForEmperor(@NotNull Board board, @NotNull Square location, @NotNull Colour teamColour) {
 		boolean exists = false;
-		Square tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() - 1, location.getCoordinates().getCol()));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Emperor.class && ((Piece) tempSquare.getItem()).getTeamColour() == teamColour)
+		Square tempSquare = board.getSquare(location.getY() - 1, location.getX());
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Emperor) && ((Piece) tempSquare.getPiece()).getColour() == teamColour)
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() - 1, location.getCoordinates().getCol() + 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Emperor.class && ((Piece) tempSquare.getItem()).getTeamColour() == teamColour)
+		tempSquare = board.getSquare(location.getY() - 1, location.getX() + 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Emperor) && ((Piece) tempSquare.getPiece()).getColour() == teamColour)
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow(), location.getCoordinates().getCol() + 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Emperor.class && ((Piece) tempSquare.getItem()).getTeamColour() == teamColour)
+		tempSquare = board.getSquare(location.getY(), location.getX() + 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Emperor) && ((Piece) tempSquare.getPiece()).getColour() == teamColour)
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() + 1, location.getCoordinates().getCol() + 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Emperor.class && ((Piece) tempSquare.getItem()).getTeamColour() == teamColour)
+		tempSquare = board.getSquare(location.getY() + 1, location.getX() + 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Emperor) && ((Piece) tempSquare.getPiece()).getColour() == teamColour)
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() + 1, location.getCoordinates().getCol()));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Emperor.class && ((Piece) tempSquare.getItem()).getTeamColour() == teamColour)
+		tempSquare = board.getSquare(location.getY() + 1, location.getX());
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Emperor) && ((Piece) tempSquare.getPiece()).getColour() == teamColour)
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() + 1, location.getCoordinates().getCol() - 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Emperor.class && ((Piece) tempSquare.getItem()).getTeamColour() == teamColour)
+		tempSquare = board.getSquare(location.getY() + 1, location.getX() - 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Emperor) && ((Piece) tempSquare.getPiece()).getColour() == teamColour)
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow(), location.getCoordinates().getCol() - 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Emperor.class && ((Piece) tempSquare.getItem()).getTeamColour() == teamColour)
+		tempSquare = board.getSquare(location.getY(), location.getX() - 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Emperor) && ((Piece) tempSquare.getPiece()).getColour() == teamColour)
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() - 1, location.getCoordinates().getCol() - 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Emperor.class && ((Piece) tempSquare.getItem()).getTeamColour() == teamColour)
+		tempSquare = board.getSquare(location.getY() - 1, location.getX() - 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Emperor) && ((Piece) tempSquare.getPiece()).getColour() == teamColour)
 			exists = true;
 		return exists;
 	}
@@ -162,31 +161,31 @@ public abstract class Util {
 
 	public static boolean checkForScholar(@NotNull Board board, @NotNull Square location) {
 		boolean exists = false;
-		Piece piece = (Piece) location.getItem();
+		Piece piece = (Piece) location.getPiece();
 		assert piece != null;
-		Square tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() - 1, location.getCoordinates().getCol()));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Scholar.class && ((Piece) tempSquare.getItem()).getTeamColour() == piece.getTeamColour())
+		Square tempSquare = board.getSquare(location.getY() - 1, location.getX());
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Scholar) && ((Piece) tempSquare.getPiece()).getColour() == piece.getColour())
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() - 1, location.getCoordinates().getCol() + 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Scholar.class && ((Piece) tempSquare.getItem()).getTeamColour() == piece.getTeamColour())
+		tempSquare = board.getSquare(location.getY() - 1, location.getX() + 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Scholar) && ((Piece) tempSquare.getPiece()).getColour() == piece.getColour())
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow(), location.getCoordinates().getCol() + 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Scholar.class && ((Piece) tempSquare.getItem()).getTeamColour() == piece.getTeamColour())
+		tempSquare = board.getSquare(location.getY(), location.getX() + 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Scholar) && ((Piece) tempSquare.getPiece()).getColour() == piece.getColour())
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() + 1, location.getCoordinates().getCol() + 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Scholar.class && ((Piece) tempSquare.getItem()).getTeamColour() == piece.getTeamColour())
+		tempSquare = board.getSquare(location.getY() + 1, location.getX() + 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Scholar) && ((Piece) tempSquare.getPiece()).getColour() == piece.getColour())
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() + 1, location.getCoordinates().getCol()));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Scholar.class && ((Piece) tempSquare.getItem()).getTeamColour() == piece.getTeamColour())
+		tempSquare = board.getSquare(location.getY() + 1, location.getX());
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Scholar) && ((Piece) tempSquare.getPiece()).getColour() == piece.getColour())
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() + 1, location.getCoordinates().getCol() - 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Scholar.class && ((Piece) tempSquare.getItem()).getTeamColour() == piece.getTeamColour())
+		tempSquare = board.getSquare(location.getY() + 1, location.getX() - 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Scholar) && ((Piece) tempSquare.getPiece()).getColour() == piece.getColour())
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow(), location.getCoordinates().getCol() - 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Scholar.class && ((Piece) tempSquare.getItem()).getTeamColour() == piece.getTeamColour())
+		tempSquare = board.getSquare(location.getY(), location.getX() - 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Scholar) && ((Piece) tempSquare.getPiece()).getColour() == piece.getColour())
 			exists = true;
-		tempSquare = board.getSquare(new Coordinates(location.getCoordinates().getRow() - 1, location.getCoordinates().getCol() - 1));
-		if (tempSquare != null && tempSquare.getItem() != null && tempSquare.getItem().getClass() == Scholar.class && ((Piece) tempSquare.getItem()).getTeamColour() == piece.getTeamColour())
+		tempSquare = board.getSquare(location.getY() - 1, location.getX() - 1);
+		if (tempSquare != null && tempSquare.getPiece() != null && (tempSquare.getPiece() instanceof Scholar) && ((Piece) tempSquare.getPiece()).getColour() == piece.getColour())
 			exists = true;
 		return exists;
 	}

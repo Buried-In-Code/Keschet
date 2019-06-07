@@ -1,38 +1,26 @@
-package macro303.keschet.players.auto;
+package macro303.keschet.core.players;
 
 import macro303.board_game.Board;
 import macro303.board_game.Colour;
-import macro303.board_game.Coordinates;
-import macro303.board_game.Square;
-import macro303.keschet.Util;
-import macro303.keschet.pieces.Piece;
-import macro303.keschet.players.Player;
-import macro303.keschet.players.Reader;
+import macro303.keschet.core.Coordinates;
+import macro303.keschet.core.pieces.Piece;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Created by Macro303 on 2018-02-22.
+ * Created by Macro303 on 2018-02-12.
  */
-public class AutoPlayer extends Player {
-	private static final Logger LOGGER = LogManager.getLogger(AutoPlayer.class);
+public class ConsolePlayer extends Player {
+	private static final Logger LOGGER = LogManager.getLogger(ConsolePlayer.class);
 
-	public AutoPlayer(@NotNull String name, @NotNull Colour colour) {
-		super(name, colour);
+	public ConsolePlayer(@NotNull String name, @NotNull Colour colour, int playerNum) {
+		super(name, colour, playerNum);
 	}
 
 	@NotNull
 	@Override
 	public Coordinates placePiece(@NotNull Board board, @NotNull Piece piece) {
-		for (int row = getTeamColour() == Util.player1Colour ? 0 : (board.getHeight() - 1); getTeamColour() == Util.player1Colour ? (row < board.getHeight()) : (row >= 0); row = getTeamColour() == Util.player1Colour ? row + 1 : row - 1) {
-			for (int col = 0; col < board.getWidth(); col++) {
-				Square square = board.getSquare(new Coordinates(row, col));
-				assert square != null;
-				if (square.getItem() == null)
-					return square.getCoordinates();
-			}
-		}
 		return requestLocation();
 	}
 
@@ -50,7 +38,7 @@ public class AutoPlayer extends Player {
 
 	@Override
 	public String toString() {
-		return "AutoPlayer{} " + super.toString();
+		return "ConsolePlayer{} " + super.toString();
 	}
 
 	@NotNull

@@ -1,4 +1,4 @@
-package macro303.keschet.players;
+package macro303.keschet.core.players;
 
 import macro303.board_game.Colour;
 import org.apache.logging.log4j.LogManager;

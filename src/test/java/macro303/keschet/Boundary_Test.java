@@ -2,12 +2,10 @@ package macro303.keschet;
 
 import macro303.board_game.Board;
 import macro303.board_game.Colour;
-import macro303.board_game.Coordinates;
 import macro303.board_game.Square;
-import macro303.keschet.pieces.*;
+import macro303.keschet.core.pieces.Emperor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,19 +25,19 @@ public class Boundary_Test {
 	@BeforeAll
 	static void beforeAll() {
 		board = new Board(10);
-		start = board.getSquare(new Coordinates(2, 2));
+		start = board.getSquare(2, 2);
 	}
 
 	@BeforeEach
-	void beforeEach(){
-		start.setItem(new Emperor(Colour.BLUE));
+	void beforeEach() {
+		start.setPiece(new Emperor(Colour.BLUE));
 		if (end != null)
-			end.setItem(null);
+			end.setPiece(null);
 	}
 
 	@Test
 	void test_distanceInMove() {
-		end = board.getSquare(new Coordinates(6, 6));
+		end = board.getSquare(6, 6);
 		assert end != null;
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.info("Distance In ==> " + valid);
@@ -48,7 +46,7 @@ public class Boundary_Test {
 
 	@Test
 	void test_distanceOutMove() {
-		end = board.getSquare(new Coordinates(7, 7));
+		end = board.getSquare(7, 7);
 		assert end != null;
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.info("Distance Out ==> " + valid);

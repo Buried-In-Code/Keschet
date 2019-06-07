@@ -1,19 +1,19 @@
-package macro303.keschet.players;
+package macro303.keschet.core.players;
 
 import macro303.board_game.Board;
 import macro303.board_game.Colour;
-import macro303.board_game.Coordinates;
-import macro303.board_game.Team;
-import macro303.keschet.pieces.Piece;
+import macro303.board_game.PlayerBase;
+import macro303.keschet.core.Coordinates;
+import macro303.keschet.core.pieces.Piece;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Macro303 on 2018-02-08.
  */
-public abstract class Player extends Team {
+public abstract class Player extends PlayerBase {
 
-	protected Player(@NotNull String name, @NotNull Colour teamColour) {
-		super(name, teamColour);
+	protected Player(@NotNull String name, @NotNull Colour colour, int playerNum) {
+		super(name, colour, playerNum);
 	}
 
 	@NotNull

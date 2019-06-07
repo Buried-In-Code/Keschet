@@ -1,15 +1,11 @@
-package macro303.keschet;
+package macro303.keschet.core.pieces;
 
 import macro303.board_game.Board;
 import macro303.board_game.Colour;
-import macro303.board_game.Coordinates;
 import macro303.board_game.Square;
-import macro303.keschet.pieces.General;
-import macro303.keschet.pieces.Piece;
-import macro303.keschet.pieces.Scholar;
+import macro303.keschet.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,21 +26,21 @@ public class Scholar_Test {
 	@BeforeAll
 	static void beforeAll() {
 		board = new Board(10);
-		start = board.getSquare(new Coordinates(2, 2));
-		block = board.getSquare(new Coordinates(4, 5));
-		end = board.getSquare(new Coordinates(4, 4));
+		start = board.getSquare(2, 2);
+		block = board.getSquare(4, 5);
+		end = board.getSquare(4, 4);
 	}
 
 	@BeforeEach
-	void beforeEach(){
-		start.setItem(new General(Colour.BLUE));
-		block.setItem(null);
-		end.setItem(new General(Colour.RED));
+	void beforeEach() {
+		start.setPiece(new General(Colour.BLUE));
+		block.setPiece(null);
+		end.setPiece(new General(Colour.RED));
 	}
 
 	@Test
 	void test_enemyBlockMove() {
-		block.setItem(new Scholar(Colour.RED));
+		block.setPiece(new Scholar(Colour.RED));
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.info("Enemy Scholar Block ==> " + valid);
 		assertFalse(valid);
@@ -52,7 +48,7 @@ public class Scholar_Test {
 
 	@Test
 	void test_allyBlockMove() {
-		block.setItem(new Scholar(Colour.BLUE));
+		block.setPiece(new Scholar(Colour.BLUE));
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.info("Ally Scholar Block ==> " + valid);
 		assertTrue(valid);

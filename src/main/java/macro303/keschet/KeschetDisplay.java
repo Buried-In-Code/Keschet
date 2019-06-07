@@ -1,10 +1,9 @@
 package macro303.keschet;
 
 import macro303.board_game.Colour;
-import macro303.board_game.Coordinates;
 import macro303.board_game.Display;
 import macro303.board_game.Square;
-import macro303.keschet.pieces.Piece;
+import macro303.keschet.core.pieces.Piece;
 
 /**
  * Created by Macro303 on 2018-02-22.
@@ -23,7 +22,7 @@ public class KeschetDisplay extends Display {
 	public void draw(boolean colourSides) {
 		for (int row = -1; row < board.getHeight(); row++) {
 			for (int col = -1; col < board.getWidth(); col++) {
-				System.out.print(headerColour.getColourCode());
+				System.out.print(headingsColour.getColourCode());
 				if (row == -1 && col == -1) {
 					System.out.print("  ");
 				} else if (col == -1) {
@@ -31,7 +30,7 @@ public class KeschetDisplay extends Display {
 				} else if (row == -1) {
 					System.out.print(" " + col + " ");
 				} else {
-					Square square = board.getSquare(new Coordinates(row, col));
+					Square square = board.getSquare(row, col);
 					assert square != null;
 					System.out.print(boardColour.getColourCode());
 					if (colourSides) {
@@ -41,10 +40,10 @@ public class KeschetDisplay extends Display {
 							System.out.print(Util.player2Colour.getColourCode());
 						}
 					}
-					if (square.getItem() == null) {
+					if (square.getPiece() == null) {
 						System.out.print(" ~ ");
 					} else {
-						System.out.print(" " + square.getItem().getSymbol() + " ");
+						System.out.print(" " + square.getPiece().getSymbol() + " ");
 					}
 				}
 				System.out.print(Colour.RESET.getColourCode());
@@ -54,11 +53,11 @@ public class KeschetDisplay extends Display {
 	}
 
 	public void draw(Square location) {
-		Piece piece = (Piece) location.getItem();
+		Piece piece = (Piece) location.getPiece();
 		assert piece != null;
 		for (int row = -1; row < board.getHeight(); row++) {
 			for (int col = -1; col < board.getWidth(); col++) {
-				System.out.print(headerColour.getColourCode());
+				System.out.print(headingsColour.getColourCode());
 				if (row == -1 && col == -1) {
 					System.out.print("  ");
 				} else if (col == -1) {
@@ -66,15 +65,15 @@ public class KeschetDisplay extends Display {
 				} else if (row == -1) {
 					System.out.print(" " + col + " ");
 				} else {
-					Square square = board.getSquare(new Coordinates(row, col));
+					Square square = board.getSquare(row, col);
 					assert square != null;
-					Piece item = (Piece) square.getItem();
+					Piece item = (Piece) square.getPiece();
 					System.out.print(boardColour.getColourCode());
 					boolean valid = Util.validMovement(board, location, square);
 					if (valid) {
-						System.out.print(Colour.CYAN.getColourCode());
+						System.out.print(Colour.RED.getColourCode());
 					} else if (item != null) {
-						System.out.print(item.getTeamColour().getColourCode());
+						System.out.print(item.getColour().getColourCode());
 					}
 					if (item == null) {
 						System.out.print(" ~ ");

@@ -1,28 +1,37 @@
-package macro303.keschet.players.console;
+package macro303.keschet.core.players;
 
 import macro303.board_game.Board;
 import macro303.board_game.Colour;
-import macro303.board_game.Coordinates;
-import macro303.keschet.pieces.Piece;
-import macro303.keschet.players.Player;
-import macro303.keschet.players.Reader;
+import macro303.board_game.Square;
+import macro303.keschet.Util;
+import macro303.keschet.core.Coordinates;
+import macro303.keschet.core.pieces.Piece;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Created by Macro303 on 2018-02-12.
+ * Created by Macro303 on 2018-02-22.
  */
-public class ConsolePlayer extends Player {
-	private static final Logger LOGGER = LogManager.getLogger(ConsolePlayer.class);
+public class AutoPlayer extends Player {
+	private static final Logger LOGGER = LogManager.getLogger(AutoPlayer.class);
 
-	public ConsolePlayer(@NotNull String name, @NotNull Colour colour) {
-		super(name, colour);
+	public AutoPlayer(@NotNull String name, @NotNull Colour colour, int playerNum) {
+		super(name, colour, playerNum);
 	}
 
 	@NotNull
 	@Override
 	public Coordinates placePiece(@NotNull Board board, @NotNull Piece piece) {
+		boolean isPlayer1 = getPlayerNum() == 1;
+		for (int row = isPlayer1 ? 0 : (board.getHeight() - 1); isPlayer1 ? (row < board.getHeight()) : (row >= 0); row = isPlayer1 ? row + 1 : row - 1) {
+			for (int col = 0; col < board.getWidth(); col++) {
+				Square square = board.getSquare(row, col);
+				assert square != null;
+				if (square.getPiece() == null)
+					return new Coordinates(square.getY(), square.getX());
+			}
+		}
 		return requestLocation();
 	}
 
@@ -40,7 +49,7 @@ public class ConsolePlayer extends Player {
 
 	@Override
 	public String toString() {
-		return "ConsolePlayer{} " + super.toString();
+		return "AutoPlayer{} " + super.toString();
 	}
 
 	@NotNull

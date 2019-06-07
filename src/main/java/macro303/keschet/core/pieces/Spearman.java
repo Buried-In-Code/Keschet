@@ -1,4 +1,4 @@
-package macro303.keschet.pieces;
+package macro303.keschet.core.pieces;
 
 import macro303.board_game.Colour;
 import macro303.keschet.Direction;
@@ -17,8 +17,8 @@ public class Spearman extends Piece {
 	@NotNull
 	private static final Direction[] validDirections = new Direction[]{NORTH, EAST, SOUTH, WEST};
 
-	public Spearman(@NotNull Colour teamColour) {
-		super(teamColour, maxDistance, symbol, validDirections);
+	public Spearman(@NotNull Colour colour) {
+		super(colour, maxDistance, symbol, validDirections);
 	}
 
 	public Spearman() {

@@ -1,7 +1,7 @@
-package macro303.keschet.pieces;
+package macro303.keschet.core.pieces;
 
 import macro303.board_game.Colour;
-import macro303.board_game.item.Item;
+import macro303.board_game.IPiece;
 import macro303.keschet.Direction;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,21 +10,21 @@ import java.util.Arrays;
 /**
  * Created by Macro303 on 2018-02-08.
  */
-public abstract class Piece implements Item {
+public abstract class Piece implements IPiece {
 	private final int maxDistance;
 	@NotNull
 	private final String symbol;
 	@NotNull
 	private final Direction[] validDirections;
 	@NotNull
-	private Colour teamColour;
+	private Colour colour;
 
 	protected Piece(int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
 		this(Colour.RESET, maxDistance, symbol, validDirections);
 	}
 
-	protected Piece(@NotNull Colour teamColour, int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
-		this.teamColour = teamColour;
+	protected Piece(@NotNull Colour colour, int maxDistance, @NotNull String symbol, @NotNull Direction[] validDirections) {
+		this.colour = colour;
 		this.maxDistance = maxDistance;
 		this.symbol = symbol;
 		this.validDirections = validDirections;
@@ -37,16 +37,16 @@ public abstract class Piece implements Item {
 	@NotNull
 	@Override
 	public String getSymbol() {
-		return getTeamColour().getColourCode() + symbol;
+		return colour.getColourCode() + symbol;
 	}
 
 	@NotNull
-	public Colour getTeamColour() {
-		return teamColour;
+	public Colour getColour() {
+		return colour;
 	}
 
-	public void setTeamColour(@NotNull Colour teamColour) {
-		this.teamColour = teamColour;
+	public void setColour(@NotNull Colour colour) {
+		this.colour = colour;
 	}
 
 	public String getSymbol2() {
@@ -61,9 +61,9 @@ public abstract class Piece implements Item {
 	@Override
 	public int hashCode() {
 		int result = maxDistance;
+		result = 31 * result + colour.hashCode();
 		result = 31 * result + symbol.hashCode();
 		result = 31 * result + Arrays.hashCode(validDirections);
-		result = 31 * result + teamColour.hashCode();
 		return result;
 	}
 
@@ -75,19 +75,19 @@ public abstract class Piece implements Item {
 		Piece piece = (Piece) o;
 
 		if (maxDistance != piece.maxDistance) return false;
+		if (colour != piece.colour) return false;
 		if (!symbol.equals(piece.symbol)) return false;
 		// Probably incorrect - comparing Object[] arrays with Arrays.equals
-		if (!Arrays.equals(validDirections, piece.validDirections)) return false;
-		return teamColour == piece.teamColour;
+		return Arrays.equals(validDirections, piece.validDirections);
 	}
 
 	@Override
 	public String toString() {
 		return "Piece{" +
 				"maxDistance=" + maxDistance +
+				", colour=" + colour +
 				", symbol='" + symbol + '\'' +
 				", validDirections=" + Arrays.toString(validDirections) +
-				", teamColour=" + teamColour +
 				'}';
 	}
 }

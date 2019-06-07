@@ -2,10 +2,9 @@ package macro303.keschet;
 
 import macro303.board_game.Board;
 import macro303.board_game.Colour;
-import macro303.board_game.Coordinates;
 import macro303.board_game.Square;
-import macro303.keschet.pieces.Piece;
-import macro303.keschet.players.Player;
+import macro303.keschet.core.pieces.Piece;
+import macro303.keschet.core.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -25,9 +24,9 @@ public class KeschetBoard extends Board {
 		int counter = 0;
 		for (int row = 0; row < Util.SIZE; row++) {
 			for (int col = 0; col < Util.SIZE; col++) {
-				Square location = getSquare(new Coordinates(row, col));
+				Square location = getSquare(row, col);
 				assert location != null;
-				if (location.getItem() != null && ((Piece) location.getItem()).getTeamColour() == player.getTeamColour())
+				if (location.getPiece() != null && ((Piece) location.getPiece()).getColour() == player.getColour())
 					counter++;
 			}
 		}
@@ -39,9 +38,9 @@ public class KeschetBoard extends Board {
 		Square temp = null;
 		for (int row = 0; row < Util.SIZE; row++) {
 			for (int col = 0; col < Util.SIZE; col++) {
-				Square location = getSquare(new Coordinates(row, col));
+				Square location = getSquare(row, col);
 				assert location != null;
-				if (location.getItem() != null && location.getItem().getClass().equals(clazz) && ((Piece) location.getItem()).getTeamColour() == teamColour)
+				if (location.getPiece() != null && location.getPiece().getClass().equals(clazz) && ((Piece) location.getPiece()).getColour() == teamColour)
 					temp = location;
 			}
 		}

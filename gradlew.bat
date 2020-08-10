@@ -5,7 +5,7 @@
 @rem you may not use this file except in compliance with the License.
 @rem You may obtain a copy of the License at
 @rem
-@rem      http://www.apache.org/licenses/LICENSE-2.0
+@rem      https://www.apache.org/licenses/LICENSE-2.0
 @rem
 @rem Unless required by applicable law or agreed to in writing, software
 @rem distributed under the License is distributed on an "AS IS" BASIS,
@@ -72,7 +72,7 @@ set CMD_LINE_ARGS=
 set _SKIP=2
 
 :win9xME_args_slurp
-if "row%~1" == "row" goto execute
+if "x%~1" == "x" goto execute
 
 set CMD_LINE_ARGS=%*
 

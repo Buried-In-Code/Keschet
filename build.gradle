@@ -1,24 +1,7 @@
-buildscript {
-	ext {
-		loggerVersion = '2.11.2'
-		junitVersion = '5.5.0-M1'
-	}
-
-	repositories {
-		mavenCentral()
-		mavenLocal()
-		jcenter()
-	}
-
-	dependencies {
-		classpath "com.github.ben-manes:gradle-versions-plugin:0.21.0"
-	}
+plugins {
+	id 'application'
+	id 'com.github.ben-manes.versions' version '0.29.0'
 }
-
-apply plugin: 'application'
-apply plugin: 'idea'
-apply plugin: 'maven'
-apply plugin: 'com.github.ben-manes.versions'
 
 repositories {
 	mavenCentral()
@@ -27,15 +10,15 @@ repositories {
 }
 
 application {
-	mainClassName = "macro.keschet.Keschet"
+	mainClassName = "github.macro.Keschet"
+	applicationName = "Keschet"
 }
 
-group = 'nz.macro303.game'
-version = '2.1.3'
+def loggerVersion = '2.13.3'
+def junitVersion = '5.7.0-M1'
 
 dependencies {
-	implementation group: 'nz.macro303', name: 'Board-Game', version: "1.0.0"
-	implementation group: 'org.jetbrains', name: 'annotations', version: "17.0.0"
+	implementation group: 'org.jetbrains', name: 'annotations', version: "19.0.0"
 	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: "$loggerVersion"
 	runtimeOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: "$loggerVersion"
 	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junitVersion"
@@ -54,6 +37,8 @@ compileTestJava {
 
 jar {
 	manifest.attributes provider: 'gradle'
+	manifest.attributes 'Main-Class': mainClassName
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 run {
@@ -62,4 +47,35 @@ run {
 
 test {
 	useJUnitPlatform()
+}
+
+def isNonStable = { String version ->
+	def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+	def regex = /^[0-9,.v-]+(-r)?$/
+	return !stableKeyword && !(version ==~ regex)
+}
+
+dependencyUpdates {
+	checkForGradleUpdate = false
+
+	// Example 1: reject all non stable versions
+	rejectVersionIf {
+		isNonStable(candidate.version)
+	}
+
+	// Example 2: disallow release candidates as upgradable versions from stable versions
+	rejectVersionIf {
+		isNonStable(candidate.version) && !isNonStable(currentVersion)
+	}
+
+	// Example 3: using the full syntax
+	resolutionStrategy {
+		componentSelection {
+			all {
+				if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+					reject('Release candidate')
+				}
+			}
+		}
+	}
 }

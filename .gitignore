@@ -5,16 +5,22 @@
 .vscode/
 bin/
 build/
-gradle/
 logs/
 out/
 
 # =====Files=====
 *.iml
+*.sqlite
+*.db
+*.yaml
+*.old
+*.json
+*.csv
 .classpath
 .project
 
-# =====Keschet=====
-*.db
-*.yaml
-!Keschet.yaml
+# =====Project=====
+!resources/
+!Gems.json
+!Equipment.json
+release/

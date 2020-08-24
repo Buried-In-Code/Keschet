@@ -10,17 +10,12 @@ out/
 
 # =====Files=====
 *.iml
-*.sqlite
-*.db
-*.yaml
-*.old
-*.json
-*.csv
 .classpath
 .project
+*.db
+*.sqlite
+*.yaml
+*.json
+*.csv
 
 # =====Project=====
-!resources/
-!Gems.json
-!Equipment.json
-release/

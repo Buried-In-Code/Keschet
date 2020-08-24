@@ -1,7 +1,7 @@
 package github.macro.core.pieces;
 
 import github.macro.Direction;
-import github.macro.GameBoard;
+import github.macro.Board;
 import github.macro.Square;
 import github.macro.console.Colour;
 import github.macro.pieces.Archer;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class Archer_Test {
 	private static final Logger LOGGER = LogManager.getLogger();
-	private static final GameBoard board = new GameBoard();
+	private static final Board board = new Board();
 	private static Square start;
 	private static Square end;
 	private static Archer testPiece;

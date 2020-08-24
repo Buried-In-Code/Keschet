@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class Direction_Test {
 	private static final Logger LOGGER = LogManager.getLogger();
-	private static GameBoard board;
+	private static Board board;
 	private static Square start;
 	private static Square end;
 
 	@BeforeAll
 	static void beforeAll() {
-		board = new GameBoard();
+		board = new Board();
 		start = board.getSquare(2, 2);
 	}
 

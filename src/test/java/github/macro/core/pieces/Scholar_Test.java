@@ -1,8 +1,7 @@
 package github.macro.core.pieces;
 
-import github.macro.GameBoard;
+import github.macro.Board;
 import github.macro.Square;
-import github.macro.Util;
 import github.macro.console.Colour;
 import github.macro.pieces.General;
 import github.macro.pieces.Scholar;
@@ -20,14 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class Scholar_Test {
 	private static final Logger LOGGER = LogManager.getLogger();
-	private static GameBoard board;
+	private static Board board;
 	private static Square start;
 	private static Square end;
 	private static Square block;
 
 	@BeforeAll
 	static void beforeAll() {
-		board = new GameBoard();
+		board = new Board();
 		start = board.getSquare(2, 2);
 		block = board.getSquare(4, 5);
 		end = board.getSquare(4, 4);

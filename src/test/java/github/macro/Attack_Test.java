@@ -1,9 +1,8 @@
-package github.macro.core.pieces;
+package github.macro;
 
-import github.macro.Board;
-import github.macro.Square;
-import github.macro.console.Colour;
 import github.macro.pieces.General;
+import github.macro.players.ConsolePlayer;
+import github.macro.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class Attack_Test {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private static Board board;
+	private static Player player1;
+	private static Player player2;
 	private static Square start;
 	private static Square end;
 	private static Square block;
@@ -26,6 +27,8 @@ public class Attack_Test {
 	@BeforeAll
 	static void beforeAll() {
 		board = new Board();
+		player1 = new ConsolePlayer("Player", Util.getP1_COLOUR());
+		player2 = new ConsolePlayer("Opponent", Util.getP2_COLOUR());
 		start = board.getSquare(2, 2);
 		block = board.getSquare(3, 3);
 		end = board.getSquare(4, 4);
@@ -33,14 +36,14 @@ public class Attack_Test {
 
 	@BeforeEach
 	void beforeEach() {
-		start.setPiece(new General(Colour.BLUE));
+		start.setPiece(new General(player1));
 		block.setPiece(null);
 		end.setPiece(null);
 	}
 
 	@Test
 	void test_allyAttackMove() {
-		end.setPiece(new General(Colour.BLUE));
+		end.setPiece(new General(player1));
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.info("Ally Attack ==> " + valid);
 		assertFalse(valid);
@@ -48,8 +51,8 @@ public class Attack_Test {
 
 	@Test
 	void test_blockedMove() {
-		block.setPiece(new General(Colour.RED));
-		end.setPiece(new General(Colour.RED));
+		block.setPiece(new General(player2));
+		end.setPiece(new General(player2));
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.info("Movement Blocked ==> " + valid);
 		assertFalse(valid);
@@ -57,7 +60,7 @@ public class Attack_Test {
 
 	@Test
 	void test_enemytakingMove() {
-		end.setPiece(new General(Colour.RED));
+		end.setPiece(new General(player2));
 		boolean valid = Util.validMovement(board, start, end);
 		LOGGER.info("Enemy Attack ==> " + valid);
 		assertTrue(valid);

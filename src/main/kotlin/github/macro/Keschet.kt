@@ -7,7 +7,7 @@ import github.macro.console.Colour
 import github.macro.console.Console.displayMessage
 import github.macro.console.Console.displayPrompt
 import github.macro.pieces.*
-import github.macro.players.AutoPlayer
+import github.macro.players.AutoStartConsolePlayer
 import github.macro.players.ConsolePlayer
 import github.macro.players.Player
 import org.apache.logging.log4j.Level
@@ -27,7 +27,7 @@ class Keschet(private val p1: Player, private val p2: Player) {
 	}
 
 	private fun placePieces() {
-		for (x in 0 until 7) {
+		for (x in 0..7) {
 			for (player in arrayOf(p1, p2)) {
 				if (x < 1) {
 					placePiece(player, Emperor(player))
@@ -52,7 +52,7 @@ class Keschet(private val p1: Player, private val p2: Player) {
 		displayMessage("Placing ${piece.name}", player.colour)
 		var placed = false
 		do {
-			val location = player.placePiece(board, piece) ?: continue
+			val location = player.placePiece(board, piece)
 			if (location.piece != null)
 				displayMessage("Must be placed on an empty square => $location")
 			else if ((player.colour != P1_COLOUR || location.row >= 3) && (player.colour != P2_COLOUR || location.row <= 6))
@@ -69,11 +69,11 @@ class Keschet(private val p1: Player, private val p2: Player) {
 		do {
 			board.draw()
 			displayMessage("Select a Piece", player.colour)
-			val fromLocation = player.selectPiece(board) ?: continue
+			val fromLocation = player.selectPiece(board)
 			if (fromLocation?.piece != null && fromLocation.piece!!.player == player) {
 				board.draw(false, fromLocation)
 				displayMessage("Move ${fromLocation.piece!!.name}", player.colour)
-				val toLocation = player.movePieceTo(board, fromLocation.piece!!) ?: continue
+				val toLocation = player.movePieceTo(board, fromLocation.piece!!)
 				if (toLocation.piece == null || toLocation.piece!!.player != player) {
 					val validMovement = validMovement(board, fromLocation, toLocation)
 					if (validMovement) {
@@ -120,7 +120,7 @@ class Keschet(private val p1: Player, private val p2: Player) {
 		displayMessage("Select location for stolen ${piece.name}", player.colour)
 		var valid = false
 		do {
-			val newLocation = player.placePiece(board, piece) ?: continue
+			val newLocation = player.placeStolenPiece(board, piece, location)
 			if (newLocation.piece == null) {
 				valid = nextTo(newLocation, location)
 				if (valid)
@@ -145,8 +145,8 @@ class Keschet(private val p1: Player, private val p2: Player) {
 			checkLogLevels()
 			LOGGER.info("Welcome to Keschet")
 
-			val player1 = AutoPlayer(displayPrompt("Player 1 name"), P1_COLOUR)
-			val player2 = AutoPlayer(displayPrompt("Player 2 name"), P2_COLOUR)
+			val player1 = AutoStartConsolePlayer(displayPrompt("Player 1 name"), P1_COLOUR)
+			val player2 = AutoStartConsolePlayer(displayPrompt("Player 2 name"), P2_COLOUR)
 			Keschet(player1, player2)
 		}
 

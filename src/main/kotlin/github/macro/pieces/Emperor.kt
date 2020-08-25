@@ -9,7 +9,7 @@ import github.macro.players.Player
 class Emperor(player: Player) : Piece(
 	player = player,
 	distance = 4,
-	symbol = "\u265A",
+	symbol = "E",
 	directions = arrayOf(
 		Direction.NORTH,
 		Direction.NORTH_EAST,
@@ -21,8 +21,9 @@ class Emperor(player: Player) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
-	//	private static final String symbol = "\u265A";
-	//	private static final String symbol = "E";
+//	private static final String symbol = "\u265A";
+//	private static final String symbol = "♚";
+//	private static final String symbol = "E";
 
 	override fun toString(): String = "Emperor() ${super.toString()}"
 }

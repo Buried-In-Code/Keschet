@@ -9,7 +9,7 @@ import github.macro.players.Player
 class General(player: Player) : Piece(
 	player = player,
 	distance = 10,
-	symbol = "\uD83C\uDF96",
+	symbol = "G",
 	directions = arrayOf(
 		Direction.NORTH,
 		Direction.NORTH_EAST,
@@ -21,7 +21,9 @@ class General(player: Player) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
-	//	private static final String symbol = "\uD83C\uDF96";
-	// 	private static final String symbol = "G";
+//	private static final String symbol = "\uD83C\uDF96";
+//	private static final String symbol = "🎖";
+//	private static final String symbol = "G";
+
 	override fun toString(): String = "General() ${super.toString()}"
 }

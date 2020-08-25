@@ -9,7 +9,7 @@ import github.macro.players.Player
 class Scholar(player: Player) : Piece(
 	player = player,
 	distance = 2,
-	symbol = "\uD83D\uDCDA",
+	symbol = "C",
 	directions = arrayOf(
 		Direction.NORTH,
 		Direction.NORTH_EAST,
@@ -21,7 +21,9 @@ class Scholar(player: Player) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
-	//	private static final String symbol = "\uD83D\uDCDA";
-	//	private static final String symbol = "C";
+//	private static final String symbol = "\uD83D\uDCDA";
+//	private static final String symbol = "📚";
+//	private static final String symbol = "C";
+
 	override fun toString(): String = "Scholar() ${super.toString()}"
 }

@@ -101,11 +101,14 @@ object Util {
 	@JvmStatic
 	fun calculateDistance(start: Square, end: Square, direction: Direction): Int {
 		return when (direction) {
-			Direction.EAST, Direction.WEST, Direction.NORTH_EAST, Direction.SOUTH_EAST, Direction.SOUTH_WEST, Direction.NORTH_WEST -> abs(
-				start.col - end.col
-			)
-			Direction.NORTH, Direction.SOUTH -> abs(start.row - end.row)
-			else -> 0
+			Direction.NORTH -> abs(start.row - end.row)
+			Direction.NORTH_EAST -> abs(start.col - end.col)
+			Direction.EAST -> abs(start.col - end.col)
+			Direction.SOUTH_EAST -> abs(start.col - end.col)
+			Direction.SOUTH -> abs(start.row - end.row)
+			Direction.SOUTH_WEST -> abs(start.col - end.col)
+			Direction.WEST -> abs(start.col - end.col)
+			Direction.NORTH_WEST -> abs(start.col - end.col)
 		}
 	}
 
@@ -130,7 +133,7 @@ object Util {
 			for (col in -1..1) {
 				val temp = board.getSquare(location.row + row, location.col + col) ?: continue
 				temp.piece ?: continue
-				if (temp.piece is Scholar && (temp.piece as Scholar).player == player)
+				if (temp.piece is Scholar && (temp.piece as Scholar).player != player)
 					exists = true
 			}
 		}

@@ -9,7 +9,7 @@ import github.macro.players.Player
 class Merchant(player: Player) : Piece(
 	player = player,
 	distance = 1,
-	symbol = "\uD83D\uDCB0",
+	symbol = "M",
 	directions = arrayOf(
 		Direction.NORTH,
 		Direction.NORTH_EAST,
@@ -21,7 +21,9 @@ class Merchant(player: Player) : Piece(
 		Direction.NORTH_WEST
 	)
 ) {
-	//	private static final String symbol = "\uD83D\uDCB0";
-	//	private static final String symbol = "M";
+//	private static final String symbol = "\uD83D\uDCB0";
+//	private static final String symbol = "💰";
+//	private static final String symbol = "M";
+
 	override fun toString(): String = "Merchant() ${super.toString()}"
 }

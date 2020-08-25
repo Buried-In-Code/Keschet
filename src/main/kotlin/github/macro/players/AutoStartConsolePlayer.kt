@@ -9,8 +9,8 @@ import github.macro.pieces.Piece
 /**
  * Created by Macro303 on 2020-Aug-24
  */
-class AutoPlayer(name: String, colour: Colour) : ConsolePlayer(name, colour) {
-	override fun placePiece(board: Board, piece: Piece): Square? {
+class AutoStartConsolePlayer(name: String, colour: Colour) : ConsolePlayer(name, colour) {
+	override fun placePiece(board: Board, piece: Piece): Square {
 		val range = if(colour == Util.P1_COLOUR) 0..3 else Board.HEIGHT - 1 downTo 7
 		for (row in range) {
 			for (col in 0 until Board.WIDTH) {
@@ -18,6 +18,6 @@ class AutoPlayer(name: String, colour: Colour) : ConsolePlayer(name, colour) {
 				square.piece ?: return square
 			}
 		}
-		return null
+		return requestLocation(board)
 	}
 }

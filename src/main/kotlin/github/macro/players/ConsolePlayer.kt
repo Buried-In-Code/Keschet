@@ -11,19 +11,23 @@ import org.apache.logging.log4j.LogManager
  * Created by Macro303 on 2018-02-12.
  */
 open class ConsolePlayer(name: String, colour: Colour) : Player(name, colour) {
-	override fun placePiece(board: Board, piece: Piece): Square? {
+	override fun placePiece(board: Board, piece: Piece): Square {
 		return requestLocation(board)
 	}
 
-	override fun selectPiece(board: Board): Square? {
+	override fun placeStolenPiece(board: Board, piece: Piece, thiefSquare: Square): Square {
 		return requestLocation(board)
 	}
 
-	override fun movePieceTo(board: Board, piece: Piece): Square? {
+	override fun selectPiece(board: Board): Square {
 		return requestLocation(board)
 	}
 
-	private fun requestLocation(board: Board): Square? {
+	override fun movePieceTo(board: Board, piece: Piece): Square {
+		return requestLocation(board)
+	}
+
+	protected fun requestLocation(board: Board): Square {
 		var row: Int? = null
 		var col: Int? = null
 		do {
@@ -38,7 +42,7 @@ open class ConsolePlayer(name: String, colour: Colour) : Player(name, colour) {
 				LOGGER.warn("Invalid Selection")
 			}
 		} while (row == null || col == null)
-		return board.getSquare(row, col)
+		return board.getSquare(row, col) ?: requestLocation(board)
 	}
 
 	override fun toString(): String = "ConsolePlayer() ${super.toString()}"

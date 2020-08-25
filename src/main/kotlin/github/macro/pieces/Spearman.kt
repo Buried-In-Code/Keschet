@@ -9,10 +9,12 @@ import github.macro.players.Player
 class Spearman(player: Player) : Piece(
 	player = player,
 	distance = 2,
-	symbol = "\u2694",
+	symbol = "P",
 	directions = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
 ) {
-	//	private static final String symbol = "\u2694";
-	//	private static final String symbol = "P";
+//	private static final String symbol = "\u2694";
+//	private static final String symbol = "⚔";
+//	private static final String symbol = "P";
+
 	override fun toString(): String = "Spearman() ${super.toString()}"
 }

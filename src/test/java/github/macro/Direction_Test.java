@@ -1,7 +1,8 @@
 package github.macro;
 
-import github.macro.console.Colour;
 import github.macro.pieces.General;
+import github.macro.players.ConsolePlayer;
+import github.macro.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Created by Macro303 on 2018-02-08.
@@ -16,18 +18,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class Direction_Test {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private static Board board;
+	private static Player player;
 	private static Square start;
 	private static Square end;
 
 	@BeforeAll
 	static void beforeAll() {
 		board = new Board();
+		player = new ConsolePlayer("Tester", Util.getP1_COLOUR());
 		start = board.getSquare(2, 2);
 	}
 
 	@BeforeEach
 	void beforeEach() {
-		start.setPiece(new General(Colour.BLUE));
+		start.setPiece(new General(player));
 		if (end != null)
 			end.setPiece(null);
 	}
@@ -110,13 +114,13 @@ public class Direction_Test {
 		assert end != null;
 		Direction direction = Util.calculateDirection(start, end);
 		LOGGER.info("Invalid ==> " + direction);
-		assertEquals(Direction.INVALID, direction);
+		assertNull(direction);
 	}
 
 	@Test
 	void test_noDirection() {
 		Direction direction = Util.calculateDirection(start, start);
 		LOGGER.info("None ==> " + direction);
-		assertEquals(Direction.INVALID, direction);
+		assertNull(direction);
 	}
 }

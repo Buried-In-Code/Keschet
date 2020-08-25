@@ -63,7 +63,7 @@ class Board {
 					else -> {
 						val square = getSquare(row, col) ?: continue@loop
 						if (location != null && Util.validMovement(this, location, square))
-							print(" ${Colour.MAGENTA}${square.piece?.symbol ?: '~'}${Colour.RESET} ")
+							print(" ${Colour.GREEN}${square.piece?.symbol ?: '~'}${Colour.RESET} ")
 						else if (highlight && row < 3)
 							print(" ${Util.P1_COLOUR}${square.piece?.symbol ?: '~'}${Colour.RESET} ")
 						else if (highlight && row > 6)

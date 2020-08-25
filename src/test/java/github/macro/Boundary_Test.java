@@ -1,7 +1,8 @@
 package github.macro;
 
-import github.macro.console.Colour;
 import github.macro.pieces.Emperor;
+import github.macro.players.ConsolePlayer;
+import github.macro.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,18 +18,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class Boundary_Test {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private static Board board;
+	private static Player player;
 	private static Square start;
 	private static Square end;
 
 	@BeforeAll
 	static void beforeAll() {
 		board = new Board();
+		player = new ConsolePlayer("Tester", Util.getP1_COLOUR());
 		start = board.getSquare(2, 2);
 	}
 
 	@BeforeEach
 	void beforeEach() {
-		start.setPiece(new Emperor(Colour.BLUE));
+		start.setPiece(new Emperor(player));
 		if (end != null)
 			end.setPiece(null);
 	}

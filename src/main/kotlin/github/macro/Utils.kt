@@ -1,6 +1,5 @@
 package github.macro
 
-import github.macro.console.Colour
 import github.macro.pieces.Emperor
 import github.macro.pieces.Merchant
 import github.macro.pieces.Piece
@@ -12,14 +11,8 @@ import kotlin.math.abs
 /**
  * Created by Macro303 on 2020-Aug-24
  */
-object Util {
-	private val LOGGER = LogManager.getLogger(Util::class.java)
-
-	@JvmStatic
-	val P1_COLOUR = Colour.YELLOW
-
-	@JvmStatic
-	val P2_COLOUR = Colour.RED
+object Utils {
+	private val LOGGER = LogManager.getLogger()
 
 	private fun checkForBlocking(board: Board, start: Square, end: Square): Boolean {
 		var row = start.row

@@ -1,5 +1,6 @@
 package github.macro;
 
+import github.macro.console.Colour;
 import github.macro.pieces.Emperor;
 import github.macro.players.ConsolePlayer;
 import github.macro.players.Player;
@@ -25,7 +26,7 @@ public class Boundary_Test {
 	@BeforeAll
 	static void beforeAll() {
 		board = new Board();
-		player = new ConsolePlayer("Tester", Util.getP1_COLOUR());
+		player = new ConsolePlayer("Tester", Colour.YELLOW);
 		start = board.getSquare(2, 2);
 	}
 
@@ -40,7 +41,7 @@ public class Boundary_Test {
 	void test_distanceInMove() {
 		end = board.getSquare(6, 6);
 		assert end != null;
-		boolean valid = Util.validMovement(board, start, end);
+		boolean valid = Utils.validMovement(board, start, end);
 		LOGGER.info("Distance In ==> " + valid);
 		assertTrue(valid);
 	}
@@ -49,7 +50,7 @@ public class Boundary_Test {
 	void test_distanceOutMove() {
 		end = board.getSquare(7, 7);
 		assert end != null;
-		boolean valid = Util.validMovement(board, start, end);
+		boolean valid = Utils.validMovement(board, start, end);
 		LOGGER.info("Distance Out ==> " + valid);
 		assertFalse(valid);
 	}

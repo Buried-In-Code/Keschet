@@ -1,8 +1,6 @@
 package github.macro
 
-import github.macro.Util.P1_COLOUR
-import github.macro.Util.P2_COLOUR
-import github.macro.Util.validMovement
+import github.macro.Utils.validMovement
 import github.macro.console.Colour
 import github.macro.console.Console.displayMessage
 import github.macro.console.Console.displayPrompt
@@ -55,7 +53,7 @@ class Keschet(private val p1: Player, private val p2: Player) {
 			val location = player.placePiece(board, piece)
 			if (location.piece != null)
 				displayMessage("Must be placed on an empty square => $location")
-			else if ((player.colour != P1_COLOUR || location.row >= 3) && (player.colour != P2_COLOUR || location.row <= 6))
+			else if ((player.colour != Colour.YELLOW || location.row >= 3) && (player.colour != Colour.RED || location.row <= 6))
 				displayMessage("Must be placed within 3 rows on your side => $location")
 			else {
 				location.piece = piece
@@ -70,7 +68,7 @@ class Keschet(private val p1: Player, private val p2: Player) {
 			board.draw()
 			displayMessage("Select a Piece", player.colour)
 			val fromLocation = player.selectPiece(board)
-			if (fromLocation?.piece != null && fromLocation.piece!!.player == player) {
+			if (fromLocation.piece != null && fromLocation.piece!!.player == player) {
 				board.draw(false, fromLocation)
 				displayMessage("Move ${fromLocation.piece!!.name}", player.colour)
 				val toLocation = player.movePieceTo(board, fromLocation.piece!!)
@@ -138,23 +136,7 @@ class Keschet(private val p1: Player, private val p2: Player) {
 	}
 
 	companion object {
-		private val LOGGER = LogManager.getLogger(Keschet::class.java)
-
-		@JvmStatic
-		fun main(args: Array<String>) {
-			checkLogLevels()
-			LOGGER.info("Welcome to Keschet")
-
-			val player1 = AutoStartConsolePlayer(displayPrompt("Player 1 name"), P1_COLOUR)
-			val player2 = AutoStartConsolePlayer(displayPrompt("Player 2 name"), P2_COLOUR)
-			Keschet(player1, player2)
-		}
-
-		private fun checkLogLevels() {
-			Level.values().sorted().forEach {
-				LOGGER.log(it, "{} is Visible", it.name())
-			}
-		}
+		private val LOGGER = LogManager.getLogger()
 	}
 
 	init {
@@ -165,4 +147,20 @@ class Keschet(private val p1: Player, private val p2: Player) {
 				executeTurn(p2)
 		}
 	}
+}
+
+private val LOGGER = LogManager.getLogger()
+
+private fun checkLogLevels() {
+	Level.values().sorted().forEach {
+		LOGGER.log(it, "${it.name()} is Visible")
+	}
+}
+
+fun main(args: Array<String>) {
+	checkLogLevels()
+	LOGGER.info("Welcome to Keschet")
+	val player1 = AutoStartConsolePlayer(displayPrompt("Player 1 name"), Colour.YELLOW)
+	val player2 = AutoStartConsolePlayer(displayPrompt("Player 2 name"), Colour.RED)
+	Keschet(player1, player2)
 }

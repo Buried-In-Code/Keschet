@@ -2,7 +2,8 @@ package github.macro.pieces;
 
 import github.macro.Board;
 import github.macro.Square;
-import github.macro.Util;
+import github.macro.Utils;
+import github.macro.console.Colour;
 import github.macro.players.ConsolePlayer;
 import github.macro.players.Player;
 import org.apache.logging.log4j.LogManager;
@@ -29,8 +30,8 @@ public class Scholar_Test {
 	@BeforeAll
 	static void beforeAll() {
 		board = new Board();
-		player1 = new ConsolePlayer("Player", Util.getP1_COLOUR());
-		player2 = new ConsolePlayer("Opponent", Util.getP2_COLOUR());
+		player1 = new ConsolePlayer("Player", Colour.YELLOW);
+		player2 = new ConsolePlayer("Opponent", Colour.RED);
 		start = board.getSquare(2, 2);
 		block = board.getSquare(4, 5);
 		end = board.getSquare(4, 4);
@@ -46,7 +47,7 @@ public class Scholar_Test {
 	@Test
 	void test_enemyBlockMove() {
 		block.setPiece(new Scholar(player2));
-		boolean valid = Util.validMovement(board, start, end);
+		boolean valid = Utils.validMovement(board, start, end);
 		LOGGER.info("Enemy Scholar Block ==> " + valid);
 		assertFalse(valid);
 	}
@@ -54,7 +55,7 @@ public class Scholar_Test {
 	@Test
 	void test_allyBlockMove() {
 		block.setPiece(new Scholar(player1));
-		boolean valid = Util.validMovement(board, start, end);
+		boolean valid = Utils.validMovement(board, start, end);
 		LOGGER.info("Ally Scholar Block ==> " + valid);
 		assertTrue(valid);
 	}

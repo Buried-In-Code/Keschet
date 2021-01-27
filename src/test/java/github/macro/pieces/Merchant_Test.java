@@ -2,7 +2,8 @@ package github.macro.pieces;
 
 import github.macro.Board;
 import github.macro.Square;
-import github.macro.Util;
+import github.macro.Utils;
+import github.macro.console.Colour;
 import github.macro.players.ConsolePlayer;
 import github.macro.players.Player;
 import org.apache.logging.log4j.LogManager;
@@ -29,8 +30,8 @@ public class Merchant_Test {
 	@BeforeAll
 	static void beforeAll() {
 		board = new Board();
-		player1 = new ConsolePlayer("Player", Util.getP1_COLOUR());
-		player2 = new ConsolePlayer("Opponent", Util.getP2_COLOUR());
+		player1 = new ConsolePlayer("Player", Colour.YELLOW);
+		player2 = new ConsolePlayer("Opponent", Colour.RED);
 		start = board.getSquare(2, 2);
 		end = board.getSquare(4, 4);
 		emperor = board.getSquare(4, 5);
@@ -47,7 +48,7 @@ public class Merchant_Test {
 	void test_allyMerchantMove() {
 		end.setPiece(null);
 		emperor.setPiece(new Emperor(player1));
-		boolean valid = Util.validMovement(board, start, end);
+		boolean valid = Utils.validMovement(board, start, end);
 		LOGGER.info("Ally Emperor ==> " + valid);
 		assertTrue(valid);
 	}
@@ -55,7 +56,7 @@ public class Merchant_Test {
 	@Test
 	void test_allyMerchantAttackMove() {
 		emperor.setPiece(new Emperor(player1));
-		boolean valid = Util.validMovement(board, start, end);
+		boolean valid = Utils.validMovement(board, start, end);
 		LOGGER.info("Ally Emperor Attack ==> " + valid);
 		assertTrue(valid);
 	}
@@ -64,7 +65,7 @@ public class Merchant_Test {
 	void test_enemyMerchantMove() {
 		end.setPiece(null);
 		emperor.setPiece(new Emperor(player2));
-		boolean valid = Util.validMovement(board, start, end);
+		boolean valid = Utils.validMovement(board, start, end);
 		LOGGER.info("Enemy Emperor ==> " + valid);
 		assertFalse(valid);
 	}
@@ -72,7 +73,7 @@ public class Merchant_Test {
 	@Test
 	void test_enemyMerchantAttackMove() {
 		emperor.setPiece(new Emperor(player2));
-		boolean valid = Util.validMovement(board, start, end);
+		boolean valid = Utils.validMovement(board, start, end);
 		LOGGER.info("Enemy Emperor Attack ==> " + valid);
 		assertFalse(valid);
 	}

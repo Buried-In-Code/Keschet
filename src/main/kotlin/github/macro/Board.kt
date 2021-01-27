@@ -62,12 +62,12 @@ class Board {
 					row == -1 -> print(" $HEADER_COLOUR$col${Colour.RESET} ")
 					else -> {
 						val square = getSquare(row, col) ?: continue@loop
-						if (location != null && Util.validMovement(this, location, square))
+						if (location != null && Utils.validMovement(this, location, square))
 							print(" ${Colour.GREEN}${square.piece?.symbol ?: '~'}${Colour.RESET} ")
 						else if (highlight && row < 3)
-							print(" ${Util.P1_COLOUR}${square.piece?.symbol ?: '~'}${Colour.RESET} ")
+							print(" ${Colour.YELLOW}${square.piece?.symbol ?: '~'}${Colour.RESET} ")
 						else if (highlight && row > 6)
-							print(" ${Util.P2_COLOUR}${square.piece?.symbol ?: '~'}${Colour.RESET} ")
+							print(" ${Colour.RED}${square.piece?.symbol ?: '~'}${Colour.RESET} ")
 						else
 							print(square.display())
 					}
@@ -78,7 +78,7 @@ class Board {
 	}
 
 	companion object {
-		private val LOGGER = LogManager.getLogger(Board::class.java)
+		private val LOGGER = LogManager.getLogger()
 		private val HEADER_COLOUR = Colour.BLUE
 		const val HEIGHT = 10
 		const val WIDTH = 10

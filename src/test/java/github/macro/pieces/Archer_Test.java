@@ -3,7 +3,7 @@ package github.macro.pieces;
 import github.macro.Board;
 import github.macro.Direction;
 import github.macro.Square;
-import github.macro.Util;
+import github.macro.console.Colour;
 import github.macro.players.ConsolePlayer;
 import github.macro.players.Player;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +32,7 @@ public class Archer_Test {
 	@BeforeAll
 	static void beforeAll() {
 		board = new Board();
-		player1 = new ConsolePlayer("Player", Util.getP1_COLOUR());
+		player1 = new ConsolePlayer("Player", Colour.YELLOW);
 		start = board.getSquare(2, 2);
 		testPiece = new Archer(player1);
 	}

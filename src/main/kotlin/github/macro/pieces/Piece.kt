@@ -12,5 +12,5 @@ abstract class Piece protected constructor(
 	val symbol: String,
 	val directions: Array<Direction>
 ) {
-	val name: String = javaClass.simpleName
+	val name: String = javaClass.simpleName.toLowerCase().capitalize()
 }

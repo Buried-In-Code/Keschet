@@ -48,6 +48,6 @@ open class ConsolePlayer(name: String, colour: Colour) : Player(name, colour) {
 	override fun toString(): String = "ConsolePlayer() ${super.toString()}"
 
 	companion object {
-		private val LOGGER = LogManager.getLogger(ConsolePlayer::class.java)
+		private val LOGGER = LogManager.getLogger()
 	}
 }

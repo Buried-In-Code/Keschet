@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		loggerVersion = '2.11.2'
+		loggerVersion = '2.14.1'
 	}
 
 	repositories {

@@ -1,0 +1,22 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "08:00"
+    timezone: Pacific/Auckland
+  open-pull-requests-limit: 99
+  ignore:
+  - dependency-name: org.apache.logging.log4j:log4j-core
+    versions:
+    - 2.14.0
+  - dependency-name: org.apache.logging.log4j:log4j-api
+    versions:
+    - 2.14.0
+  - dependency-name: org.yaml:snakeyaml
+    versions:
+    - "1.27"
+  - dependency-name: junit:junit
+    versions:
+    - 4.13.1

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Created by Macro303 on 2021-Jun-02.
+ * Created by Macro303 on 2018-Feb-08.
  */
 public class Board {
 	public static final int HEIGHT = 10;

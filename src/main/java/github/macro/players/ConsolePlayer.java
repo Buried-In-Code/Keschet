@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Created by Macro303 on 2021-Jun-02.
+ * Created by Macro303 on 2018-Feb-12.
  */
 public class ConsolePlayer extends Player {
 	private static final Logger LOGGER = LogManager.getLogger();

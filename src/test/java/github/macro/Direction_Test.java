@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
- * Created by Macro303 on 2018-02-08.
+ * Created by Macro303 on 2018-Feb-08.
  */
 public class Direction_Test {
 	private static final Logger LOGGER = LogManager.getLogger();

@@ -1,21 +1,17 @@
 plugins {
 	id 'application'
-	id 'org.jetbrains.kotlin.jvm' version '1.5.10'
 	id 'com.github.ben-manes.versions' version '0.39.0'
 }
 
 repositories {
 	mavenCentral()
 	mavenLocal()
-	jcenter()
 }
 
 mainClassName = "github.macro.Keschet"
 
 dependencies {
-	implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 	implementation group: 'org.jetbrains', name: 'annotations', version: "21.0.1"
-	implementation group: 'org.yaml', name: 'snakeyaml', version: "1.28"
 
 	//Log4j
 	def logVersion = "2.14.1"
@@ -36,30 +32,6 @@ compileJava {
 compileTestJava {
 	sourceCompatibility = JavaVersion.VERSION_11
 	targetCompatibility = JavaVersion.VERSION_11
-}
-
-compileKotlin {
-	sourceCompatibility = JavaVersion.VERSION_11
-	targetCompatibility = JavaVersion.VERSION_11
-
-	kotlinOptions {
-		jvmTarget = "11"
-		apiVersion = "1.5"
-		languageVersion = "1.5"
-		suppressWarnings = true
-	}
-}
-
-compileTestKotlin {
-	sourceCompatibility = JavaVersion.VERSION_11
-	targetCompatibility = JavaVersion.VERSION_11
-
-	kotlinOptions {
-		jvmTarget = "11"
-		apiVersion = "1.5"
-		languageVersion = "1.5"
-		suppressWarnings = true
-	}
 }
 
 run {

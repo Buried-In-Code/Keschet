@@ -7,7 +7,7 @@ import github.macro.pieces.Piece;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Created by Macro303 on 2021-Jun-02.
+ * Created by Macro303 on 2018-Feb-22.
  */
 public class AutoStartConsolePlayer extends ConsolePlayer {
 	public AutoStartConsolePlayer(@NotNull String name, @NotNull Colour colour) {

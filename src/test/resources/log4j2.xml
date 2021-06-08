@@ -3,9 +3,9 @@
 	<Appenders>
 		<Console name="Console">
 			<PatternLayout disableAnsi="false"
-			               pattern="[%highlight{%d{yyyy-MMM-dd HH:mm:ss:SSS}}{FATAL=Magenta, ERROR=Red, WARN=Yellow, INFO=White, DEBUG=Green, TRACE=Blue}] [%highlight{%-5level}{FATAL=Magenta, ERROR=Red, WARN=Yellow, INFO=White, DEBUG=Green, TRACE=Blue}] {%style{%c}{Cyan}} - %highlight{%msg%n%throwable}{FATAL=Magenta, ERROR=Red, WARN=Yellow, INFO=White, DEBUG=Green, TRACE=Blue}"/>
+			               pattern="[%highlight{%d{yyyy-MMM-dd HH:mm:ss:SSS}}{FATAL=Magenta,INFO=WHITE}] [%highlight{%-5level}{FATAL=Magenta,INFO=WHITE}] {%style{%c}{Blue}} - %highlight{%msg%n%throwable}{FATAL=Magenta,INFO=WHITE}"/>
 		</Console>
-		<File name="File" fileName="logs/keschet-test.log" append="true">
+		<File name="File" fileName="logs/Keschet-Test.log">
 			<PatternLayout pattern="[%d{yyyy-MMM-dd HH:mm:ss:SSS}] [%-5level] {%c} - %msg%n%throwable"/>
 		</File>
 	</Appenders>

@@ -5,7 +5,6 @@
 .vscode/
 bin/
 build/
-gradle/
 logs/
 out/
 
@@ -13,8 +12,10 @@ out/
 *.iml
 .classpath
 .project
-
-# =====Keschet=====
 *.db
+*.sqlite
 *.yaml
-!Keschet.yaml
+*.json
+*.csv
+
+# =====Project=====

@@ -1,0 +1,106 @@
+plugins {
+	id 'application'
+	id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+	id 'com.github.ben-manes.versions' version '0.39.0'
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+	jcenter()
+}
+
+mainClassName = "github.macro.Keschet"
+
+dependencies {
+	implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+	implementation group: 'org.jetbrains', name: 'annotations', version: "21.0.1"
+	implementation group: 'org.yaml', name: 'snakeyaml', version: "1.28"
+
+	//Log4j
+	def logVersion = "2.14.1"
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: "$logVersion"
+	runtimeOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: "$logVersion"
+
+	//JUnit
+	def junitVersion = "5.8.0-M1"
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junitVersion"
+	testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$junitVersion"
+}
+
+compileJava {
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
+}
+
+compileTestJava {
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
+}
+
+compileKotlin {
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
+
+	kotlinOptions {
+		jvmTarget = "11"
+		apiVersion = "1.5"
+		languageVersion = "1.5"
+		suppressWarnings = true
+	}
+}
+
+compileTestKotlin {
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
+
+	kotlinOptions {
+		jvmTarget = "11"
+		apiVersion = "1.5"
+		languageVersion = "1.5"
+		suppressWarnings = true
+	}
+}
+
+run {
+	standardInput = System.in
+}
+
+test {
+	useJUnitPlatform()
+}
+
+jar {
+	manifest.attributes provider: 'gradle'
+}
+
+def isNonStable = { String version ->
+	def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { key -> version.toUpperCase().contains(key) }
+	def regex = /^[0-9,.v-]+(-r)?$/
+	return !stableKeyword && !(version ==~ regex)
+}
+
+dependencyUpdates {
+	checkForGradleUpdate = false
+
+	// Example 1: reject all non stable versions
+	rejectVersionIf {
+		isNonStable(candidate.version)
+	}
+
+	// Example 2: disallow release candidates as upgradable versions from stable versions
+	rejectVersionIf {
+		isNonStable(candidate.version) && !isNonStable(currentVersion)
+	}
+
+	// Example 3: using the full syntax
+	resolutionStrategy {
+		componentSelection {
+			all {
+				if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+					reject('Release candidate')
+				}
+			}
+		}
+	}
+}

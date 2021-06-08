@@ -6,6 +6,7 @@ import github.macro.players.ConsolePlayer;
 import github.macro.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,11 @@ public class Attack_Test {
 		end.setPiece(null);
 	}
 
+	@AfterEach
+	void afterEach(){
+		board.draw();
+	}
+
 	@Test
 	void test_allyAttackMove() {
 		end.setPiece(new General(player1));
@@ -60,7 +66,7 @@ public class Attack_Test {
 	}
 
 	@Test
-	void test_enemytakingMove() {
+	void test_enemyTakingMove() {
 		end.setPiece(new General(player2));
 		boolean valid = Utils.validMovement(board, start, end);
 		LOGGER.info("Enemy Attack ==> " + valid);

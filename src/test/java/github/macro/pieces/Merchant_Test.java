@@ -8,6 +8,7 @@ import github.macro.players.ConsolePlayer;
 import github.macro.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,11 @@ public class Merchant_Test {
 		start.setPiece(new Merchant(player1));
 		end.setPiece(new General(player2));
 		emperor.setPiece(null);
+	}
+
+	@AfterEach
+	void afterEach(){
+		board.draw();
 	}
 
 	@Test

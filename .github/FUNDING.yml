@@ -1,12 +1,12 @@
 # These are supported funding model platforms
 
 github: ["Macro303"]
-patreon: # Username e.g. Macro303
-open_collective: # Username e.g. Macro303
-ko_fi: # Username e.g. Macro303
-tidelift: # Platform Name / Project Name e.g. Kotlin/Eventer
-community_bridge: # Project Name e.g. Eventer
-liberapay: # Username e.g. Macro303
-issuehunt: # Username e.g. Macro303
-otechie: # Username e.g. Macro303
-custom: # [Website]
+patreon: # Username
+open_collective: # Username
+ko_fi: "Macro303"
+tidelift: # Platform Name / Project Name
+community_bridge: # Project Name
+liberapay: # Username
+issuehunt: # Username
+otechie: # Username
+custom: []

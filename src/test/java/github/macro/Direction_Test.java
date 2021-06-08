@@ -6,6 +6,7 @@ import github.macro.players.ConsolePlayer;
 import github.macro.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,11 @@ public class Direction_Test {
 		start.setPiece(new General(player));
 		if (end != null)
 			end.setPiece(null);
+	}
+
+	@AfterEach
+	void afterEach(){
+		board.draw();
 	}
 
 	@Test

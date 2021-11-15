@@ -1,21 +1,25 @@
 # Keschet
 
-[![Version](https://img.shields.io/github/tag-pre/Macro303/Keschet.svg?label=version&style=flat-square)](https://github.com/Macro303/Keschet/releases)
-[![Issues](https://img.shields.io/github/issues/Macro303/Keschet.svg?style=flat-square)](https://github.com/Macro303/Keschet/issues)
-[![Contributors](https://img.shields.io/github/contributors/Macro303/Keschet.svg?style=flat-square)](https://github.com/Macro303/Keschet/graphs/contributors)
-[![License](https://img.shields.io/github/license/Macro303/Keschet.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+![Java](https://img.shields.io/badge/Java-8%20|%2011%20|%2017-green?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Beta-yellowgreen?style=flat-square)
+
+[![Github - Version](https://img.shields.io/github/v/tag/Buried-In-Code/Keschet?logo=Github&label=Version&style=flat-square)](https://github.com/Buried-In-Code/Keschet/tags)
+[![Github - License](https://img.shields.io/github/license/Buried-In-Code/Keschet?logo=Github&label=License&style=flat-square)](https://opensource.org/licenses/GPL-3.0)
+[![Github - Contributors](https://img.shields.io/github/contributors/Buried-In-Code/Keschet?logo=Github&label=Contributors&style=flat-square)](https://github.com/Buried-In-Code/Keschet/graphs/contributors)
+
+[![Github Action - Code Analysis](https://img.shields.io/github/workflow/status/Buried-In-Code/Keschet/Code-Analysis?logo=Github-Actions&label=Code-Analysis&style=flat-square)](https://github.com/Buried-In-Code/Keschet/actions/workflows/code-analysis.yaml)
 
 A chess-style game from the Blood Song by Anthony Ryan.
 
 ## Built Using
 
-- [AdoptOpenJDK: 11](https://adoptopenjdk.net/)
-- [Gradle: 7.0](https://gradle.org/)
-- [annotations: 21.0.1](https://www.jetbrains.com/)
+- [AdoptOpenJDK: 17](https://adoptopenjdk.net/)
+- [Gradle: 7.2](https://gradle.org/)
+- [annotations: 23.00](https://www.jetbrains.com/)
 - [log4j-api: 2.14.1](https://logging.apache.org/log4j/2.x/)
 - [log4j-core: 2.14.1 (Runtime)](https://logging.apache.org/log4j/2.x/)
-- [junit-jupiter-api: 5.8.0-M1 (Test)](https://junit.org/junit5/)
-- [junit-jupiter-engine: 5.8.0-M1 (Test Runtime)](https://junit.org/junit5/)
+- [junit-jupiter-api: 5.8.1 (Test)](https://junit.org/junit5/)
+- [junit-jupiter-engine: 5.8.1 (Test Runtime)](https://junit.org/junit5/)
 
 ## Rules
 

@@ -11,7 +11,7 @@ repositories {
 mainClassName = "github.macro.Keschet"
 
 dependencies {
-	implementation group: 'org.jetbrains', name: 'annotations', version: "21.0.1"
+	implementation group: 'org.jetbrains', name: 'annotations', version: "23.0.0"
 
 	//Log4j
 	def logVersion = "2.14.1"
@@ -19,7 +19,7 @@ dependencies {
 	runtimeOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: "$logVersion"
 
 	//JUnit
-	def junitVersion = "5.8.0-M1"
+	def junitVersion = "5.8.1"
 	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junitVersion"
 	testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$junitVersion"
 }

@@ -12,10 +12,5 @@ out/
 *.iml
 .classpath
 .project
-*.db
-*.sqlite
-*.yaml
-*.json
-*.csv
 
 # =====Project=====

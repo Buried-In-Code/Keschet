@@ -34,7 +34,7 @@ A chess-style game from the Blood Song by Anthony Ryan.
 $ ./gradlew clean run
 ```
 
-## Socials## Socials
+## Socials
 
 [![Social - Discord](https://img.shields.io/badge/Discord-The--DEV--Environment-7289DA?logo=Discord&style=flat-square)](https://discord.gg/nqGMeGg)
 [![Social - Matrix](https://img.shields.io/badge/Matrix-The--DEV--Environment-informational?logo=Matrix&style=flat-square)](https://matrix.to/#/#the-dev-environment:matrix.org)

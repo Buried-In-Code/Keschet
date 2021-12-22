@@ -7,7 +7,7 @@
 [![Github - License](https://img.shields.io/github/license/Buried-In-Code/Keschet?logo=Github&label=License&style=flat-square)](https://opensource.org/licenses/GPL-3.0)
 [![Github - Contributors](https://img.shields.io/github/contributors/Buried-In-Code/Keschet?logo=Github&label=Contributors&style=flat-square)](https://github.com/Buried-In-Code/Keschet/graphs/contributors)
 
-[![Github Action - Code Analysis](https://img.shields.io/github/workflow/status/Buried-In-Code/Keschet/Code-Analysis?logo=Github-Actions&label=Code-Analysis&style=flat-square)](https://github.com/Buried-In-Code/Keschet/actions/workflows/code-analysis.yaml)
+[![Github Action - Code Analysis](https://img.shields.io/github/workflow/status/Buried-In-Code/Keschet/Code%20Analysis?logo=Github-Actions&label=Code-Analysis&style=flat-square)](https://github.com/Buried-In-Code/Keschet/actions/workflows/code-analysis.yaml)
 [![Github Action - Testing](https://img.shields.io/github/workflow/status/Buried-In-Code/Keschet/Testing?logo=Github-Actions&label=Tests&style=flat-square)](https://github.com/Buried-In-Code/Keschet/actions/workflows/testing.yaml)
 
 A chess-style game from the Blood Song by Anthony Ryan.

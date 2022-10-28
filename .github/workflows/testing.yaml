@@ -1,4 +1,5 @@
 name: Testing
+
 on:
   push:
     branches:
@@ -6,9 +7,11 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
-  gradle-build:
-    name: Gradle Build
+  gradle-tests:
+    name: Gradle Tests
+
     strategy:
       fail-fast: false
       matrix:
@@ -18,6 +21,7 @@ jobs:
           - ubuntu-latest
           - macos-latest
           - windows-latest
+
     runs-on: ${{ matrix.os }}
     steps:
        #----------------------------------------------
@@ -31,5 +35,5 @@ jobs:
           distribution: 'temurin'
           cache: gradle
        #----------------------------------------------
-      - name: Build with Gradle
+      - name: Run Gradle tests
         run: ./gradlew clean test --no-daemon

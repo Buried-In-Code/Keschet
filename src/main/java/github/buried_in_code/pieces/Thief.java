@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * Created by Macro303 on 2018-Feb-09.
+ * Created by BuriedInCode on 2018-Feb-09.
  */
 public class Thief extends Piece {
 	public Thief(@NotNull Player player) {

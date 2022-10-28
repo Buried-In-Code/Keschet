@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Created by Macro303 on 2018-Feb-14.
+ * Created by BuriedInCode on 2018-Feb-14.
  */
 public class Attack_Test {
 	private static final Logger LOGGER = LogManager.getLogger();

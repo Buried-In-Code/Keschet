@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * Created by Macro303 on 2018-Feb-12.
+ * Created by BuriedInCode on 2018-Feb-12.
  */
 public class Spearman extends Piece {
 	public Spearman(@NotNull Player player) {

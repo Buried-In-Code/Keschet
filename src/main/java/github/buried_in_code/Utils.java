@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Created by Macro303 on 2018-Feb-08.
+ * Created by BuriedInCode on 2018-Feb-08.
  */
 public abstract class Utils {
 	private static final Logger LOGGER = LogManager.getLogger();

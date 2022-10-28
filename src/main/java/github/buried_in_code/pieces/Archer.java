@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * Created by Macro303 on 2018-Feb-08.
+ * Created by BuriedInCode on 2018-Feb-08.
  */
 public class Archer extends Piece {
 	public Archer(@NotNull Player player) {

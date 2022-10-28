@@ -7,7 +7,7 @@ import github.buried_in_code.pieces.Piece;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Created by Macro303 on 2018-Feb-08.
+ * Created by BuriedInCode on 2018-Feb-08.
  */
 public abstract class Player {
 	@NotNull

@@ -3,7 +3,7 @@ package github.buried_in_code.console;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Created by Macro303 on 2021-Jun-02.
+ * Created by BuriedInCode on 2021-Jun-02.
  */
 public enum Colour {
 	RESET("\u001B[0m"),

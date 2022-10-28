@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Created by Macro303 on 2021-Jun-02.
+ * Created by BuriedInCode on 2021-Jun-02.
  */
 public abstract class Console {
 	private static final Logger LOGGER = LogManager.getLogger();

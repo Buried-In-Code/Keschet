@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Scanner;
 
 /**
- * Created by Macro303 on 2018-Feb-08.
+ * Created by BuriedInCode on 2018-Feb-08.
  */
 public abstract class Reader {
 	private static final Logger LOGGER = LogManager.getLogger();

@@ -11,7 +11,7 @@ repositories {
 mainClassName = "github.buried_in_code.Keschet"
 
 dependencies {
-	implementation group: 'org.jetbrains', name: 'annotations', version: "23.0.0"
+	implementation group: 'org.jetbrains', name: 'annotations', version: "24.0.0"
 
 	//Log4j
 	def logVersion = "2.19.0"

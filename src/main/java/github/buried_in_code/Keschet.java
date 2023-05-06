@@ -37,7 +37,7 @@ public class Keschet {
 	}
 
 	private static void checkLogLevels() {
-		Arrays.stream(Level.values()).forEach(level -> LOGGER.log(level, "{} is Visible", level.name()));
+		Arrays.stream(Level.values()).sorted().forEach(x -> LOGGER.log(x, "%s enabled.".formatted(x)));
 	}
 
 	public static void main(String[] args) {

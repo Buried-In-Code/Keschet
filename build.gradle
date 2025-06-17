@@ -19,7 +19,7 @@ dependencies {
 	runtimeOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: "$logVersion"
 
 	//JUnit
-	def junitVersion = "5.9.1"
+	def junitVersion = "5.13.1"
 	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junitVersion"
 	testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$junitVersion"
 }

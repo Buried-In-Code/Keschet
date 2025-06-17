@@ -1,6 +1,6 @@
 plugins {
 	id 'application'
-	id 'com.github.ben-manes.versions' version '0.43.0'
+	id 'com.github.ben-manes.versions' version '0.52.0'
 }
 
 repositories {
@@ -11,10 +11,10 @@ repositories {
 mainClassName = "github.buried_in_code.Keschet"
 
 dependencies {
-	implementation group: 'org.jetbrains', name: 'annotations', version: "23.0.0"
+	implementation group: 'org.jetbrains', name: 'annotations', version: "26.0.2"
 
 	//Log4j
-	def logVersion = "2.19.0"
+	def logVersion = "2.25.0"
 	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: "$logVersion"
 	runtimeOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: "$logVersion"
 

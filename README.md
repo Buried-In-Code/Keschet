@@ -1,6 +1,6 @@
 # Keschet
 
-![Java](https://img.shields.io/badge/Java-17-green?style=flat-square)
+![Java](https://img.shields.io/badge/Java-21-green?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Beta-yellowgreen?style=flat-square)
 
 [![Github - Version](https://img.shields.io/github/v/tag/Buried-In-Code/Keschet?logo=Github&label=Version&style=flat-square)](https://github.com/Buried-In-Code/Keschet/tags)

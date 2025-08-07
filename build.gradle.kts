@@ -86,11 +86,13 @@ tasks.withType<DependencyUpdatesTask> {
   checkBuildEnvironmentConstraints = false
   resolutionStrategy {
     componentSelection {
-      all {
-        if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
-          reject("Release candidate")
+      all(
+        Action<ComponentSelectionWithCurrent> {
+          if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+            reject("Release candidate")
+          }
         }
-      }
+      )
     }
   }
 }

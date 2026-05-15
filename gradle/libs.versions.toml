@@ -2,7 +2,7 @@
 log4j = "2.26.0"
 
 [plugins]
-spotless = { id = "com.diffplug.spotless", version = "8.4.0" }
+spotless = { id = "com.diffplug.spotless", version = "8.5.0" }
 versions = { id = "com.github.ben-manes.versions", version = "0.54.0" }
 
 [libraries]

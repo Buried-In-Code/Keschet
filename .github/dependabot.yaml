@@ -8,11 +8,12 @@ updates:
       github_actions:
         patterns:
           - "*"
+
   - package-ecosystem: gradle
     directory: /
     schedule:
       interval: daily
     groups:
-      java:
+      gradle:
         patterns:
           - "*"

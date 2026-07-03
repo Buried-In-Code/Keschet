@@ -1,5 +1,5 @@
 [versions]
-log4j = "2.26.0"
+log4j = "2.26.1"
 
 [plugins]
 spotless = { id = "com.diffplug.spotless", version = "8.8.0" }
